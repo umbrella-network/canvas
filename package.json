@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/umbrella-network/pegasus.git"
+    "url": "git+https://github.com/umbrella-network/canvas.git"
   },
   "scripts": {
     "lint": "eslint ./src/**/*.ts --fix",
