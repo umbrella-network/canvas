@@ -1,0 +1,41 @@
+{
+  "name": "@umb-network/toolbox",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": "14.8.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umbrella-network/pegasus.git"
+  },
+  "scripts": {
+    "lint": "eslint ./src/**/*.ts --fix",
+    "clean": "rimraf dist",
+    "compile": "tsc",
+    "typeorm": "node --require ./node_modules/ts-node/register ./node_modules/typeorm/cli.js",
+    "build": "npm run clean && npm run compile",
+    "test": "npx mocha --require ts-node/register --ui bdd 'test/**/*.test.ts'",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.0.4",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "chai": "^4.2.0",
+    "eslint": "^7.14.0",
+    "mocha": "^8.2.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "@types/node": "^14.14.10",
+    "bignumber.js": "^9.0.1",
+    "int64-buffer": "^1.0.0"
+  }
+}
