@@ -4,6 +4,8 @@
 
 NPM package with tools eg. coders and decoders for leaf data
 
+[![npm version](https://badge.fury.io/js/%40umb-network%2Ftoolbox.svg)](https://badge.fury.io/js/%40umb-network%2Ftoolbox)
+
 ## Usage
 
 ```typescript
