@@ -6,15 +6,18 @@ NPM package with tools eg. coders and decoders for leaf data
 
 ## Usage
 
-```javascript
-import {LeafValueCoder, LeafType} from `@umb-network/toolbox`;
-
+```typescript
+import {LeafValueCoder, LeafKeyCoder, LeafType} from `@umb-network/toolbox`;
 
 const f: number = 1234.0000987;
 
 // encode data for leaf:
-const leafData = LeafValueCoder.encode(f, LeafType.TYPE_FLOAT).toString('hex');
+const leafData: Buffer = LeafValueCoder.encode(f, LeafType.TYPE_FLOAT);
 
 // decode data
-const originalValue = LeafValueCoder.decode(leaf)
+const originalValue: number = LeafValueCoder.decode(leaf.toString('hex'))
+
+// encoder accepts Buffer or hex string
+const encodedKey: Buffer = LeafKeyCoder.encode('eth-usd');
+const decodedKey: string = LeafKeyCoder.decode(encodedKey)
 ```

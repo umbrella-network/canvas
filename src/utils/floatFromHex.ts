@@ -6,17 +6,18 @@ const floatFromHex = (hex: string): number | undefined => {
     return 0;
   }
 
-  const parts = hex.toLowerCase().split(FLOATING_POINT_HEX);
+  const floatingPointDividerIndex = hex.toLowerCase().lastIndexOf(FLOATING_POINT_HEX);
 
-  if (parts.length === 0) {
-    return 0;
-  }
-  if (parts.length === 1) {
+  if (floatingPointDividerIndex < 0) {
     return undefined;
   }
 
-  const powerPart = parts.pop();
-  const dataPart = parts.join(FLOATING_POINT_HEX);
+  if (floatingPointDividerIndex === 0) {
+    return 0;
+  }
+
+  const powerPart = hex.slice(floatingPointDividerIndex + FLOATING_POINT_HEX.length);
+  const dataPart = hex.slice(0, floatingPointDividerIndex);
 
   if (!powerPart && !dataPart) {
     return 0;
@@ -31,7 +32,6 @@ const floatFromHex = (hex: string): number | undefined => {
   const floatPart = numberAsString.slice(-power);
 
   return parseFloat(`${intPart}.${floatPart}`);
-  //return data * Math.pow(10, -power);
 };
 
 export default floatFromHex;

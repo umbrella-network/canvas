@@ -53,14 +53,14 @@ export const extractFromLeaf = (hexData: string): [data: string | null, type: Le
     return [null, undefined];
   }
 
-  const parts = remove0x(hexData).toLowerCase().split(LEAF_TYPE_SEPARATOR_HEX);
+  const dividerIndex = hexData.toLowerCase().lastIndexOf(LEAF_TYPE_SEPARATOR_HEX);
 
-  if (parts.length < 2) {
+  if (dividerIndex < 0) {
     return [null, undefined];
   }
 
-  const detectedType: number = parseInt(parts[parts.length-1], 16);
-  parts.pop();
+  const detectedType: number = parseInt(hexData.slice(dividerIndex + LEAF_TYPE_SEPARATOR_HEX.length), 16);
+  const data: string = hexData.slice(0, dividerIndex);
 
-  return LeafType[detectedType] ? [parts.join(LEAF_TYPE_SEPARATOR_HEX), detectedType] : [null, undefined];
+  return LeafType[detectedType] ? [remove0x(data), detectedType] : [null, undefined];
 };

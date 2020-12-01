@@ -51,7 +51,7 @@ describe('LeafValueCoder', () => {
     it('expect to decode hex data', () => {
       const type = leafTypeToHex(LeafType.TYPE_HEX)
       expect(LeafValueCoder.decode(`0x000${LEAF_TYPE_SEPARATOR_HEX}1`)).to.eq('0x0');
-      expect(LeafValueCoder.decode(`01A${LEAF_TYPE_SEPARATOR_HEX}${type}`)).to.eq('0x1a')
+      expect(LeafValueCoder.decode(`01A${LEAF_TYPE_SEPARATOR_HEX}${type}`)).to.eq('0x1A')
     });
 
     it('expect to encode int data', () => {

@@ -19,35 +19,19 @@ const appendFloatData = (data: Buffer, power: number): Buffer => {
   ]);
 };
 
-const extractFloatingPart = (f: number): [floatPart: string, power: number] => {
-  const maxFloatPartLength = MAX_SAFE_INTEGER_DIGIT_LENGTH - Math.trunc(f).toString(10).length;
-  let floatPart = '';
-
-  if (f - Math.trunc(f) === 0) {
-    return [floatPart, 0];
-  }
-
-  for (let i = 1;  i <= maxFloatPartLength; i++) {
-    floatPart = `${floatPart}${(Math.trunc(f * Math.pow(10, i)) % 10).toString(10)}`;
-  }
-
-  floatPart = floatPart.replace(/0+$/g, '');
-  return [floatPart, floatPart.length];
-};
-
-const floatToBuffer = (f: number): Buffer => {
-  if (f === 0) {
+const floatToBuffer = (floatNumber: number): Buffer => {
+  if (floatNumber === 0) {
     return appendFloatData(Buffer.from(''), 0);
   }
 
-  const intPart = Math.trunc(f).toString(10);
-  const [floatPart, power] = extractFloatingPart(f);
+  const floatString: string = floatNumber + '';
+  const [intPart, floatPart] = floatString.split('.');
 
-  if (floatPart === '') {
-    return appendFloatData(intToBuffer(f), 0);
+  if (!floatPart) {
+    return appendFloatData(intToBuffer(floatNumber), 0);
   }
 
-  return appendFloatData(intToBuffer(parseInt(`${intPart}${floatPart}`, 10)), power);
+  return appendFloatData(intToBuffer(parseInt(`${intPart}${floatPart}`, 10)), floatPart.length);
 };
 
 export default floatToBuffer;

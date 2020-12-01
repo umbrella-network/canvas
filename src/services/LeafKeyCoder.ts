@@ -1,14 +1,12 @@
+import {remove0x} from "../utils/helpers";
+
 export default class LeafKeyCoder {
-  /**
-   *
-   * @param key {string} Buffer
-   */
   static encode(key: string): Buffer {
     return Buffer.from(key);
   }
 
-  static decode(key: Buffer): string {
-    return key.toString('utf-8');
+  static decode(key: Buffer | string): string {
+    return (typeof key === "string" ? Buffer.from(remove0x(key), 'hex') : key).toString('utf-8');
   }
 }
 

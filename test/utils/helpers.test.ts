@@ -22,7 +22,7 @@ describe('extractFromLeaf()', () => {
       it('expect to return valid data and type', () => {
         expect(extractFromLeaf(`0x${LEAF_TYPE_SEPARATOR_HEX}1`)).to.eql(['', LeafType.TYPE_HEX]);
         expect(extractFromLeaf(`${LEAF_TYPE_SEPARATOR_HEX}${LEAF_TYPE_SEPARATOR_HEX}02`)).to.eql(['ff', LeafType.TYPE_INTEGER]);
-        expect(extractFromLeaf(`0x0FF${LEAF_TYPE_SEPARATOR_HEX}02`)).to.eql(['0ff', LeafType.TYPE_INTEGER]);
+        expect(extractFromLeaf(`0x0FF${LEAF_TYPE_SEPARATOR_HEX}02`)).to.eql(['0FF', LeafType.TYPE_INTEGER]);
         expect(extractFromLeaf(`0x2${LEAF_TYPE_SEPARATOR_HEX}003`)).to.eql(['2', LeafType.TYPE_FLOAT]);
       });
     });

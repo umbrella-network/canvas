@@ -10,5 +10,7 @@ describe('KeyCoder()', () => {
   it('expect to decode key', () => {
     expect(LeafKeyCoder.decode(Buffer.from('30', 'hex'))).to.eql('0');
     expect(LeafKeyCoder.decode(Buffer.from('3031', 'hex'))).to.eql('01');
+    expect(LeafKeyCoder.decode('3031')).to.eql('01');
+    expect(LeafKeyCoder.decode('0x3031')).to.eql('01');
   });
 });
