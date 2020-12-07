@@ -1,4 +1,3 @@
-// @ts-ignore
 import {expectThrows} from '../helpers';
 
 import {hexToBuffer} from '../../src/utils/hexToBuffer';

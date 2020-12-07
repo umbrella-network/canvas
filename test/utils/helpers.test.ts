@@ -1,8 +1,8 @@
 import {extractFromLeaf} from '../../src/utils/helpers';
 
 import {expect} from 'chai';
-import {LeafType} from "../../src";
-import {LEAF_TYPE_SEPARATOR_HEX} from "../../src/constants";
+import {LeafType} from '../../src';
+import {LEAF_TYPE_SEPARATOR_HEX} from '../../src/constants';
 
 describe('extractFromLeaf()', () => {
   describe('when leaf is invalid', () => {

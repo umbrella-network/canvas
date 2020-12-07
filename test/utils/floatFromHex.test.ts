@@ -14,11 +14,11 @@ describe('floatFromHex()', () => {
     [0.94, '5eee02'],
     [590.39, 'e69fee02'],
     [255.0000000000017, '090f36242d6011ee0d']
-  ]
+  ];
 
-  for (let i in numbers) {
+  for (const i in numbers) {
     it(`expect to encode number ${numbers[i][0]}`, () => {
-      expect(floatFromHex(numbers[i][1])).to.eq(numbers[i][0])
-    })
+      expect(floatFromHex(numbers[i][1])).to.eq(numbers[i][0]);
+    });
   }
 });

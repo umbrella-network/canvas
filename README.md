@@ -30,5 +30,5 @@ const decodedKey: string = LeafKeyCoder.decode(encodedKey)
 ```typescript
 import {ContractRegistry} from `@umb-network/toolbox`;
 
-new ContractRegistry().getAddrerss('Chain');
+new ContractRegistry(provider, contractRegistryAddress).getAddrerss('Chain');
 ```

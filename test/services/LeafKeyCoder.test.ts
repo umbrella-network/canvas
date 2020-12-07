@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {LeafKeyCoder} from "../../src";
+import {LeafKeyCoder} from '../../src';
 
 describe('KeyCoder()', () => {
   it('expect to encode key', () => {
