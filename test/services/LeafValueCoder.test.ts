@@ -1,6 +1,6 @@
 import {expect} from 'chai';
-import LeafValueCoder from "../../src/services/LeafValueCoder";
-import {LeafType} from "../../src/models/LeafType";
+import {LeafValueCoder} from "../../src";
+import {LeafType} from "../../src";
 import {leafTypeToHex} from "../../src/utils/helpers";
 import {FLOATING_POINT_HEX, LEAF_TYPE_SEPARATOR_HEX} from "../../src/constants";
 

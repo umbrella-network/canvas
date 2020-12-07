@@ -1,4 +1,4 @@
-import intToBuffer from '../../src/utils/intToBuffer';
+import {intToBuffer} from '../../src/utils/intToBuffer';
 
 import {expect} from 'chai';
 

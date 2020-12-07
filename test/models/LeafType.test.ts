@@ -1,4 +1,4 @@
-import {LeafType} from '../../src/models/LeafType';
+import {LeafType} from '../../src';
 
 import { expect } from 'chai';
 import {LEAF_TYPE_SEPARATOR_HEX} from "../../src/constants";

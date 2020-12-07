@@ -1,4 +1,4 @@
-import {LeafType} from '../models/LeafType';
+import {LeafType} from '..';
 import {LEAF_TYPE_SEPARATOR_HEX} from '../constants';
 
 // eslint-disable-next-line
@@ -6,9 +6,6 @@ export const isNotSet = (v: any): boolean => {
   // eslint-disable-next-line valid-typeof
   return v === null || typeof v === 'undefined' || typeof v === undefined;
 };
-
-// eslint-disable-next-line
-export const isEmpty = (v: any): boolean => isNotSet(v) || v === {} || v === '' || v == [];
 
 export const remove0x = (v: string): string => ['0X', '0x'].includes(v.slice(0, 2)) ? v.slice(2) : v;
 
@@ -24,7 +21,7 @@ export const evenHex = (v: string): string => {
 };
 
 export const isHex = (v: string): boolean => {
-  if (isEmpty(v)) {
+  if (!v) {
     return false;
   }
 

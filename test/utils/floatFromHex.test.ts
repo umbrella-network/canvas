@@ -1,4 +1,4 @@
-import floatFromHex from '../../src/utils/floatFromHex';
+import {floatFromHex} from '../../src/utils/floatFromHex';
 
 import {expect} from 'chai';
 
