@@ -1,5 +1,5 @@
 import {FLOATING_POINT_HEX} from '../constants';
-import intToBuffer from './intToBuffer';
+import {intToBuffer} from './intToBuffer';
 
 const MAX_SAFE_INTEGER_DIGIT_LENGTH = 16;
 
@@ -19,7 +19,7 @@ const appendFloatData = (data: Buffer, power: number): Buffer => {
   ]);
 };
 
-const floatToBuffer = (floatNumber: number): Buffer => {
+export const floatToBuffer = (floatNumber: number): Buffer => {
   if (floatNumber === 0) {
     return appendFloatData(Buffer.from(''), 0);
   }
@@ -33,5 +33,3 @@ const floatToBuffer = (floatNumber: number): Buffer => {
 
   return appendFloatData(intToBuffer(parseInt(`${intPart}${floatPart}`, 10)), floatPart.length);
 };
-
-export default floatToBuffer;

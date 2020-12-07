@@ -1,12 +1,12 @@
-import {LeafType} from '../models/LeafType';
+import {LeafType} from '..';
 import {evenHex, extractFromLeaf, leafTypeToBuffer, prepend0x} from '../utils/helpers';
-import floatFromHex from '../utils/floatFromHex';
-import hexToBuffer from '../utils/hexToBuffer';
-import intToBuffer from '../utils/intToBuffer';
-import floatToBuffer from '../utils/floatToBuffer';
+import {floatFromHex} from '../utils/floatFromHex';
+import {hexToBuffer} from '../utils/hexToBuffer';
+import {intToBuffer} from '../utils/intToBuffer';
+import {floatToBuffer} from '../utils/floatToBuffer';
 import {LEAF_TYPE_SEPARATOR_HEX} from '../constants';
 
-export default class LeafValueCoder {
+export class LeafValueCoder {
   // eslint-disable-next-line
   static encode(data: any, type: LeafType): Buffer {
     switch (type) {

@@ -1,7 +1,7 @@
-import {LeafType} from '../../src/models/LeafType';
+import {LeafType} from '../../src';
 
 import { expect } from 'chai';
-import {LEAF_TYPE_SEPARATOR_HEX} from "../../src/constants";
+import {LEAF_TYPE_SEPARATOR_HEX} from '../../src/constants';
 
 describe('LeafType', () => {
   it('types indexes should never change' , () => {
@@ -11,6 +11,6 @@ describe('LeafType', () => {
   });
 
   it('expect not ot overflow number of supporting types' , () => {
-     expect(Object.keys(LeafType).length /2).to.lt(parseInt(LEAF_TYPE_SEPARATOR_HEX, 16))
+    expect(Object.keys(LeafType).length /2).to.lt(parseInt(LEAF_TYPE_SEPARATOR_HEX, 16));
   });
 });

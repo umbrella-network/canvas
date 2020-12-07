@@ -1,7 +1,6 @@
-// @ts-ignore
 import {expectThrows} from '../helpers';
 
-import hexToBuffer from '../../src/utils/hexToBuffer';
+import {hexToBuffer} from '../../src/utils/hexToBuffer';
 
 import {expect} from 'chai';
 

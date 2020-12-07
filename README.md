@@ -8,6 +8,8 @@ NPM package with tools eg. coders and decoders for leaf data
 
 ## Usage
 
+### Coders
+
 ```typescript
 import {LeafValueCoder, LeafKeyCoder, LeafType} from `@umb-network/toolbox`;
 
@@ -22,4 +24,11 @@ const originalValue: number = LeafValueCoder.decode(leaf.toString('hex'))
 // encoder accepts Buffer or hex string
 const encodedKey: Buffer = LeafKeyCoder.encode('eth-usd');
 const decodedKey: string = LeafKeyCoder.decode(encodedKey)
+```
+
+## Contract Registry
+```typescript
+import {ContractRegistry} from `@umb-network/toolbox`;
+
+new ContractRegistry(provider, contractRegistryAddress).getAddrerss('Chain');
 ```
