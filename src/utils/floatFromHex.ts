@@ -1,8 +1,7 @@
 import {FLOATING_POINT_HEX} from '../constants';
-import { isEmpty } from './helpers';
 
-const floatFromHex = (hex: string): number | undefined => {
-  if (isEmpty(hex)) {
+export const floatFromHex = (hex: string): number | undefined => {
+  if (!hex) {
     return 0;
   }
 
@@ -33,5 +32,3 @@ const floatFromHex = (hex: string): number | undefined => {
 
   return parseFloat(`${intPart}.${floatPart}`);
 };
-
-export default floatFromHex;

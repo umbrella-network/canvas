@@ -1,11 +1,9 @@
-import {evenHex, isHex} from '../utils/helpers';
+import {evenHex, isHex} from './helpers';
 
-const hexToBuffer = (hex: string): Buffer => {
+export const hexToBuffer = (hex: string): Buffer => {
   if (!isHex(hex)) {
     throw Error(`${hex} is not valid hex value`);
   }
 
   return Buffer.from(evenHex(hex), 'hex');
 };
-
-export default hexToBuffer;
