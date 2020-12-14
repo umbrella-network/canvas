@@ -1,4 +1,4 @@
-import {FLOATING_POINT_HEX} from '../constants';
+import {FLOATING_POINT_HEX} from '../../constants';
 
 export const floatFromHex = (hex: string): number | undefined => {
   if (!hex) {

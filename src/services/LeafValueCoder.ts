@@ -1,9 +1,6 @@
 import {LeafType} from '..';
 import {evenHex, extractFromLeaf, leafTypeToBuffer, prepend0x} from '../utils/helpers';
-import {floatFromHex} from '../utils/floatFromHex';
-import {hexToBuffer} from '../utils/hexToBuffer';
-import {intToBuffer} from '../utils/intToBuffer';
-import {floatToBuffer} from '../utils/floatToBuffer';
+import {floatFromHex, hexToBuffer, intToBuffer, floatToBuffer} from './helpers';
 import {LEAF_TYPE_SEPARATOR_HEX} from '../constants';
 
 export class LeafValueCoder {
