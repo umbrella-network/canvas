@@ -1,7 +1,7 @@
-import {floatToBuffer} from '../../src/utils/floatToBuffer';
+import {floatToBuffer} from '../../../src/services/helpers/floatToBuffer';
 
 import {expect} from 'chai';
-import {FLOATING_POINT_HEX} from '../../src/constants';
+import {FLOATING_POINT_HEX} from '../../../src/constants';
 
 describe('floatToBuffer()', () => {
   const numbers: [number, string][] = [

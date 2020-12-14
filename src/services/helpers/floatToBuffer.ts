@@ -1,4 +1,4 @@
-import {FLOATING_POINT_HEX} from '../constants';
+import {FLOATING_POINT_HEX} from '../../constants';
 import {intToBuffer} from './intToBuffer';
 
 const MAX_SAFE_INTEGER_DIGIT_LENGTH = 16;
