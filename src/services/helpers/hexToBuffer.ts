@@ -1,4 +1,4 @@
-import {evenHex, isHex} from './helpers';
+import {evenHex, isHex} from '../../utils/helpers';
 
 export const hexToBuffer = (hex: string): Buffer => {
   if (!isHex(hex)) {

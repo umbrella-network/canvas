@@ -1,6 +1,6 @@
-import {expectThrows} from '../helpers';
+import {expectThrows} from '../../helpers';
 
-import {hexToBuffer} from '../../src/utils/hexToBuffer';
+import {hexToBuffer} from '../../../src/services/helpers/hexToBuffer';
 
 import {expect} from 'chai';
 
