@@ -4,7 +4,7 @@ import type {BarPrice} from './types';
  * Volume-Weighted Average Price
  * @param values bar and volume values
  */
-export const VWAPMean = (values: [BarPrice, number][]): number => {
+export const volumeWeightedAveragePrice = (values: [BarPrice, number][]): number => {
   let cumulativeVolume = 0, result = 0, mean = 0;
   values.forEach(([{close, low, high}, volume]) => {
     const price = (close + low + high) / 3;

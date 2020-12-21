@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 
 import type {BarPrice} from '../../src/price/types';
-import {TWAPMean} from '../../src/price';
+import {timeWeightedAveragePrice} from '../../src/price';
 
-describe('TWAPMean()', () => {
+describe('timeWeightedAveragePrice()', () => {
   const dataToTest: [BarPrice[], number][] = [
     [[{open: 14.4, close: 16.5, low: 12, high: 18}], 15.225],
     [[{open: 14.4, close: 16.5, low: 12, high: 18}, {open: 14.4, close: 16.5, low: 12, high: 18}], 15.225],
@@ -13,8 +13,8 @@ describe('TWAPMean()', () => {
   dataToTest.forEach(arr => {
     const [values, expected] = arr;
 
-    it(`expect TWAPMean of ${JSON.stringify(values)} to be equal to ${expected}`, () => {
-      expect(TWAPMean(values)).to.eq(expected);
+    it(`expect timeWeightedAveragePrice of ${JSON.stringify(values)} to be equal to ${expected}`, () => {
+      expect(timeWeightedAveragePrice(values)).to.eq(expected);
     });
   });
 
@@ -42,8 +42,8 @@ describe('TWAPMean()', () => {
     {close: 313.14, open: 315.03, high: 318.52, low: 313.01},
     {close: 314.96, open: 313.17, high: 316.50, low: 310.32}], 328.15];
 
-  it(`expect TWAPMean of ${bars.length} bars to be equal to ${expected}`, () => {
-    expect(TWAPMean(bars).toFixed(2)).to.eq(expected.toString());
+  it(`expect timeWeightedAveragePrice of ${bars.length} bars to be equal to ${expected}`, () => {
+    expect(timeWeightedAveragePrice(bars).toFixed(2)).to.eq(expected.toString());
   });
 });
 

@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 
 import type {BarPrice} from '../../src/price/types';
-import {VWAPMean} from '../../src/price';
+import {volumeWeightedAveragePrice} from '../../src/price';
 
-describe('VWAPMean()', () => {
+describe('volumeWeightedAveragePrice()', () => {
   const dataToTest: [[BarPrice, number][], number][] = [
     [[[{open: 14.4, close: 16.5, low: 12, high: 18}, 1000]], 15.5],
   ];
@@ -11,8 +11,8 @@ describe('VWAPMean()', () => {
   dataToTest.forEach(arr => {
     const [values, expected] = arr;
 
-    it(`expect VWAPMean of ${JSON.stringify(values)} to be equal to ${expected}`, () => {
-      expect(VWAPMean(values)).to.eq(expected);
+    it(`expect volumeWeightedAveragePrice of ${JSON.stringify(values)} to be equal to ${expected}`, () => {
+      expect(volumeWeightedAveragePrice(values)).to.eq(expected);
     });
   });
 
@@ -48,8 +48,8 @@ describe('VWAPMean()', () => {
     [{close: 248.9199, open: 248.9199, high: 248.9199, low: 248.9199}, 85348],
     [{close: 248.72, open: 248.91, high: 249.08, low: 248.42}, 58270]], 247.24];
 
-  it(`expect TWAPMean of ${bars.length} bars to be equal to ${expected}`, () => {
-    expect(VWAPMean(bars).toFixed(2)).to.eq(expected.toString());
+  it(`expect volumeWeightedAveragePrice of ${bars.length} bars to be equal to ${expected}`, () => {
+    expect(volumeWeightedAveragePrice(bars).toFixed(2)).to.eq(expected.toString());
   });
 });
 
