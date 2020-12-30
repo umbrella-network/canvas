@@ -12,7 +12,7 @@ if (process.env.API_BASE_URL) {
 
     // These are integration tests that do not require api key
     describe('#getBlocks', () => {
-      it('expect to work', async () => {
+      it('expect to return a valid list of blocks', async () => {
         const blocks = await apiClient.getBlocks();
         expect(blocks).be.an('array');
 
@@ -24,7 +24,7 @@ if (process.env.API_BASE_URL) {
     });
 
     describe('#getBlock', () => {
-      it('expect to work', async () => {
+      it('expect to return a valid block', async () => {
         const blocks = await apiClient.getBlocks();
         const blockId = blocks[0]._id;
 
@@ -35,8 +35,8 @@ if (process.env.API_BASE_URL) {
       });
     });
 
-    describe('#getLeavesOfBlock', async () => {
-      it('expect to work', async () => {
+    describe('#getLeavesOfBlock', () => {
+      it('expect to return a valid list of leaves', async () => {
         const blocks = await apiClient.getBlocks();
         const blockId = blocks[0]._id;
 
@@ -47,6 +47,35 @@ if (process.env.API_BASE_URL) {
           expect(leaf).be.an('object');
           expect(leaf).to.have.property('_id').that.is.a('string');
         });
+      });
+    });
+
+    describe('#getKeys', () => {
+      it('expect to return valid keys or an empty array', async () => {
+        const keys = await apiClient.getKeys();
+
+        expect(keys).be.an('array');
+
+        keys.forEach((key) => {
+          expect(key).be.an('object');
+          expect(key).to.have.property('id').that.is.a('string');
+        });
+      });
+    });
+
+
+    describe('#getProofs', () => {
+      it('expect to return a valid result', async () => {
+        const keysObjects = await apiClient.getKeys();
+
+        // we will pass all the keys, so we could find some proofs for sure
+        const keys = keysObjects.map(keyObject => keyObject.id);
+        const proofs = await apiClient.getProofs(keys);
+
+        expect(proofs).be.an('object');
+        expect(proofs).to.have.nested.property('block._id').that.is.a('string');
+        expect(proofs).to.have.property('keys').that.is.an('array');
+        expect(proofs).to.have.property('leaves').that.is.an('array');
       });
     });
 

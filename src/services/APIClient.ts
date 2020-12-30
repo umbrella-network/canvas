@@ -2,6 +2,8 @@ import { IAPIClientOptions } from '../models/APIClientOptions';
 import axios, { AxiosInstance } from 'axios';
 import { IBlock } from '../models/Block';
 import { ILeaf } from '../models/Leaf';
+import { IProofs } from '../models/Proofs';
+import { IKey } from '../models/Key';
 
 export class APIClient {
   private options: IAPIClientOptions;
@@ -32,5 +34,22 @@ export class APIClient {
     const response = await this.axios.get<ILeaf[]>(`/blocks/${blockId}/leaves`); 
 
     return response.data;
+  }
+
+  async getKeys(): Promise<IKey[]> {
+    const response = await this.axios.get<{data: IKey[]}>('/keys');
+    return response.data.data;
+  }
+
+  async getProofs(keys: string[]): Promise<IProofs | null> {
+    const response = await this.axios.get<{data: IProofs | Record<string, never>}>('/proofs', {
+      params: { keys }
+    });
+
+    if(response.data.data.block) {
+      return response.data.data as IProofs;
+    }
+
+    return null;
   }
 }
