@@ -1,13 +1,24 @@
 import dotenv from 'dotenv';
-import {APIClient} from '../../src';
+import {APIClient, LeafType} from '../../src';
 import {expect} from 'chai';
+import { ethers } from 'ethers';
+import { Registry } from '../../src/contracts/Registry';
+import { ChainContract } from '../../src/contracts/Chain';
 
 dotenv.config();
-
+ 
 if (process.env.API_BASE_URL) {
-  describe('APIClient()', () => {
+  describe('APIClient()', async () => {
+    const provider = new ethers.providers.JsonRpcProvider(process.env.BLOCKCHAIN_PROVIDER_URL || 'ws://127.0.0.1:8545');
+    const registry = new Registry(provider, process.env.REGISTRY_CONTRACT_ADDRESS as string);
+
+    const chainContractAddress = await registry.getAddress('Chain');
+
+    const chainContract = new ChainContract(provider, chainContractAddress);
+
     const apiClient = new APIClient({
       baseURL: process.env.API_BASE_URL as string,
+      chainContract,
     });
 
     // These are integration tests that do not require api key
@@ -76,6 +87,19 @@ if (process.env.API_BASE_URL) {
         expect(proofs).to.have.nested.property('block._id').that.is.a('string');
         expect(proofs).to.have.property('keys').that.is.an('array');
         expect(proofs).to.have.property('leaves').that.is.an('array');
+      });
+    });
+
+    describe('#verifyProofForBlock', () => {
+      it('expect to work', async () => {
+        const verificationResult = await apiClient.verifyProofForBlock(
+          'eth-usd',
+          LeafType.TYPE_INTEGER
+        );
+
+        expect(verificationResult).be.an('object');
+        expect(verificationResult).to.have.property('success').that.is.a('boolean');
+        expect(verificationResult).to.have.property('value');
       });
     });
 

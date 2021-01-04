@@ -32,3 +32,22 @@ import {ContractRegistry} from `@umb-network/toolbox`;
 
 new ContractRegistry(provider, contractRegistryAddress).getAddrerss('Chain');
 ```
+
+## Proof verification
+```typescript
+import {ContractRegistry, ChainContract, APIClient} from `@umb-network/toolbox`;
+
+const chainContractAddress = new ContractRegistry(provider, contractRegistryAddress).getAddrerss('Chain');
+const chainContract = new ChainContract(provider, chainContractAddress);
+const apiClient = new APIClient({
+  baseURL: 'https://...',
+  chainContract,
+});
+
+const verificationResult = await apiClient.verifyProofForBlock(
+  'eth-usd',
+  LeafType.TYPE_INTEGER
+);
+
+console.log(verificationResult) // output: {success: true, value: 1234} or {success: false, value: 1234}
+```
