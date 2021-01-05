@@ -17,10 +17,7 @@ export class APIClient {
     });
   }
 
-  async getBlocks(options?: {
-    offset?: number;
-    limit?: number;
-  }): Promise<IBlock[]> {
+  async getBlocks(options?: { offset?: number; limit?: number }): Promise<IBlock[]> {
     const response = await this.axios.get<IBlock[]>('/blocks', {
       params: options,
     });
@@ -65,16 +62,9 @@ export class APIClient {
    * Uses verifyProofForBlock method of the Chain contract.
    * @see https://kovan.etherscan.io/address/0x459DF121Ab6Cf1B4C99119cc354d7C79c83Ec8bE#readContract
    */
-  async verifyProofForBlock<T extends LeafType>(
-    key: string,
-    leafType: T
-  ): Promise<{
+  async verifyProofForBlock<T extends LeafType>(key: string, leafType: T): Promise<{
     success: boolean;
-    value: T extends typeof LeafType.TYPE_INTEGER
-      ? number
-      : T extends typeof LeafType.TYPE_FLOAT
-      ? number
-      : string;
+    value: T extends typeof LeafType.TYPE_INTEGER ? number : T extends typeof LeafType.TYPE_FLOAT ? number : string;
   }> {
     if (!this.options.chainContract) {
       throw new Error('chainContract is required');
@@ -94,14 +84,20 @@ export class APIClient {
       leafType,
     });
 
-    return {
-      success: verified,
-      value: (leafType === LeafType.TYPE_INTEGER
-        ? parseInt(proofs.leaves[0].value, 10)
-        : leafType === LeafType.TYPE_FLOAT
-          ? parseFloat(proofs.leaves[0].value)
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          : proofs.leaves[0].value) as any,
-    };
+    let value: string | number;
+
+    switch (leafType) {
+    case LeafType.TYPE_INTEGER:
+      value = parseInt(proofs.leaves[0].value, 10);
+      break;
+    case LeafType.TYPE_FLOAT:
+      value = parseFloat(proofs.leaves[0].value);
+      break;
+    default:
+      value = proofs.leaves[0].value;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return { success: verified, value: value as any };
   }
 }
