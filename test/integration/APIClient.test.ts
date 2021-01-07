@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { ethers } from 'ethers';
 import { Registry } from '../../src/contracts/Registry';
 import { ChainContract } from '../../src/contracts/Chain';
+import { expectThrowsAsync } from '../helpers';
 
 dotenv.config();
 
@@ -67,21 +68,25 @@ if (process.env.API_BASE_URL) {
     });
 
     describe('#getProofs', () => {
-      it('expect to return a valid result', async () => {
-        const keysObjects = await apiClient.getKeys();
-
-        // we will pass all the keys, so we could find some proofs for sure
-        const keys = keysObjects.map((keyObject) => keyObject.id);
-        const proofs = await apiClient.getProofs(keys);
-
-        expect(proofs).be.an('object');
-        expect(proofs).to.have.nested.property('block._id').that.is.a('string');
-        expect(proofs).to.have.property('keys').that.is.an('array');
-        expect(proofs).to.have.property('leaves').that.is.an('array');
+      it('expect to throw an error when api key is not set', async () => {
+        await expectThrowsAsync(async () => await apiClient.getProofs([]), Error, 'API key is required for this method');
       });
     });
 
+    
+
+    if (process.env.API_KEY) {
+      
+      // Here we'll write integration tests for methods, that use API-key-protected APIs
+    } else {
+      console.warn(
+        'Skipping ClientAPI integration tests requiring API_KEY, as it is not provided.'
+      );
+    }
+
+
     if (
+      process.env.API_KEY &&
       process.env.BLOCKCHAIN_PROVIDER_URL &&
       process.env.REGISTRY_CONTRACT_ADDRESS
     ) {
@@ -99,11 +104,27 @@ if (process.env.API_BASE_URL) {
 
       const apiClient = new APIClient({
         baseURL: process.env.API_BASE_URL as string,
+        apiKey: process.env.API_KEY,
         chainContract,
       });
 
+      describe('#getProofs', () => {
+        it('expect to return valid result when api key is set', async () => {
+          const keysObjects = await apiClient.getKeys();
+
+          // we will pass all the keys, so we could find some proofs for sure
+          const keys = keysObjects.map((keyObject) => keyObject.id);
+          const proofs = await apiClient.getProofs(keys);
+
+          expect(proofs).be.an('object');
+          expect(proofs).to.have.nested.property('block._id').that.is.a('string');
+          expect(proofs).to.have.property('keys').that.is.an('array');
+          expect(proofs).to.have.property('leaves').that.is.an('array');
+        });
+      });
+
       describe('#verifyProofForBlock', () => {
-        it('expect to work', async () => {
+        it('expect to return valid result', async () => {
           const verificationResult = await apiClient.verifyProofForBlock(
             'eth-usd',
             LeafType.TYPE_INTEGER
@@ -119,14 +140,6 @@ if (process.env.API_BASE_URL) {
     } else {
       console.warn(
         'Skipping ClientAPI integration tests requiring BLOCKCHAIN_PROVIDER_URL and REGISTRY_CONTRACT_ADDRESS, as they are not provided.'
-      );
-    }
-
-    if (process.env.API_KEY) {
-      // Here we'll write integration tests for methods, that use API-key-protected APIs
-    } else {
-      console.warn(
-        'Skipping ClientAPI integration tests requiring API_KEY, as it is not provided.'
       );
     }
   });

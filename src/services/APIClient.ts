@@ -45,9 +45,16 @@ export class APIClient {
   }
 
   async getProofs(keys: string[]): Promise<IProofs | null> {
+    if(!this.options.apiKey) {
+      throw new Error('API key is required for this method');
+    }
+
     const response = await this.axios.get<{
       data: IProofs | Record<string, never>;
     }>('/proofs', {
+      headers: {
+        'authorization': `Bearer ${this.options.apiKey}`
+      },
       params: { keys },
     });
 
