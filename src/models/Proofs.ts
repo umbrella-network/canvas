@@ -1,8 +1,8 @@
-import { IBlock } from './Block';
-import { ILeaf } from './Leaf';
+import { IChainBlock } from './ChainBlock';
+import { IBlockLeafWithProof } from './BlockLeafWithProof';
 
 export interface IProofs {
-  block: IBlock;
+  block: IChainBlock;
   keys: string[];
-  leaves: ILeaf[];
+  leaves: IBlockLeafWithProof[];
 }

@@ -1,4 +1,4 @@
-export interface IBlock {
+export interface IChainBlock {
   _id: string;
   height: number;
   status: string;
@@ -9,6 +9,11 @@ export interface IBlock {
   staked: number;
   power: number;
   voters: Array<string>;
-  votes: Map<string, number>;
+
+  /**
+   * An object, where keys are addresses, and values are votes.
+   */
+  votes: { [address: string]: number };
+
   numericFcdKeys: Array<string>;
 }

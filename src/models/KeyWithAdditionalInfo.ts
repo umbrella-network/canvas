@@ -1,4 +1,4 @@
-export interface IKey {
+export interface IKeyWithAdditionalInfo {
   id: string;
   name: string;
   sourceUrl: string;

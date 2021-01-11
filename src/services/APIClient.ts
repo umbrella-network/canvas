@@ -1,9 +1,9 @@
 import { IAPIClientOptions } from '../models/APIClientOptions';
 import axios, { AxiosInstance } from 'axios';
-import { IBlock } from '../models/Block';
-import { ILeaf } from '../models/Leaf';
+import { IChainBlock } from '../models/ChainBlock';
+import { IBlockLeafWithProof } from '../models/BlockLeafWithProof';
 import { IProofs } from '../models/Proofs';
-import { IKey } from '../models/Key';
+import { IKeyWithAdditionalInfo } from '../models/KeyWithAdditionalInfo';
 import { LeafType } from '../';
 
 export class APIClient {
@@ -17,30 +17,30 @@ export class APIClient {
     });
   }
 
-  async getBlocks(options?: { offset?: number; limit?: number }): Promise<IBlock[]> {
-    const response = await this.axios.get<IBlock[]>('/blocks', {
+  async getBlocks(options?: { offset?: number; limit?: number }): Promise<IChainBlock[]> {
+    const response = await this.axios.get<IChainBlock[]>('/blocks', {
       params: options,
     });
 
     return response.data;
   }
 
-  async getBlock(blockId: string): Promise<IBlock> {
-    const response = await this.axios.get<{ data: IBlock }>(
+  async getBlock(blockId: string): Promise<IChainBlock> {
+    const response = await this.axios.get<{ data: IChainBlock }>(
       `/blocks/${blockId}`
     );
 
     return response.data.data;
   }
 
-  async getLeavesOfBlock(blockId: string): Promise<ILeaf[]> {
-    const response = await this.axios.get<ILeaf[]>(`/blocks/${blockId}/leaves`);
+  async getLeavesOfBlock(blockId: string): Promise<IBlockLeafWithProof[]> {
+    const response = await this.axios.get<IBlockLeafWithProof[]>(`/blocks/${blockId}/leaves`);
 
     return response.data;
   }
 
-  async getKeys(): Promise<IKey[]> {
-    const response = await this.axios.get<{ data: IKey[] }>('/keys');
+  async getKeys(): Promise<IKeyWithAdditionalInfo[]> {
+    const response = await this.axios.get<{ data: IKeyWithAdditionalInfo[] }>('/keys');
     return response.data.data;
   }
 
