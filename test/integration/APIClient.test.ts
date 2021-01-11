@@ -138,13 +138,9 @@ if (process.env.API_BASE_URL) {
         });
       });
     } else {
-      console.warn(
-        'Skipping ClientAPI integration tests requiring BLOCKCHAIN_PROVIDER_URL and REGISTRY_CONTRACT_ADDRESS, as they are not provided.'
-      );
+      console.warn('Skipping ClientAPI integration tests requiring BLOCKCHAIN_PROVIDER_URL and REGISTRY_CONTRACT_ADDRESS, as they are not provided.');
     }
   });
 } else {
-  console.warn(
-    'Skipping ClientAPI integration tests as API_BASE_URL not provided.'
-  );
+  console.warn('Skipping ClientAPI integration tests as API_BASE_URL not provided.');
 }
