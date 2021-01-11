@@ -125,7 +125,7 @@ if (process.env.API_BASE_URL) {
 
       describe('#verifyProofForBlock', () => {
         it('expect to return valid result', async () => {
-          const verificationResult = await apiClient.verifyProofForBlock(
+          const verificationResult = await apiClient.verifyProofForNewestBlock(
             'eth-usd',
             LeafType.TYPE_INTEGER
           );

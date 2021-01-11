@@ -1,7 +1,7 @@
 import {Contract, ethers} from 'ethers';
+import {LeafType} from 'src/models/LeafType';
 import {LeafKeyCoder, LeafValueCoder} from '../';
 import {chainAbi} from './abi/chain.abi';
-import {IVerifyProofForBlockParams} from './interfaces/VerifyProofForBlockParams.interface';
 
 export class ChainContract {
   private contract: Contract
@@ -14,12 +14,18 @@ export class ChainContract {
     this.contract = new ethers.Contract(chainContractAddress, chainAbi, web3Provider);
   }
 
-  async verifyProofForBlock(options: IVerifyProofForBlockParams): Promise<boolean> {
+  async verifyProofForBlock(
+    blockHeight: number,
+    proof: string[],
+    key: string,
+    value: string,
+    leafType: LeafType,
+  ): Promise<boolean> {
     const result: boolean = await this.contract.verifyProofForBlock(
-      options.blockHeight,
-      options.proofs,
-      LeafKeyCoder.encode(options.key),
-      LeafValueCoder.encode(options.value, options.leafType),
+      blockHeight,
+      proof,
+      LeafKeyCoder.encode(key),
+      LeafValueCoder.encode(value, leafType),
     );
 
     return result;

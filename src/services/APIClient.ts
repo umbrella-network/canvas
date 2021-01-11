@@ -69,15 +69,15 @@ export class APIClient {
    * Uses verifyProofForBlock method of the Chain contract.
    * @see https://kovan.etherscan.io/address/[contract-address]#readContract
    */
-  async verifyProofForBlock(key: string, leafType: LeafType.TYPE_INTEGER | LeafType.TYPE_FLOAT): Promise<{success: boolean, value: number}>
+  async verifyProofForNewestBlock(key: string, leafType: LeafType.TYPE_INTEGER | LeafType.TYPE_FLOAT): Promise<{success: boolean, value: number}>
 
   /**
    * Uses verifyProofForBlock method of the Chain contract.
    * @see https://kovan.etherscan.io/address/[contract-address]#readContract
    */
-  async verifyProofForBlock(key: string, leafType: LeafType.TYPE_HEX): Promise<{success: boolean, value: string}>
+  async verifyProofForNewestBlock(key: string, leafType: LeafType.TYPE_HEX): Promise<{success: boolean, value: string}>
 
-  async verifyProofForBlock(key: string, leafType: LeafType): Promise<{success: boolean, value: string | number}> {
+  async verifyProofForNewestBlock(key: string, leafType: LeafType): Promise<{success: boolean, value: string | number}> {
     if (!this.options.chainContract) {
       throw new Error('chainContract is required');
     }
@@ -88,13 +88,13 @@ export class APIClient {
       throw new Error('No block found');
     }
 
-    const success = await this.options.chainContract.verifyProofForBlock({
-      blockHeight: proofs.block.height,
-      proofs: proofs.leaves[0].proof,
+    const success = await this.options.chainContract.verifyProofForBlock(
+      proofs.block.height,
+      proofs.leaves[0].proof,
       key,
-      value: proofs.leaves[0].value,
+      proofs.leaves[0].value,
       leafType,
-    });
+    );
 
     return { success, value: this.resolveLeafValue(proofs.leaves[0].value, leafType) };
   }
