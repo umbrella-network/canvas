@@ -69,10 +69,15 @@ export class APIClient {
    * Uses verifyProofForBlock method of the Chain contract.
    * @see https://kovan.etherscan.io/address/[contract-address]#readContract
    */
-  async verifyProofForBlock<T extends LeafType>(key: string, leafType: T): Promise<{
-    success: boolean;
-    value: T extends typeof LeafType.TYPE_INTEGER ? number : T extends typeof LeafType.TYPE_FLOAT ? number : string;
-  }> {
+  async verifyProofForBlock(key: string, leafType: LeafType.TYPE_INTEGER | LeafType.TYPE_FLOAT): Promise<{success: boolean, value: number}>
+
+  /**
+   * Uses verifyProofForBlock method of the Chain contract.
+   * @see https://kovan.etherscan.io/address/[contract-address]#readContract
+   */
+  async verifyProofForBlock(key: string, leafType: LeafType.TYPE_HEX): Promise<{success: boolean, value: string}>
+
+  async verifyProofForBlock(key: string, leafType: LeafType): Promise<{success: boolean, value: string | number}> {
     if (!this.options.chainContract) {
       throw new Error('chainContract is required');
     }
@@ -83,7 +88,7 @@ export class APIClient {
       throw new Error('No block found');
     }
 
-    const verified = await this.options.chainContract.verifyProofForBlock({
+    const success = await this.options.chainContract.verifyProofForBlock({
       blockHeight: proofs.block.height,
       proofs: proofs.leaves[0].proof,
       key,
@@ -91,20 +96,17 @@ export class APIClient {
       leafType,
     });
 
-    let value: string | number;
+    return { success, value: this.resolveLeafValue(proofs.leaves[0].value, leafType) };
+  }
 
+  private resolveLeafValue(leafValue: string, leafType: LeafType): string | number {
     switch (leafType) {
     case LeafType.TYPE_INTEGER:
-      value = parseInt(proofs.leaves[0].value, 10);
-      break;
+      return parseInt(leafValue, 10);
     case LeafType.TYPE_FLOAT:
-      value = parseFloat(proofs.leaves[0].value);
-      break;
+      return parseFloat(leafValue);
     default:
-      value = proofs.leaves[0].value;
+      return leafValue;
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return { success: verified, value: value as any };
   }
 }
