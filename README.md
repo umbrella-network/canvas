@@ -40,7 +40,7 @@ import {ContractRegistry, ChainContract, APIClient} from `@umb-network/toolbox`;
 const chainContractAddress = new ContractRegistry(provider, contractRegistryAddress).getAddress('Chain');
 const chainContract = new ChainContract(provider, chainContractAddress);
 const apiClient = new APIClient({
-  baseURL: 'https://...',
+  baseURL: 'https://sanctuary-playground-api.network/api/',
   chainContract,
 });
 
