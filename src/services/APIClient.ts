@@ -67,7 +67,7 @@ export class APIClient {
 
   /**
    * Uses verifyProofForBlock method of the Chain contract.
-   * @see https://kovan.etherscan.io/address/0x459DF121Ab6Cf1B4C99119cc354d7C79c83Ec8bE#readContract
+   * @see https://kovan.etherscan.io/address/[contract-address]#readContract
    */
   async verifyProofForBlock<T extends LeafType>(key: string, leafType: T): Promise<{
     success: boolean;
