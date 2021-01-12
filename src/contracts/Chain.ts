@@ -1,6 +1,7 @@
 import {Contract, ethers} from 'ethers';
 import {LeafType} from 'src/models/LeafType';
-import {LeafKeyCoder, LeafValueCoder} from '../';
+import {LeafKeyCoder} from '../services/LeafKeyCoder';
+import {LeafValueCoder} from '../services/LeafValueCoder';
 import {chainAbi} from './abi/chain.abi';
 
 export class ChainContract {

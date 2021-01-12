@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {APIClient} from '../../src';
+import * as SDK from '../../src';
 import moxios from 'moxios';
 import blocksResponse from '../fixtures/blocks-response.json';
 import {expect} from 'chai';
 
 describe('APIClient()', () => {
   it('expect to instantiate', () => {
-    new APIClient({ baseURL: 'http://localhost:3003', apiKey: 'xxx' });
+    new SDK.API.APIClient({ baseURL: 'http://localhost:3003', apiKey: 'xxx' });
   });
 
-  let client: APIClient;
+  let client: SDK.API.APIClient;
 
   beforeEach(() => {
-    client = new APIClient({ baseURL: 'http://localhost:3003', apiKey: 'xxx' });
+    client = new SDK.API.APIClient({ baseURL: 'http://localhost:3003', apiKey: 'xxx' });
     // @ts-ignore
     moxios.install(client['axios']);
   });

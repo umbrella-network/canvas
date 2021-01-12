@@ -1,16 +1,14 @@
 import dotenv from 'dotenv';
-import { APIClient, LeafType } from '../../src';
 import { expect } from 'chai';
 import { ethers } from 'ethers';
-import { Registry } from '../../src/contracts/Registry';
-import { ChainContract } from '../../src/contracts/Chain';
+import * as SDK from '../../src';
 import { expectThrowsAsync } from '../helpers';
 
 dotenv.config();
 
 if (process.env.API_BASE_URL) {
   describe('APIClient()', async () => {
-    const apiClient = new APIClient({
+    const apiClient = new SDK.API.APIClient({
       baseURL: process.env.API_BASE_URL as string,
     });
 
@@ -93,16 +91,16 @@ if (process.env.API_BASE_URL) {
       const provider = new ethers.providers.JsonRpcProvider(
         process.env.BLOCKCHAIN_PROVIDER_URL || 'ws://127.0.0.1:8545'
       );
-      const registry = new Registry(
+      const registry = new SDK.contracts.ContractRegistry(
         provider,
         process.env.REGISTRY_CONTRACT_ADDRESS as string
       );
 
       const chainContractAddress = await registry.getAddress('Chain');
 
-      const chainContract = new ChainContract(provider, chainContractAddress);
+      const chainContract = new SDK.contracts.ChainContract(provider, chainContractAddress);
 
-      const apiClient = new APIClient({
+      const apiClient = new SDK.API.APIClient({
         baseURL: process.env.API_BASE_URL as string,
         apiKey: process.env.API_KEY,
         chainContract,
@@ -127,7 +125,7 @@ if (process.env.API_BASE_URL) {
         it('expect to return valid result', async () => {
           const verificationResult = await apiClient.verifyProofForNewestBlock(
             'eth-usd',
-            LeafType.TYPE_INTEGER
+            SDK.types.LeafType.TYPE_INTEGER
           );
 
           expect(verificationResult).be.an('object');

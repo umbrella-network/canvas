@@ -4,7 +4,7 @@ import { IChainBlock } from '../models/ChainBlock';
 import { IBlockLeafWithProof } from '../models/BlockLeafWithProof';
 import { IProofs } from '../models/Proofs';
 import { IKeyWithAdditionalInfo } from '../models/KeyWithAdditionalInfo';
-import { LeafType } from '../';
+import { LeafType } from '../models/LeafType';
 
 export class APIClient {
   private options: IAPIClientOptions;

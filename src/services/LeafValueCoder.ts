@@ -1,4 +1,4 @@
-import {LeafType} from '..';
+import {LeafType} from '../models/LeafType';
 import {evenHex, extractFromLeaf, leafTypeToBuffer, prepend0x} from '../utils/helpers';
 import {floatFromHex, hexToBuffer, intToBuffer, floatToBuffer} from './helpers';
 import {LEAF_TYPE_SEPARATOR_HEX} from '../constants';

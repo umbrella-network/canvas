@@ -1,4 +1,4 @@
-import {LeafType} from '..';
+import {LeafType} from '../models/LeafType';
 import {LEAF_TYPE_SEPARATOR_HEX} from '../constants';
 
 // eslint-disable-next-line
