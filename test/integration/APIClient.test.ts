@@ -8,10 +8,11 @@ import { expectThrowsAsync } from '../helpers';
 
 dotenv.config();
 
-if (process.env.API_BASE_URL) {
+if (process.env.API_BASE_URL && process.env.API_KEY) {
   describe('APIClient()', async () => {
     const apiClient = new APIClient({
       baseURL: process.env.API_BASE_URL as string,
+      apiKey: process.env.API_KEY as string,
     });
 
     // These are integration tests that do not require api key
@@ -67,29 +68,7 @@ if (process.env.API_BASE_URL) {
       });
     });
 
-    describe('#getProofs', () => {
-      it('expect to throw an error when api key is not set', async () => {
-        await expectThrowsAsync(async () => await apiClient.getProofs([]), Error, 'API key is required for this method');
-      });
-    });
-
-    
-
-    if (process.env.API_KEY) {
-      
-      // Here we'll write integration tests for methods, that use API-key-protected APIs
-    } else {
-      console.warn(
-        'Skipping ClientAPI integration tests requiring API_KEY, as it is not provided.'
-      );
-    }
-
-
-    if (
-      process.env.API_KEY &&
-      process.env.BLOCKCHAIN_PROVIDER_URL &&
-      process.env.REGISTRY_CONTRACT_ADDRESS
-    ) {
+    if (process.env.BLOCKCHAIN_PROVIDER_URL && process.env.REGISTRY_CONTRACT_ADDRESS) {
       const provider = new ethers.providers.JsonRpcProvider(
         process.env.BLOCKCHAIN_PROVIDER_URL || 'ws://127.0.0.1:8545'
       );
@@ -104,7 +83,7 @@ if (process.env.API_BASE_URL) {
 
       const apiClient = new APIClient({
         baseURL: process.env.API_BASE_URL as string,
-        apiKey: process.env.API_KEY,
+        apiKey: process.env.API_KEY as string,
         chainContract,
       });
 
@@ -142,5 +121,5 @@ if (process.env.API_BASE_URL) {
     }
   });
 } else {
-  console.warn('Skipping ClientAPI integration tests as API_BASE_URL not provided.');
+  console.warn('Skipping ClientAPI integration tests as API_BASE_URL and/or API_KEY not provided.');
 }

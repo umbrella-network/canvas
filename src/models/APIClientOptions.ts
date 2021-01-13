@@ -1,7 +1,7 @@
 import { ChainContract } from '../contracts/Chain';
 
 export interface IAPIClientOptions {
-  apiKey?: string;
+  apiKey: string;
 
   /**
    * Base url of the API

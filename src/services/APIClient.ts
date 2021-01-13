@@ -19,6 +19,9 @@ export class APIClient {
 
   async getBlocks(options?: { offset?: number; limit?: number }): Promise<IChainBlock[]> {
     const response = await this.axios.get<IChainBlock[]>('/blocks', {
+      headers: {
+        'authorization': `Bearer ${this.options.apiKey}`,
+      },
       params: options,
     });
 
@@ -27,33 +30,41 @@ export class APIClient {
 
   async getBlock(blockId: string): Promise<IChainBlock> {
     const response = await this.axios.get<{ data: IChainBlock }>(
-      `/blocks/${blockId}`
+      `/blocks/${blockId}`,
+      {
+        headers: {
+          'authorization': `Bearer ${this.options.apiKey}`,
+        },
+      },
     );
 
     return response.data.data;
   }
 
   async getLeavesOfBlock(blockId: string): Promise<IBlockLeafWithProof[]> {
-    const response = await this.axios.get<IBlockLeafWithProof[]>(`/blocks/${blockId}/leaves`);
+    const response = await this.axios.get<IBlockLeafWithProof[]>(`/blocks/${blockId}/leaves`, {
+      headers: {
+        'authorization': `Bearer ${this.options.apiKey}`,
+      },
+    });
 
     return response.data;
   }
 
   async getKeys(): Promise<IKeyWithAdditionalInfo[]> {
-    const response = await this.axios.get<{ data: IKeyWithAdditionalInfo[] }>('/keys');
+    const response = await this.axios.get<{ data: IKeyWithAdditionalInfo[] }>('/keys', {
+      headers: {
+        'authorization': `Bearer ${this.options.apiKey}`,
+      },
+    });
+
     return response.data.data;
   }
 
   async getProofs(keys: string[]): Promise<IProofs | null> {
-    if(!this.options.apiKey) {
-      throw new Error('API key is required for this method');
-    }
-
-    const response = await this.axios.get<{
-      data: IProofs | Record<string, never>;
-    }>('/proofs', {
+    const response = await this.axios.get<{data: IProofs | Record<string, never>}>('/proofs', {
       headers: {
-        'authorization': `Bearer ${this.options.apiKey}`
+        'authorization': `Bearer ${this.options.apiKey}`,
       },
       params: { keys },
     });
