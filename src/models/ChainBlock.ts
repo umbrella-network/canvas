@@ -1,13 +1,15 @@
+import { BigNumber } from 'bignumber.js';
+
 export interface IChainBlock {
   _id: string;
   height: number;
   status: string;
-  anchor: number;
+  anchor: BigNumber;
   timestamp: Date;
   root: string;
   minter: string;
-  staked: number;
-  power: number;
+  staked: BigNumber;
+  power: BigNumber;
   voters: Array<string>;
 
   /**

@@ -4,6 +4,7 @@ import { IChainBlock } from '../models/ChainBlock';
 import { IBlockLeafWithProof } from '../models/BlockLeafWithProof';
 import { IProofs } from '../models/Proofs';
 import { LeafValueCoder } from './LeafValueCoder';
+import BigNumber from 'bignumber.js';
 
 export class APIClient {
   private options: IAPIClientOptions;
@@ -17,18 +18,18 @@ export class APIClient {
   }
 
   async getBlocks(options?: { offset?: number; limit?: number }): Promise<IChainBlock[]> {
-    const response = await this.axios.get<IChainBlock[]>('/blocks', {
+    const response = await this.axios.get<Record<string, unknown>[]>('/blocks', {
       headers: {
         'authorization': `Bearer ${this.options.apiKey}`,
       },
       params: options,
     });
 
-    return response.data;
+    return response.data.map(block => this.transformBlock(block));
   }
 
   async getBlock(blockId: string): Promise<IChainBlock> {
-    const response = await this.axios.get<{ data: IChainBlock }>(
+    const response = await this.axios.get<{ data: Record<string, unknown> }>(
       `/blocks/${blockId}`,
       {
         headers: {
@@ -37,7 +38,7 @@ export class APIClient {
       },
     );
 
-    return response.data.data;
+    return this.transformBlock(response.data.data);
   }
 
   async getLeavesOfBlock(blockId: string): Promise<IBlockLeafWithProof[]> {
@@ -51,7 +52,7 @@ export class APIClient {
   }
 
   async getProofs(keys: string[]): Promise<IProofs | null> {
-    const response = await this.axios.get<{data: IProofs | Record<string, never>}>('/proofs', {
+    const response = await this.axios.get('/proofs', {
       headers: {
         'authorization': `Bearer ${this.options.apiKey}`,
       },
@@ -59,7 +60,11 @@ export class APIClient {
     });
 
     if (response.data.data.block) {
-      return response.data.data as IProofs;
+      return {
+        block: this.transformBlock(response.data.data.block),
+        keys: response.data.data.keys,
+        leaves: response.data.data.leaves,
+      };
     }
 
     return null;
@@ -88,5 +93,15 @@ export class APIClient {
     );
 
     return { success, value: LeafValueCoder.decode(proofs.leaves[0].value) as T };
+  }
+
+  private transformBlock(block: Record<string, any>): IChainBlock {
+    return {
+      ...block,
+      anchor: new BigNumber(block.anchor),
+      power: new BigNumber(block.power),
+      staked: new BigNumber(block.staked),
+      timestamp: new Date(block.timestamp),
+    } as IChainBlock;
   }
 }
