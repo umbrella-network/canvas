@@ -3,8 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 import { IChainBlock } from '../models/ChainBlock';
 import { IBlockLeafWithProof } from '../models/BlockLeafWithProof';
 import { IProofs } from '../models/Proofs';
-import { IKeyWithAdditionalInfo } from '../models/KeyWithAdditionalInfo';
-import { LeafType } from '../';
+import { LeafValueCoder } from './LeafValueCoder';
 
 export class APIClient {
   private options: IAPIClientOptions;
@@ -51,16 +50,6 @@ export class APIClient {
     return response.data;
   }
 
-  async getKeys(): Promise<IKeyWithAdditionalInfo[]> {
-    const response = await this.axios.get<{ data: IKeyWithAdditionalInfo[] }>('/keys', {
-      headers: {
-        'authorization': `Bearer ${this.options.apiKey}`,
-      },
-    });
-
-    return response.data.data;
-  }
-
   async getProofs(keys: string[]): Promise<IProofs | null> {
     const response = await this.axios.get<{data: IProofs | Record<string, never>}>('/proofs', {
       headers: {
@@ -80,15 +69,7 @@ export class APIClient {
    * Uses verifyProofForBlock method of the Chain contract.
    * @see https://kovan.etherscan.io/address/[contract-address]#readContract
    */
-  async verifyProofForNewestBlock(key: string, leafType: LeafType.TYPE_INTEGER | LeafType.TYPE_FLOAT): Promise<{success: boolean, value: number}>
-
-  /**
-   * Uses verifyProofForBlock method of the Chain contract.
-   * @see https://kovan.etherscan.io/address/[contract-address]#readContract
-   */
-  async verifyProofForNewestBlock(key: string, leafType: LeafType.TYPE_HEX): Promise<{success: boolean, value: string}>
-
-  async verifyProofForNewestBlock(key: string, leafType: LeafType): Promise<{success: boolean, value: string | number}> {
+  async verifyProofForNewestBlock<T extends string | number = string | number>(key: string): Promise<{success: boolean, value: T}> {
     if (!this.options.chainContract) {
       throw new Error('chainContract is required');
     }
@@ -104,20 +85,8 @@ export class APIClient {
       proofs.leaves[0].proof,
       key,
       proofs.leaves[0].value,
-      leafType,
     );
 
-    return { success, value: this.resolveLeafValue(proofs.leaves[0].value, leafType) };
-  }
-
-  private resolveLeafValue(leafValue: string, leafType: LeafType): string | number {
-    switch (leafType) {
-    case LeafType.TYPE_INTEGER:
-      return parseInt(leafValue, 10);
-    case LeafType.TYPE_FLOAT:
-      return parseFloat(leafValue);
-    default:
-      return leafValue;
-    }
+    return { success, value: LeafValueCoder.decode(proofs.leaves[0].value) as T };
   }
 }

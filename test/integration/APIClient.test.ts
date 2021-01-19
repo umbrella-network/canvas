@@ -1,10 +1,9 @@
 import dotenv from 'dotenv';
-import { APIClient, LeafType } from '../../src';
+import { APIClient } from '../../src';
 import { expect } from 'chai';
 import { ethers } from 'ethers';
 import { Registry } from '../../src/contracts/Registry';
 import { ChainContract } from '../../src/contracts/Chain';
-import { expectThrowsAsync } from '../helpers';
 
 dotenv.config();
 
@@ -55,19 +54,6 @@ if (process.env.API_BASE_URL && process.env.API_KEY) {
       });
     });
 
-    describe('#getKeys', () => {
-      it('expect to return valid keys or an empty array', async () => {
-        const keys = await apiClient.getKeys();
-
-        expect(keys).be.an('array');
-
-        keys.forEach((key) => {
-          expect(key).be.an('object');
-          expect(key).to.have.property('id').that.is.a('string');
-        });
-      });
-    });
-
     if (process.env.BLOCKCHAIN_PROVIDER_URL && process.env.REGISTRY_CONTRACT_ADDRESS) {
       const provider = new ethers.providers.JsonRpcProvider(
         process.env.BLOCKCHAIN_PROVIDER_URL || 'ws://127.0.0.1:8545'
@@ -89,11 +75,9 @@ if (process.env.API_BASE_URL && process.env.API_KEY) {
 
       describe('#getProofs', () => {
         it('expect to return valid result when api key is set', async () => {
-          const keysObjects = await apiClient.getKeys();
+          const [lastBlock] = await apiClient.getBlocks({ limit: 1 });
 
-          // we will pass all the keys, so we could find some proofs for sure
-          const keys = keysObjects.map((keyObject) => keyObject.id);
-          const proofs = await apiClient.getProofs(keys);
+          const proofs = await apiClient.getProofs(lastBlock.numericFcdKeys);
 
           expect(proofs).be.an('object');
           expect(proofs).to.have.nested.property('block._id').that.is.a('string');
@@ -104,10 +88,7 @@ if (process.env.API_BASE_URL && process.env.API_KEY) {
 
       describe('#verifyProofForBlock', () => {
         it('expect to return valid result', async () => {
-          const verificationResult = await apiClient.verifyProofForNewestBlock(
-            'eth-usd',
-            LeafType.TYPE_INTEGER
-          );
+          const verificationResult = await apiClient.verifyProofForNewestBlock('ETH-USD');
 
           expect(verificationResult).be.an('object');
           expect(verificationResult)

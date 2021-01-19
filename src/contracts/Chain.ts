@@ -19,13 +19,12 @@ export class ChainContract {
     proof: string[],
     key: string,
     value: string,
-    leafType: LeafType,
   ): Promise<boolean> {
     const result: boolean = await this.contract.verifyProofForBlock(
       blockHeight,
       proof,
       LeafKeyCoder.encode(key),
-      LeafValueCoder.encode(value, leafType),
+      value,
     );
 
     return result;
