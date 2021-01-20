@@ -231,12 +231,12 @@ Response example:
     _id: "block::350",
     height: 350,
     status: "finalized",
-    anchor: 3959,
-    timestamp: "2021-01-17 22:52:19.000Z",
+    anchor: new BigNumber(3959),
+    timestamp: new Date("2021-01-17 22:52:19.000Z"),
     root: "0x1487f96993077b4de7738c1701028e92623752a48c7330fe99a5ca6db6cbcd58",
     minter: "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4",
-    staked: 1e+18,
-    power: 1e+18,
+    staked: new BigNumber(1000000000000000000),
+    power: new BigNumber(1000000000000000000),
     voters: [ 
       "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
     ],
@@ -269,12 +269,12 @@ Response example:
   _id: "block::350",
   height: 350,
   status: "finalized",
-  anchor: 3959,
-  timestamp: "2021-01-17 22:52:19.000Z",
+  anchor: new BigNumber('3959'),
+  timestamp: new Date("2021-01-17 22:52:19.000Z"),
   root: "0x1487f96993077b4de7738c1701028e92623752a48c7330fe99a5ca6db6cbcd58",
   minter: "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4",
-  staked: 1e+18,
-  power: 1e+18,
+  staked: new BigNumber(1000000000000000000),
+  power: new BigNumber(1000000000000000000),
   voters: [ 
     "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
   ],
@@ -306,12 +306,12 @@ Response example:
   _id: "block::350",
   height: 350,
   status: "finalized",
-  anchor: 3959,
-  timestamp: "2021-01-17 22:52:19.000Z",
+  anchor: new BigNumber(3959),
+  timestamp: new Date("2021-01-17 22:52:19.000Z"),
   root: "0x1487f96993077b4de7738c1701028e92623752a48c7330fe99a5ca6db6cbcd58",
   minter: "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4",
-  staked: 1e+18,
-  power: 1e+18,
+  staked: new BigNumber(1000000000000000000),
+  power: new BigNumber(1000000000000000000),
   voters: [ 
     "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
   ],
@@ -397,16 +397,16 @@ Response example:
 ```ts
 {
   block: {
-    staked: 1000000000000000000,
-    power: 1000000000000000000,
+    staked: new BigNumber(1000000000000000000),
+    power: new BigNumber(1000000000000000000),
     voters: ["0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"],
     votes: {},
     numericFcdKeys: ["DIA-USD", "ETH-EUR", "ETH-USD", "QQQ-USD", "SPY-USD"],
     _id: "block::350",
     height: 350,
     __v: 1,
-    anchor: 3959,
-    timestamp: "2021-01-17T22:52:19.000Z",
+    anchor: new BigNumber(3959),
+    timestamp: new Date("2021-01-17T22:52:19.000Z"),
     status: "finalized",
     minter: "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4",
     root:
