@@ -39,6 +39,15 @@ if (process.env.API_BASE_URL && process.env.API_KEY) {
       });
     });
 
+    describe('#getNewestBlock', () => {
+      it('expect to return a valid block', async () => {
+        const block = await apiClient.getNewestBlock();
+
+        expect(block).be.an('object');
+        expect(block).to.have.property('_id').that.is.a('string');
+      });
+    });
+
     describe('#getLeavesOfBlock', () => {
       it('expect to return a valid list of leaves', async () => {
         const blocks = await apiClient.getBlocks();

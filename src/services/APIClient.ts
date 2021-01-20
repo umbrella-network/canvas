@@ -41,6 +41,12 @@ export class APIClient {
     return this.transformBlock(response.data.data);
   }
 
+  async getNewestBlock(): Promise<IChainBlock> {
+    const [newestBlock] = await this.getBlocks({ limit: 1 });
+
+    return newestBlock;
+  }
+
   async getLeavesOfBlock(blockId: string): Promise<IBlockLeafWithProof[]> {
     const response = await this.axios.get<IBlockLeafWithProof[]>(`/blocks/${blockId}/leaves`, {
       headers: {
