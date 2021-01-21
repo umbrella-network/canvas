@@ -240,7 +240,9 @@ Response example:
     voters: [ 
       "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
     ],
-    votes: {},
+    votes: {
+      "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4": "1000000000000000000"
+    },
     numericFcdKeys: [ 
       "DIA-USD", 
       "ETH-EUR", 
@@ -278,7 +280,9 @@ Response example:
   voters: [ 
     "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
   ],
-  votes: {},
+  votes: {
+    "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4": "1000000000000000000"
+  },
   numericFcdKeys: [ 
     "DIA-USD", 
     "ETH-EUR", 
@@ -315,7 +319,9 @@ Response example:
   voters: [ 
     "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
   ],
-  votes: {},
+  votes: {
+    "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4": "1000000000000000000"
+  },
   numericFcdKeys: [ 
     "DIA-USD", 
     "ETH-EUR", 
@@ -400,7 +406,9 @@ Response example:
     staked: new BigNumber(1000000000000000000),
     power: new BigNumber(1000000000000000000),
     voters: ["0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"],
-    votes: {},
+    votes: {
+      "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4": "1000000000000000000"
+    },
     numericFcdKeys: ["DIA-USD", "ETH-EUR", "ETH-USD", "QQQ-USD", "SPY-USD"],
     _id: "block::350",
     height: 350,
