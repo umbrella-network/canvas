@@ -10,12 +10,12 @@ export interface IChainBlock {
   minter: string;
   staked: BigNumber;
   power: BigNumber;
-  voters: Array<string>;
+  voters: string[];
 
   /**
    * An object, where keys are addresses, and values are votes.
    */
-  votes: { [address: string]: number };
+  votes: { [address: string]: string };
 
-  numericFcdKeys: Array<string>;
+  numericFcdKeys: string[];
 }
