@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.5.1] - 2021-02-24
+### Fixed
+- coding/decoding float numbers
+
+## [0.5.0] - 2021-02-21
+### Updated
+- chain contract abi
+
 ## [0.4.0] - 2020-12-17
 ### Added
 - add ABIs for `Chain` and `ValidatorRegistry`
