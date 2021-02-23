@@ -1,10 +1,10 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": "14.8.0"
+    "node": ">=14.8.0"
   },
   "files": [
     "dist"
