@@ -27,8 +27,8 @@ export const floatFromHex = (hex: string): number | undefined => {
   const numberAsString = parseInt(dataPart, 16).toString(10);
 
   const power = parseInt(powerPart, 16);
-  const intPart = numberAsString.slice(0, numberAsString.length - power);
-  const floatPart = numberAsString.slice(-power);
+  const intPart = numberAsString.length - power > 0 ? numberAsString.slice(0, numberAsString.length - power) : '0';
+  const floatPart = numberAsString.slice(-power).padStart(power, '0');
 
   return parseFloat(`${intPart}.${floatPart}`);
 };
