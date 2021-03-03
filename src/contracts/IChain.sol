@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.8 <=0.8.0;
 
-contract IChain {
-  function blockPadding() external returns(uint256);
+interface IChain {
+  function blockPadding() external returns (uint256);
 
-  function blocksCount() external returns(uint256);
+  function blocksCount() external returns (uint256);
 
   function getName() external pure returns (bytes32);
 
@@ -14,46 +14,46 @@ contract IChain {
 
   function getLeaderAddress() external view returns (address);
 
-  function verifyProof(bytes32[] memory _proof, bytes32 _root, bytes32 _leaf) external pure returns (bool);
+  function verifyProof(bytes32[] calldata _proof, bytes32 _root, bytes32 _leaf) external pure returns (bool);
 
-  function hashLeaf(bytes memory _key, bytes memory _value) external pure returns (bytes32);
+  function hashLeaf(bytes calldata _key, bytes calldata _value) external pure returns (bytes32);
 
   function verifyProofForBlock(
     uint256 _blockHeight,
-    bytes32[] memory _proof,
-    bytes memory _key,
-    bytes memory _value
+    bytes32[] calldata _proof,
+    bytes calldata _key,
+    bytes calldata _value
   ) external view returns (bool);
 
   function bytesToBytes32Array(
-    bytes memory _data,
+    bytes calldata _data,
     uint256 _offset,
     uint256 _items
   ) external pure returns (bytes32[] memory);
 
   function verifyProofs(
-    uint256[] memory _blockHeights,
-    bytes memory _proofs,
-    uint256[] memory _proofItemsCounter,
-    bytes32[] memory _leaves
+    uint256[] calldata _blockHeights,
+    bytes calldata _proofs,
+    uint256[] calldata _proofItemsCounter,
+    bytes32[] calldata _leaves
   ) external view returns (bool[] memory results);
 
-  function decodeLeafToNumber(bytes memory _leaf) external pure returns (uint);
+  function decodeLeafToNumber(bytes calldata _leaf) external pure returns (uint);
 
-  function decodeLeafToFloat(bytes memory _leaf) external pure returns (uint);
+  function decodeLeafToFloat(bytes calldata _leaf) external pure returns (uint);
 
   function verifyProofForBlockForNumber(
     uint256 _blockHeight,
-    bytes32[] memory _proof,
-    bytes memory _key,
-    bytes memory _value
+    bytes32[] calldata _proof,
+    bytes calldata _key,
+    bytes calldata _value
   ) external returns (bool, uint256);
 
   function verifyProofForBlockForFloat(
     uint256 _blockHeight,
-    bytes32[] memory _proof,
-    bytes memory _key,
-    bytes memory _value
+    bytes32[] calldata _proof,
+    bytes calldata _key,
+    bytes calldata _value
   ) external view returns (bool, uint256);
 
   function getBlockVotersCount(uint256 _blockHeight) external view returns (uint256);
@@ -65,6 +65,6 @@ contract IChain {
   function getSingleNumericData(uint256 _blockHeight, bytes32 _key) external view returns (uint256);
 
   function getMultipleNumericData(
-    uint256 _blockHeight, bytes32[] memory _keys
+    uint256 _blockHeight, bytes32[] calldata _keys
   ) external view returns (uint256[] memory data);
 }
