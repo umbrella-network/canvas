@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.7.0] - 2021-03-03
+### Added
+- `IChain.sol` interface
+
 ## [0.6.1] - 2021-03-01
 ### Fixed
 - bump version in `package.json`
