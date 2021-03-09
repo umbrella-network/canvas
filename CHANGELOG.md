@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.7.3] - 2021-03-09
+### Fixed
+- package.json version
+
 ## [0.7.2] - 2021-03-09
 ### Fixed
 - fixed linters errors for `/abi/*.ts`
