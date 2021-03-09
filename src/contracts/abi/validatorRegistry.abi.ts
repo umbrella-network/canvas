@@ -1,172 +1,172 @@
 export const validatorRegistryAbi = [
   {
-    "anonymous": false,
-    "inputs": [
+    'anonymous': false,
+    'inputs': [
       {
-        "indexed": false,
-        "internalType": "address",
-        "name": "id",
-        "type": "address"
+        'indexed': false,
+        'internalType': 'address',
+        'name': 'id',
+        'type': 'address'
       }
     ],
-    "name": "LogValidatorRegistered",
-    "type": "event"
+    'name': 'LogValidatorRegistered',
+    'type': 'event'
   },
   {
-    "anonymous": false,
-    "inputs": [
+    'anonymous': false,
+    'inputs': [
       {
-        "indexed": false,
-        "internalType": "address",
-        "name": "id",
-        "type": "address"
+        'indexed': false,
+        'internalType': 'address',
+        'name': 'id',
+        'type': 'address'
       }
     ],
-    "name": "LogValidatorUpdated",
-    "type": "event"
+    'name': 'LogValidatorUpdated',
+    'type': 'event'
   },
   {
-    "anonymous": false,
-    "inputs": [
+    'anonymous': false,
+    'inputs': [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
+        'indexed': true,
+        'internalType': 'address',
+        'name': 'previousOwner',
+        'type': 'address'
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
+        'indexed': true,
+        'internalType': 'address',
+        'name': 'newOwner',
+        'type': 'address'
       }
     ],
-    "name": "OwnershipTransferred",
-    "type": "event"
+    'name': 'OwnershipTransferred',
+    'type': 'event'
   },
   {
-    "inputs": [
+    'inputs': [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        'internalType': 'uint256',
+        'name': '',
+        'type': 'uint256'
       }
     ],
-    "name": "addresses",
-    "outputs": [
+    'name': 'addresses',
+    'outputs': [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        'internalType': 'address',
+        'name': '',
+        'type': 'address'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    'stateMutability': 'view',
+    'type': 'function'
   },
   {
-    "inputs": [
+    'inputs': [
       {
-        "internalType": "address",
-        "name": "_id",
-        "type": "address"
+        'internalType': 'address',
+        'name': '_id',
+        'type': 'address'
       },
       {
-        "internalType": "string",
-        "name": "_location",
-        "type": "string"
+        'internalType': 'string',
+        'name': '_location',
+        'type': 'string'
       }
     ],
-    "name": "create",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    'name': 'create',
+    'outputs': [],
+    'stateMutability': 'nonpayable',
+    'type': 'function'
   },
   {
-    "inputs": [],
-    "name": "getNumberOfValidators",
-    "outputs": [
+    'inputs': [],
+    'name': 'getNumberOfValidators',
+    'outputs': [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        'internalType': 'uint256',
+        'name': '',
+        'type': 'uint256'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    'stateMutability': 'view',
+    'type': 'function'
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    'inputs': [],
+    'name': 'owner',
+    'outputs': [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        'internalType': 'address',
+        'name': '',
+        'type': 'address'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    'stateMutability': 'view',
+    'type': 'function'
   },
   {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    'inputs': [],
+    'name': 'renounceOwnership',
+    'outputs': [],
+    'stateMutability': 'nonpayable',
+    'type': 'function'
   },
   {
-    "inputs": [
+    'inputs': [
       {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
+        'internalType': 'address',
+        'name': 'newOwner',
+        'type': 'address'
       }
     ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    'name': 'transferOwnership',
+    'outputs': [],
+    'stateMutability': 'nonpayable',
+    'type': 'function'
   },
   {
-    "inputs": [
+    'inputs': [
       {
-        "internalType": "address",
-        "name": "_id",
-        "type": "address"
+        'internalType': 'address',
+        'name': '_id',
+        'type': 'address'
       },
       {
-        "internalType": "string",
-        "name": "_location",
-        "type": "string"
+        'internalType': 'string',
+        'name': '_location',
+        'type': 'string'
       }
     ],
-    "name": "update",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    'name': 'update',
+    'outputs': [],
+    'stateMutability': 'nonpayable',
+    'type': 'function'
   },
   {
-    "inputs": [
+    'inputs': [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        'internalType': 'address',
+        'name': '',
+        'type': 'address'
       }
     ],
-    "name": "validators",
-    "outputs": [
+    'name': 'validators',
+    'outputs': [
       {
-        "internalType": "address",
-        "name": "id",
-        "type": "address"
+        'internalType': 'address',
+        'name': 'id',
+        'type': 'address'
       },
       {
-        "internalType": "string",
-        "name": "location",
-        "type": "string"
+        'internalType': 'string',
+        'name': 'location',
+        'type': 'string'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    'stateMutability': 'view',
+    'type': 'function'
   }
-]
+];
