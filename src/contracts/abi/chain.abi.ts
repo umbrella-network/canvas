@@ -169,6 +169,19 @@ export const chainAbi = [
     'type': 'function'
   },
   {
+    'inputs': [],
+    'name': 'blocksCountOffset',
+    'outputs': [
+      {
+        'internalType': 'uint256',
+        'name': '',
+        'type': 'uint256'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
     'inputs': [
       {
         'internalType': 'bytes',

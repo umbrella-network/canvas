@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.8.0] - 2021-03-10
+### Changed
+- `Chain` abi v0.2.0
+
 ## [0.7.4] - 2021-03-09
 ### Added
 - `IRegistry` interface
