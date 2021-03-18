@@ -22,6 +22,10 @@ interface IChain {
 
   function getBlockHeight() external view returns (uint256);
 
+  function getLatestBlockHeightWithData() external view returns (uint256);
+
+  function getLeaderIndex(uint256 numberOfValidators) external view returns (uint256);
+
   function getLeaderAddress() external view returns (address);
 
   function hashLeaf(bytes calldata _key, bytes calldata _value) external pure returns (bytes32);
