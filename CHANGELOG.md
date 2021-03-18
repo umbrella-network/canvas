@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.9.0] - 2021-03-18
+### Changed
+- updated `Chain` to v0.3.0
+
 ## [0.8.1] - 2021-03-10
 ### Changed
 - updated `Chain` abi for v0.2.0

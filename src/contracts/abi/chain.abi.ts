@@ -552,6 +552,25 @@ export const chainAbi = [
     'type': 'function'
   },
   {
+    'inputs': [
+      {
+        'internalType': 'uint256',
+        'name': 'numberOfValidators',
+        'type': 'uint256'
+      }
+    ],
+    'name': 'getLeaderIndex',
+    'outputs': [
+      {
+        'internalType': 'uint256',
+        'name': '',
+        'type': 'uint256'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
     'inputs': [],
     'name': 'getName',
     'outputs': [
