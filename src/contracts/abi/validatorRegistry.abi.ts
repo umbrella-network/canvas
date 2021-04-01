@@ -22,6 +22,19 @@ export const validatorRegistryAbi = [
         'type': 'address'
       }
     ],
+    'name': 'LogValidatorRemoved',
+    'type': 'event'
+  },
+  {
+    'anonymous': false,
+    'inputs': [
+      {
+        'indexed': false,
+        'internalType': 'address',
+        'name': 'id',
+        'type': 'address'
+      }
+    ],
     'name': 'LogValidatorUpdated',
     'type': 'event'
   },
@@ -83,6 +96,19 @@ export const validatorRegistryAbi = [
   },
   {
     'inputs': [],
+    'name': 'getName',
+    'outputs': [
+      {
+        'internalType': 'bytes32',
+        'name': '',
+        'type': 'bytes32'
+      }
+    ],
+    'stateMutability': 'pure',
+    'type': 'function'
+  },
+  {
+    'inputs': [],
     'name': 'getNumberOfValidators',
     'outputs': [
       {
@@ -105,6 +131,19 @@ export const validatorRegistryAbi = [
       }
     ],
     'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
+    'inputs': [
+      {
+        'internalType': 'address',
+        'name': '_id',
+        'type': 'address'
+      }
+    ],
+    'name': 'remove',
+    'outputs': [],
+    'stateMutability': 'nonpayable',
     'type': 'function'
   },
   {

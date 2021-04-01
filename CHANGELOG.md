@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.10.0] - 2021-03-24
+### Added
+- export `Registry` abi
+
+### Changed
+- update contracts abis
+
 ## [0.9.0] - 2021-03-18
 ### Changed
 - updated `Chain` to v0.3.0

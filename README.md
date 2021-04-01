@@ -44,9 +44,8 @@ const apiClient = new APIClient({
   chainContract,
 });
 
-const verificationResult = await apiClient.verifyProofForBlock(
-  'eth-usd',
-  LeafType.TYPE_INTEGER
+const verificationResult = await apiClient.verifyProofForNewestBlock(
+  'ETH-USD'
 );
 
 console.log(verificationResult) // output: {success: true, value: 1234} or {success: false, value: 1234}
