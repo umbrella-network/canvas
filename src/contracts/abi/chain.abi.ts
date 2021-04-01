@@ -555,7 +555,31 @@ export const chainAbi = [
     'inputs': [
       {
         'internalType': 'uint256',
+        'name': 'ethBlockNumber',
+        'type': 'uint256'
+      }
+    ],
+    'name': 'getLeaderAddressAtBlock',
+    'outputs': [
+      {
+        'internalType': 'address',
+        'name': '',
+        'type': 'address'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
+    'inputs': [
+      {
+        'internalType': 'uint256',
         'name': 'numberOfValidators',
+        'type': 'uint256'
+      },
+      {
+        'internalType': 'uint256',
+        'name': 'ethBlockNumber',
         'type': 'uint256'
       }
     ],
@@ -581,6 +605,19 @@ export const chainAbi = [
       }
     ],
     'stateMutability': 'pure',
+    'type': 'function'
+  },
+  {
+    'inputs': [],
+    'name': 'getNextLeaderAddress',
+    'outputs': [
+      {
+        'internalType': 'address',
+        'name': '',
+        'type': 'address'
+      }
+    ],
+    'stateMutability': 'view',
     'type': 'function'
   },
   {
