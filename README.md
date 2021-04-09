@@ -87,7 +87,7 @@ const chainContract = new ChainContract(provider, chainContractAddress);
 ### Signature
 ```ts
 chainContract.verifyProofForBlock(
-  blockHeight: number,
+  blockId: number,
   proof: string[],
   key: string,
   value: string,
@@ -99,7 +99,7 @@ chainContract.verifyProofForBlock(
 import { LeafType } from `@umb-network/toolbox`;
 
 const verified: boolean = await chainContract.verifyProofForBlock(
-  blockHeight,
+  blockId,
   proof,
   'ETH-USD',
   LeafType.TYPE_FLOAT,

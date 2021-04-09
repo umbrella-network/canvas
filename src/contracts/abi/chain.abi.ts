@@ -145,6 +145,16 @@ export const chainAbi = [
             'internalType': 'uint256',
             'name': 'timestamp',
             'type': 'uint256'
+          },
+          {
+            'internalType': 'uint256',
+            'name': 'dataTimestamp',
+            'type': 'uint256'
+          },
+          {
+            'internalType': 'uint256',
+            'name': 'nonce',
+            'type': 'uint256'
           }
         ],
         'internalType': 'struct Chain.Block',
@@ -321,24 +331,21 @@ export const chainAbi = [
             'internalType': 'uint256',
             'name': 'timestamp',
             'type': 'uint256'
+          },
+          {
+            'internalType': 'uint256',
+            'name': 'dataTimestamp',
+            'type': 'uint256'
+          },
+          {
+            'internalType': 'uint256',
+            'name': 'nonce',
+            'type': 'uint256'
           }
         ],
         'internalType': 'struct Chain.Block',
         'name': '',
         'type': 'tuple'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'getBlockHeight',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
       }
     ],
     'stateMutability': 'view',
@@ -527,7 +534,7 @@ export const chainAbi = [
   },
   {
     'inputs': [],
-    'name': 'getLatestBlockHeightWithData',
+    'name': 'getLatestBlockId',
     'outputs': [
       {
         'internalType': 'uint256',
@@ -621,6 +628,19 @@ export const chainAbi = [
     'type': 'function'
   },
   {
+    'inputs': [],
+    'name': 'getNextNonce',
+    'outputs': [
+      {
+        'internalType': 'uint256',
+        'name': '',
+        'type': 'uint256'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
     'inputs': [
       {
         'internalType': 'uint256',
@@ -672,6 +692,54 @@ export const chainAbi = [
       {
         'internalType': 'uint256',
         'name': 'timestamp',
+        'type': 'uint256'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
+    'inputs': [],
+    'name': 'getStatus',
+    'outputs': [
+      {
+        'internalType': 'address',
+        'name': 'nextLeader',
+        'type': 'address'
+      },
+      {
+        'internalType': 'address[]',
+        'name': 'validators',
+        'type': 'address[]'
+      },
+      {
+        'internalType': 'uint256[]',
+        'name': 'powers',
+        'type': 'uint256[]'
+      },
+      {
+        'internalType': 'string[]',
+        'name': 'locations',
+        'type': 'string[]'
+      },
+      {
+        'internalType': 'uint256',
+        'name': 'staked',
+        'type': 'uint256'
+      },
+      {
+        'internalType': 'uint256',
+        'name': 'lastBlockId',
+        'type': 'uint256'
+      },
+      {
+        'internalType': 'uint256',
+        'name': 'lastNonce',
+        'type': 'uint256'
+      },
+      {
+        'internalType': 'uint256',
+        'name': 'nextNonce',
         'type': 'uint256'
       }
     ],
@@ -784,6 +852,16 @@ export const chainAbi = [
   },
   {
     'inputs': [
+      {
+        'internalType': 'uint256',
+        'name': '_nonce',
+        'type': 'uint256'
+      },
+      {
+        'internalType': 'uint256',
+        'name': '_dataTimestamp',
+        'type': 'uint256'
+      },
       {
         'internalType': 'bytes32',
         'name': '_root',

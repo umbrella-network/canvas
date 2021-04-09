@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [1.0.0] - 2021-04-54
+### Changed
+- update `Chain` to version that works based on `blockId` and `nonce`
+
 ## [0.10.0] - 2021-03-24
 ### Added
 - export `Registry` abi
