@@ -11,7 +11,6 @@ interface IChain {
     uint256 anchor;
     uint256 timestamp;
     uint256 dataTimestamp;
-    uint256 nonce;
   }
 
   function blockPadding() external view returns (uint256);
@@ -22,17 +21,15 @@ interface IChain {
 
   function recoverSigner(bytes32 affidavit, uint8 _v, bytes32 _r, bytes32 _s) external pure returns (address);
 
-  function getNextNonce() external view returns (uint256);
-  
   function getStatus() external view returns (
+    uint256 lastDataTimestamp,
+    uint256 lastBlockId,
     address nextLeader,
     address[] memory validators,
     uint256[] memory powers,
     string[] memory locations,
     uint256 staked,
-    uint256 lastBlockId,
-    uint256 lastNonce,
-    uint256 nextNonce
+    bool readyForNextBlock
   );
 
   function getLatestBlockId() external view returns (uint256);
