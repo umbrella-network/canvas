@@ -1,7 +1,6 @@
 import {Contract, ethers} from 'ethers';
-import {LeafType} from 'src/models/LeafType';
-import {LeafKeyCoder, LeafValueCoder} from '../';
-import {chainAbi} from './abi/chain.abi';
+import {LeafKeyCoder} from '../';
+import {chainAbi} from './abi';
 
 export class ChainContract {
   private contract: Contract

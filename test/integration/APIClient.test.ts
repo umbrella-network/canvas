@@ -3,7 +3,7 @@ import { APIClient } from '../../src';
 import { expect } from 'chai';
 import { ethers } from 'ethers';
 import { Registry } from '../../src/contracts/Registry';
-import { ChainContract } from '../../src/contracts/Chain';
+import { ChainContract } from '../../src';
 
 dotenv.config();
 
