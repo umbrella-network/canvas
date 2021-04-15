@@ -10,6 +10,7 @@ interface IChain {
     uint256 power;
     uint256 anchor;
     uint256 timestamp;
+    uint256 dataTimestamp;
   }
 
   function blockPadding() external view returns (uint256);
@@ -20,13 +21,31 @@ interface IChain {
 
   function recoverSigner(bytes32 affidavit, uint8 _v, bytes32 _r, bytes32 _s) external pure returns (address);
 
+  function getStatus() external view returns (
+    uint256 blockNumber,
+    uint256 lastDataTimestamp,
+    uint256 lastBlockHeight,
+    address nextLeader,
+    uint256 nextBlockHeight,
+    address[] memory validators,
+    uint256[] memory powers,
+    string[] memory locations,
+    uint256 staked
+  );
+
   function getBlockHeight() external view returns (uint256);
 
   function getLatestBlockHeightWithData() external view returns (uint256);
 
-  function getLeaderIndex(uint256 numberOfValidators) external view returns (uint256);
+  function getLeaderIndex(uint256 numberOfValidators, uint256 ethBlockNumber) external view returns (uint256);
 
+  function getNextLeaderAddress() external view returns (address);
+  
   function getLeaderAddress() external view returns (address);
+  
+  function getLeaderAddressAtBlock(uint256 ethBlockNumber) external view returns (address);
+
+  function verifyProof(bytes32[] calldata _proof, bytes32 _root, bytes32 _leaf) external pure returns (bool);
 
   function hashLeaf(bytes calldata _key, bytes calldata _value) external pure returns (bytes32);
 
@@ -49,10 +68,7 @@ interface IChain {
     uint256[] calldata _proofItemsCounter,
     bytes32[] calldata _leaves
   ) external view returns (bool[] memory results);
-
-
-  function verifyProof(bytes32[] calldata _proof, bytes32 _root, bytes32 _leaf) external pure returns (bool);
-
+  
   function decodeLeafToNumber(bytes calldata _leaf) external pure returns (uint);
 
   function decodeLeafToFloat(bytes calldata _leaf) external pure returns (uint);
