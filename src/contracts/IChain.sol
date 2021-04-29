@@ -5,17 +5,26 @@ pragma abicoder v2;
 interface IChain {
   struct Block {
     bytes32 root;
-    address minter;
     uint256 staked;
     uint256 power;
     uint256 anchor;
-    uint256 timestamp;
+    address minter;
+    uint256 dataTimestamp;
+    uint32 timestamp;
+  }
+
+  struct NumericFCD {
+    uint256 value;
     uint256 dataTimestamp;
   }
 
-  function blockPadding() external view returns (uint256);
+  function numericFCDs(bytes32 key) external view returns (NumericFCD);
 
   function blocksCount() external view returns (uint256);
+
+  function blocksCountOffset() external view returns (uint256);
+
+  function blockPadding() external view returns (uint256);
 
   function getName() external pure returns (bytes32);
 
@@ -34,6 +43,8 @@ interface IChain {
   );
 
   function getBlockHeight() external view returns (uint256);
+
+  function getBlockHeightForBlock(uint256 _ethBlockNumber) external view returns (uint256);
 
   function getLatestBlockHeightWithData() external view returns (uint256);
 
@@ -107,11 +118,10 @@ interface IChain {
 
   function getBlockVotes(uint256 _blockHeight, address _voter) external view returns (uint256);
 
-  function getNumericFCD(uint256 _blockHeight, bytes32 _key) external view returns (uint256 value, uint timestamp);
+  // it will revert when any keys not exists
+  function getCurrentValues(bytes32[] calldata _keys)
+  external view returns (uint256[] memory values, uint256[] memory timestamps);
 
-  function getNumericFCDs(
-    uint256 _blockHeight, bytes32[] calldata _keys
-  ) external view returns (uint256[] memory values, uint256 timestamp);
-
-  function getCurrentValue(bytes32 _key) external view returns (uint256 value, uint timestamp);
+  // it will revert when keys not exists
+  function getCurrentValue(bytes32 _key) external view returns (uint256 value, uint256 timestamp);
 }
