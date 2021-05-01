@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 
 
-## [2.0.0-alpha.0] - 2021-04-28
+## [2.0.0-alpha.1] - 2021-04-28
 ### Changed
 - adjust SDK to new way of storing FCD
+- update ethers library
 
 ## [1.0.0] - 2021-04-15
 ### Changed
