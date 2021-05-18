@@ -32,7 +32,8 @@ describe('APIClient()', () => {
 
       blocks.forEach((block) => {
         expect(block).be.an('object');
-        expect(block).to.have.property('_id').that.is.a('string');
+        expect(block).to.have.property('blockId').that.is.a('number');
+        expect(block.blockId).gt(0);
       });
     });
   });

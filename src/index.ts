@@ -1,4 +1,4 @@
-import {LeafType} from './models/LeafType';
+import {LeafType} from './types/LeafType';
 import {IAPIClientOptions} from './models/APIClientOptions';
 import {LeafKeyCoder} from './services/LeafKeyCoder';
 import {APIClient} from './services/APIClient';

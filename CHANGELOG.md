@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- 2.0.0-alpha.2: `fcdValueToNumber` converts solidity `uint256` with 18 decimals to `number`
+- git action pipeline for develop and production for both blockchains
+
+### Changed
+- 2.0.0-alpha.0: adjust SDK to new way of storing FCD
+- 2.0.0-alpha.1: update ethers library
+- 2.0.0-alpha.3: optimise `Chain` storage
+- 2.0.0-alpha.4: update Chain events
+- 2.0.0-alpha.5: fix `fcdValueToNumber` and adjusted to the newest Chain
+- 2.0.0-alpha.6: fix IChain
+- 2.0.0-alpha.7: fix IChain 
 
 ## [1.0.1] - 2021-05-07
 ### Added

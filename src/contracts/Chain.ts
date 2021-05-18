@@ -14,13 +14,13 @@ export class ChainContract {
   }
 
   async verifyProofForBlock(
-    blockHeight: number,
+    blockId: number,
     proof: string[],
     key: string,
     value: string,
   ): Promise<boolean> {
     const result: boolean = await this.contract.verifyProofForBlock(
-      blockHeight,
+      blockId,
       proof,
       LeafKeyCoder.encode(key),
       value,
