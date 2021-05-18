@@ -1,13 +1,13 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: SDK QA - Production
+name: SDK QA - Development
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:
   build:
@@ -27,17 +27,17 @@ jobs:
       - run: npm install
       - name: Unit tests for ETH
         env:
-          API_BASE_URL: ${{ secrets.API_BASE_URL }}
-          API_KEY: ${{ secrets.API_KEY }}
-          BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL }}
-          REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL_DEVELOP }}
+          API_KEY: ${{ secrets.API_KEY_DEVELOP }}
+          BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_DEVELOP }}
+          REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_DEVELOP }}
         run: npm run test
       - name: Unit tests for BSC
         env:
-          API_BASE_URL: ${{ secrets.API_BASE_URL_BSC }}
-          API_KEY: ${{ secrets.API_KEY_BSC }}
-          BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_BSC }}
-          REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_BSC }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL_BSC_DEVELOP }}
+          API_KEY: ${{ secrets.API_KEY_BSC_DEVELOP }}
+          BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_BSC_DEVELOP }}
+          REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_BSC_DEVELOP }}
         run: npm run test
       - name: Lint
         run: npm run lint

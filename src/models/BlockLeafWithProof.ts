@@ -1,6 +1,6 @@
 export interface IBlockLeafWithProof {
   _id: string;
-  blockId: string;
+  blockId: number;
   key: string;
   value: string;
   proof: string[];

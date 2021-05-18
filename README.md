@@ -11,7 +11,7 @@ NPM package with tools eg. coders and decoders for leaf data
 ### Coders
 
 ```typescript
-import {LeafValueCoder, LeafKeyCoder, LeafType} from `@umb-network/toolbox`;
+import {LeafValueCoder, LeafKeyCoder, LeafType} from '@umb-network/toolbox';
 
 const f: number = 1234.0000987;
 
@@ -19,23 +19,25 @@ const f: number = 1234.0000987;
 const leafData: Buffer = LeafValueCoder.encode(f, LeafType.TYPE_FLOAT);
 
 // decode data
-const originalValue: number = LeafValueCoder.decode(leaf.toString('hex'))
+const originalValue: number = LeafValueCoder.decode(leafData.toString('hex'))
 
 // encoder accepts Buffer or hex string
-const encodedKey: Buffer = LeafKeyCoder.encode('eth-usd');
+const encodedKey: Buffer = LeafKeyCoder.encode('ETH-USD');
 const decodedKey: string = LeafKeyCoder.decode(encodedKey)
 ```
 
 ## Contract Registry
+
 ```typescript
-import {ContractRegistry} from `@umb-network/toolbox`;
+import {ContractRegistry} from '@umb-network/toolbox';
 
 new ContractRegistry(provider, contractRegistryAddress).getAddrerss('Chain');
 ```
 
 ## Proof verification
+
 ```typescript
-import {ContractRegistry, ChainContract, APIClient} from `@umb-network/toolbox`;
+import {ContractRegistry, ChainContract, APIClient} from '@umb-network/toolbox';
 
 const chainContractAddress = new ContractRegistry(provider, contractRegistryAddress).getAddress('Chain');
 const chainContract = new ChainContract(provider, chainContractAddress);
@@ -44,38 +46,44 @@ const apiClient = new APIClient({
   chainContract,
 });
 
-const verificationResult = await apiClient.verifyProofForNewestBlock(
-  'ETH-USD'
-);
+const verificationResult = await apiClient.verifyProofForNewestBlock('ETH-USD');
 
-console.log(verificationResult) // output: {success: true, value: 1234} or {success: false, value: 1234}
+console.log(verificationResult) // output: {success: true, value: 1234} or throw
 ```
 
 # ContractRegistry
-## Initialization
-```ts
-  import { ContractRegistry } from `@umb-network/toolbox`;
 
-  const CONTRACT_REGISTRY_ADDRESS = '0x***';
-  const contractRegistry = new ContractRegistry(provider, CONTRACT_REGISTRY_ADDRESS);
+## Initialization
+
+```typescript
+import {ContractRegistry} from '@umb-network/toolbox';
+
+const CONTRACT_REGISTRY_ADDRESS = '0x***';
+const contractRegistry = new ContractRegistry(provider, CONTRACT_REGISTRY_ADDRESS);
 ```
 
 ## ContractRegistry#getAddress
+
 ### Signature
-```ts
+
+```shell
 contractRegistry.getAddress(name: string): Promise<string>;
 ```
 
 ### Examples
+
 Getting the address of the Chain contract:
-```ts
+
+```typescript
 const chainContractAddress: string = await contractRegistry.getAddrerss('Chain');
 ```
 
 # ChainContract
+
 ## Initialization
-```ts
-import { ContractRegistry, ChainContract } from `@umb-network/toolbox`;
+
+```typescript
+import {ContractRegistry, ChainContract} from '@umb-network/toolbox';
 
 // Getting the address of the Chain contract from registry
 const chainContractAddress = new ContractRegistry(provider, contractRegistryAddress).getAddress('Chain');
@@ -84,19 +92,22 @@ const chainContract = new ChainContract(provider, chainContractAddress);
 ```
 
 ## ChainContract#verifyProofForBlock
+
 ### Signature
-```ts
+
+```shell
 chainContract.verifyProofForBlock(
   blockHeight: number,
   proof: string[],
   key: string,
   value: string,
-  leafType: LeafType,
-): Promise<boolean>;
+  leafType: LeafType): Promise<boolean>;
 ```
+
 ### Examples
-```ts
-import { LeafType } from `@umb-network/toolbox`;
+
+```typescript
+import {LeafType} from '@umb-network/toolbox';
 
 const verified: boolean = await chainContract.verifyProofForBlock(
   blockHeight,
@@ -107,28 +118,35 @@ const verified: boolean = await chainContract.verifyProofForBlock(
 ```
 
 # LeafKeyCoder
+
 ## LeafKeyCoder#encode
+
 ### Signature
-```ts
+
+```sh
 LeafKeyCoder.encode(key: string): Buffer;
 ```
 
 ### Examples
-```ts
-import { LeafKeyCoder } from '@umb-network/toolbox';
+
+```typescript
+import {LeafKeyCoder} from '@umb-network/toolbox';
 
 LeafKeyCoder.encode('ETH-USD'); // <Buffer 65 74 68 2d 75 73 64>
 ```
 
 ## LeafKeyCoder#decode
+
 ### Signature
-```ts
+
+```shell
 LeafKeyCoder.decode(key: Buffer | string): string;
 ```
 
 ### Examples
-```ts
-import { LeafKeyCoder } from '@umb-network/toolbox';
+
+```typescript
+import {LeafKeyCoder} from '@umb-network/toolbox';
 
 LeafKeyCoder.decode(Buffer.from('6574682d757364', 'hex')); // 'ETH-USD'
 LeafKeyCoder.decode('0x6574682d757364'); // 'ETH-USD'
@@ -136,15 +154,19 @@ LeafKeyCoder.decode('6574682d757364'); // 'ETH-USD'
 ```
 
 # LeafValueCoder
+
 ## LeafValueCoder.encode
+
 ### Signature
-```ts
+
+```shell
 LeafValueCoder.encode(data: any, type: LeafType): Buffer;
 ```
 
 ### Examples
-```ts
-import { LeafValueCoder } from '@umb-network/toolbox';
+
+```typescript
+import {LeafValueCoder} from '@umb-network/toolbox';
 
 LeafValueCoder.encode('0x11', LeafType.TYPE_HEX); // <Buffer 11 ff 01>
 LeafValueCoder.encode(10, LeafType.TYPE_INTEGER); // <Buffer 0a ff 02>
@@ -152,13 +174,17 @@ LeafValueCoder.encode(10.01, LeafType.TYPE_FLOAT); // <Buffer 03 e9 ee 02 ff 03>
 ```
 
 ## LeafValueCoder.decode
+
 ### Signature
-```ts
-LeafValueCoder.decode(leaf: string): string | number | undefined {
+
+```shell
+LeafValueCoder.decode(leaf: string): string | number | undefined
 ```
+
 ### Examples
-```ts
-import { LeafValueCoder } from '@umb-network/toolbox';
+
+```typescript
+import {LeafValueCoder} from '@umb-network/toolbox';
 
 LeafValueCoder.decode('0x11ff01') // '0x11'
 LeafValueCoder.decode('0x0aff02') // 10
@@ -167,15 +193,19 @@ LeafValueCoder.decode('') // undefined
 ```
 
 # converters
+
 ## converters.numberToUint256
+
 ### Signature
-```ts
+
+```shell
 function numberToUint256(n: number): string;
 ```
 
 ### Examples
-```ts
-import { converters } from '@umb-network/toolbox';
+
+```typescript
+import {converters} from '@umb-network/toolbox';
 
 converters.numberToUint256(10); // '0x8ac7230489e80000'
 converters.numberToUint256(10.01); // '0x8aeaa9f6f9a90000'
@@ -184,13 +214,15 @@ converters.numberToUint256(10.01); // '0x8aeaa9f6f9a90000'
 ## converters.strToBytes32
 
 ### Signature
-```ts
+
+```shell
 function strToBytes32(n: string): string;
 ```
 
 ### Examples
-```ts
-import { converters } from '@umb-network/toolbox';
+
+```typescript
+import {converters} from '@umb-network/toolbox';
 
 converters.strToBytes32('Hi there!'); // '0x4869207468657265210000000000000000000000000000000000000000000000'
 ```
@@ -198,8 +230,9 @@ converters.strToBytes32('Hi there!'); // '0x486920746865726521000000000000000000
 # APIClient
 
 ## Initialization
-```ts
-import {ContractRegistry, ChainContract, APIClient} from `@umb-network/toolbox`;
+
+```typescript
+import {ContractRegistry, ChainContract, APIClient} from '@umb-network/toolbox';
 
 const chainContractAddress = new ContractRegistry(provider, contractRegistryAddress).getAddress('Chain');
 const chainContract = new ChainContract(provider, chainContractAddress);
@@ -212,262 +245,251 @@ const apiClient = new APIClient({
 ```
 
 ## APIClient#getBlocks
+
 ### Signature
-```ts
-apiClient.getBlocks(options?: { offset?: number; limit?: number }): Promise<IChainBlock[]>;
+
+```shell
+apiClient.getBlocks(options ? : {offset? : number; limit? : number}): Promise<IChainBlock[]>;
 ```
 
 ### Examples
+
 Code:
-```ts
-await apiClient.getBlocks(); // [{...}, {...}]
-await apiClient.getBlocks({ offset: 10, limit: 10 }); // [{...}, {...}]
+
+```typescript
+await apiClient.getBlocks();
+await apiClient.getBlocks({offset: 10, limit: 10});
 ```
+
 Response example:
-```ts
+
+```json
 [
   {
-    _id: "block::350",
-    height: 350,
-    status: "finalized",
-    anchor: new BigNumber(3959),
-    timestamp: new Date("2021-01-17 22:52:19.000Z"),
-    root: "0x1487f96993077b4de7738c1701028e92623752a48c7330fe99a5ca6db6cbcd58",
-    minter: "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4",
-    staked: new BigNumber(1000000000000000000),
-    power: new BigNumber(1000000000000000000),
-    voters: [ 
-      "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
+    "staked": "3000000000000000000",
+    "power": "3000000000000000000",
+    "voters": [
+      "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
     ],
-    votes: {
-      "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4": "1000000000000000000"
+    "votes": {
+      "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "1000000000000000000"
     },
-    numericFcdKeys: [ 
-      "DIA-USD", 
-      "ETH-EUR", 
-      "ETH-USD", 
-      "QQQ-USD", 
-      "SPY-USD"
-    ]
+    "_id": "block::8681",
+    "blockId": 8681,
+    "__v": 1,
+    "chainAddress": "0xc94A585C1bC804C03A864Ee766Dd1B432f73f9A8",
+    "dataTimestamp": "2021-05-14T11:57:02.000Z",
+    "root": "0x08dc10051a87f6ee6856f1758a2b4921e43aa257e9c346b6bb6e8a3f21f531e1",
+    "status": "finalized",
+    "anchor": "8833714",
+    "minter": "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0"
   }
 ]
 ```
 
 ## APIClient#getNewestBlock
+
 ### Signature
-```ts
+
+```shell
 apiClient.getNewestBlock(): Promise<IChainBlock>;
 ```
 
 ### Examples
+
 Code:
-```ts
-await apiClient.getNewestBlock(); // {...}
+
+```typescript
+await apiClient.getNewestBlock();
 ```
+
 Response example:
-```ts
+
+```json
 {
-  _id: "block::350",
-  height: 350,
-  status: "finalized",
-  anchor: new BigNumber('3959'),
-  timestamp: new Date("2021-01-17 22:52:19.000Z"),
-  root: "0x1487f96993077b4de7738c1701028e92623752a48c7330fe99a5ca6db6cbcd58",
-  minter: "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4",
-  staked: new BigNumber(1000000000000000000),
-  power: new BigNumber(1000000000000000000),
-  voters: [ 
-    "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
+  "staked": "3000000000000000000",
+  "power": "3000000000000000000",
+  "voters": [
+    "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
+    "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
   ],
-  votes: {
-    "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4": "1000000000000000000"
+  "votes": {
+    "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
+    "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "1000000000000000000"
   },
-  numericFcdKeys: [ 
-    "DIA-USD", 
-    "ETH-EUR", 
-    "ETH-USD", 
-    "QQQ-USD", 
-    "SPY-USD"
-  ]
+  "_id": "block::8683",
+  "blockId": 8683,
+  "__v": 1,
+  "chainAddress": "0xc94A585C1bC804C03A864Ee766Dd1B432f73f9A8",
+  "dataTimestamp": "2021-05-14T11:58:44.000Z",
+  "root": "0x77b003cda5af3e6256eaa6dd591ef62b83dc61207e74a0318f387bb9b4adda64",
+  "status": "finalized",
+  "anchor": "8833747",
+  "minter": "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0"
 }
 ```
 
 ## APIClient#getBlock
+
 ### Signature
-```ts
+
+```shell
 apiClient.getBlock(blockId: string): Promise<IChainBlock>;
 ```
 
 ### Examples
+
 Code:
-```ts
-await apiClient.getBlock('block::350'); // {...}
-```
-Response example:
-```ts
-{
-  _id: "block::350",
-  height: 350,
-  status: "finalized",
-  anchor: new BigNumber(3959),
-  timestamp: new Date("2021-01-17 22:52:19.000Z"),
-  root: "0x1487f96993077b4de7738c1701028e92623752a48c7330fe99a5ca6db6cbcd58",
-  minter: "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4",
-  staked: new BigNumber(1000000000000000000),
-  power: new BigNumber(1000000000000000000),
-  voters: [ 
-    "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"
-  ],
-  votes: {
-    "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4": "1000000000000000000"
-  },
-  numericFcdKeys: [ 
-    "DIA-USD", 
-    "ETH-EUR", 
-    "ETH-USD", 
-    "QQQ-USD", 
-    "SPY-USD"
-  ]
-}
+
+```typescript
+await apiClient.getBlock(350); // {...}
 ```
 
+Response example: same as for `getNewestBlock`
+
 ## APIClient#getLeavesOfBlock
+
+API: `/blocks/8683/leaves`
+
 ### Signature
-```ts
+
+```shell
 apiClient.getLeavesOfBlock(blockId: string): Promise<IBlockLeafWithProof[]>;
 ```
 
 ### Examples
+
 Code:
-```ts
-await apiClient.getLeavesOfBlock('block::350'); // [{...}]
+
+```typescript
+await apiClient.getLeavesOfBlock(350);
 ```
 
 Response example:
-```ts
+
+```json
 [
   {
-    _id: "leaf::block::350::ETH-USD",
-    blockId: "block::350",
-    key: "ETH-USD",
-    value: "0x01e9f0ee02ff03",
-    proof: [ 
-      "0xec7bfd48eaed63ecebf7183d82bb7d500ce172c1af20cdf17e198b3d37a111da", 
-      "0xa698a5eb897e60912e6e4c1edac155656e5077b0e9434284fd4078cd08d1d4ac", 
-      "0xcc73f8fcfee8e458565c7f2d0ed3da0bfe56962996d1839342b694fe2803bdd8", 
-      "0x38d59484a10df3dba07c39fb9532b450abe777bf7fead24095d3ad8deafdb913"
-    ]
-  }
-]
-```
-
-## APIClient#getKeys
-### Signature
-```ts
-apiClient.getKeys(): Promise<IKeyWithAdditionalInfo[]>;
-```
-
-### Examples
-Code:
-```ts
-await apiClient.getKeys(); // [{...}]
-```
-
-Response example:
-```ts
-[
-  {
-    id: "eth-usd",
-    name: "ETH-USD [Spot]",
-    sourceUrl: "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD",
-    leafLabel: "eth-usd",
-    valuePath: "$.USD",
-    discrepancy: 0.1
+    "block": {
+      "staked": "3000000000000000000",
+      "power": "3000000000000000000",
+      "voters": [
+        "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
+        "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
+      ],
+      "votes": {
+        "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
+        "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "1000000000000000000"
+      },
+      "_id": "block::8715",
+      "blockId": 8715,
+      "__v": 1,
+      "chainAddress": "0xc94A585C1bC804C03A864Ee766Dd1B432f73f9A8",
+      "dataTimestamp": "2021-05-14T12:26:02.000Z",
+      "root": "0x26d3f38382e60d459304a0c6da84365e49aa371fbbe71012d5d85ae82daef6dc",
+      "status": "finalized",
+      "anchor": "8834294",
+      "minter": "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0"
+    },
+    "keys": [
+      "eth-usd"
+    ],
+    "leaves": []
   }
 ]
 ```
 
 ## APIClient#getProofs
+
 ### Signature
-```ts
+
+```shell
 apiClient.getProofs(keys: string[]): Promise<IProofs | null>;
 ```
 
 ### Examples
+
 Code:
-```ts
-await apiClient.getProofs("ETH-USD"); // {...}
+
+```typescript
+await apiClient.getProofs("ETH-USD");
 ```
+
 Response example:
-```ts
+
+```json
 {
-  block: {
-    staked: new BigNumber(1000000000000000000),
-    power: new BigNumber(1000000000000000000),
-    voters: ["0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4"],
-    votes: {
-      "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4": "1000000000000000000"
+  "block": {
+    "staked": "3000000000000000000",
+    "power": "3000000000000000000",
+    "voters": [
+      "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
+    ],
+    "votes": {
+      "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "1000000000000000000"
     },
-    numericFcdKeys: ["DIA-USD", "ETH-EUR", "ETH-USD", "QQQ-USD", "SPY-USD"],
-    _id: "block::350",
-    height: 350,
-    __v: 1,
-    anchor: new BigNumber(3959),
-    timestamp: new Date("2021-01-17T22:52:19.000Z"),
-    status: "finalized",
-    minter: "0xeAD9C93b79Ae7C1591b1FB5323BD777E86e150d4",
-    root:
-      "0x1487f96993077b4de7738c1701028e92623752a48c7330fe99a5ca6db6cbcd58"
+    "_id": "block::8785",
+    "blockId": 8785,
+    "__v": 1,
+    "chainAddress": "0xc94A585C1bC804C03A864Ee766Dd1B432f73f9A8",
+    "dataTimestamp": "2021-05-14T13:25:38.000Z",
+    "root": "0x2b80af04191488b681c2a4e9b6de2af65ad41989790552fbbe9df5806edf9b64",
+    "status": "finalized",
+    "anchor": "8835485",
+    "minter": "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0"
   },
-  keys: ["ETH-USD"],
-  leaves: [
+  "keys": [
+    "ETH-USD"
+  ],
+  "leaves": [
     {
-      proof: [
-        "0xec7bfd48eaed63ecebf7183d82bb7d500ce172c1af20cdf17e198b3d37a111da",
-        "0xa698a5eb897e60912e6e4c1edac155656e5077b0e9434284fd4078cd08d1d4ac",
-        "0xcc73f8fcfee8e458565c7f2d0ed3da0bfe56962996d1839342b694fe2803bdd8",
-        "0x38d59484a10df3dba07c39fb9532b450abe777bf7fead24095d3ad8deafdb913"
+      "proof": [
+        "0x05d50c714affbf38869af124d95aa24f6a833fc73fee4d83433bea4fb48aa827",
+        "0xec6ee8a045775f222b3b25ec2a261d95d85a5f67ca7f84ee69363da335593f83",
+        "0x57da399a6b1fec549c2e2966d6b5db8f3e7a0ea97d96cc0eca3c3b5c2179c3da",
+        "0x01deb8e0d56fbdef560d90ebbb78c9bd35e8d5d39ee653b0d5e0ca8f1a212838",
+        "0x4bdb9dacb8a0d4366835d012c5968de190b56d8c9f9d0dd174710c769a2b4006",
+        "0xdc7405bef384e420fd7950bb92c96153d20e3ace36d27860263b2e831e053d4a"
       ],
-      _id: "leaf::block::350::ETH-USD",
-      blockId: "block::350",
-      key: "ETH-USD",
-      __v: 0,
-      value: "0x01e9f0ee02ff03"
+      "_id": "block::8785::leaf::ETH-USD",
+      "blockId": "8785",
+      "key": "ETH-USD",
+      "__v": 0,
+      "value": "0x0511b9ee02ff03"
     }
   ]
 }
 ```
 
 ## APIClient#verifyProofForNewestBlock
-### Signature
-```ts
-apiClient.verifyProofForNewestBlock(
-  key: string,
-  leafType: LeafType.TYPE_INTEGER | LeafType.TYPE_FLOAT,
-): Promise<{success: boolean, value: number}>;
 
-apiClient.verifyProofForNewestBlock(
-  key: string,
-  leafType: LeafType.TYPE_HEX,
-): Promise<{success: boolean, value: string}>;
+### Signature
+
+```shell
+async verifyProofForNewestBlock < T extends string | number = string | number > 
+  (key: string): Promise <{ success: boolean, value: T, dataTimestamp: Date }>
 ```
 
 ### Examples
+
 Code:
-```ts
-await apiClient.verifyProofForNewestBlock("ETH-USD", LeafType.TYPE_FLOAT); // {...}
+
+```typescript
+await apiClient.verifyProofForNewestBlock("ETH-USD");
 ```
+
 Response example for successful verification:
-```ts
+
+```json
 {
   success: true,
-  value: 1254.24
+  value: 1254.24,
+  dataTimestamp: "2020-05-14T13:34: 08.000Z"
 }
 ```
-Response example for unsuccessful verification:
-```ts
-{
-  success: false,
-  value: 1254.24
-}
-```
+
+For unsuccessful it throws.

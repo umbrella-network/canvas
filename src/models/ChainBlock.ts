@@ -1,11 +1,13 @@
-import { BigNumber } from 'bignumber.js';
+import { BigNumber } from 'ethers';
+import {BlockStatus} from '../types/BlockStatuses';
 
-export interface IChainBlock {
+export interface IBlock {
   _id: string;
-  height: number;
-  status: string;
+  status: BlockStatus,
+  chainAddress: string,
+  blockId: number;
   anchor: BigNumber;
-  timestamp: Date;
+  dataTimestamp: Date;
   root: string;
   minter: string;
   staked: BigNumber;
@@ -16,6 +18,4 @@ export interface IChainBlock {
    * An object, where keys are addresses, and values are votes.
    */
   votes: { [address: string]: string };
-
-  numericFcdKeys: string[];
 }

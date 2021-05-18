@@ -7,32 +7,13 @@ export const chainAbi = [
         'type': 'address'
       },
       {
-        'internalType': 'uint256',
-        'name': '_blockPadding',
-        'type': 'uint256'
+        'internalType': 'uint16',
+        'name': '_padding',
+        'type': 'uint16'
       }
     ],
     'stateMutability': 'nonpayable',
     'type': 'constructor'
-  },
-  {
-    'anonymous': false,
-    'inputs': [
-      {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'executor',
-        'type': 'address'
-      },
-      {
-        'indexed': false,
-        'internalType': 'uint256',
-        'name': 'blockPadding',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'LogBlockPadding',
-    'type': 'event'
   },
   {
     'anonymous': false,
@@ -46,17 +27,67 @@ export const chainAbi = [
       {
         'indexed': false,
         'internalType': 'uint256',
-        'name': 'blockHeight',
+        'name': 'blockId',
         'type': 'uint256'
       },
       {
         'indexed': false,
         'internalType': 'uint256',
-        'name': 'anchor',
+        'name': 'staked',
+        'type': 'uint256'
+      },
+      {
+        'indexed': false,
+        'internalType': 'uint256',
+        'name': 'power',
         'type': 'uint256'
       }
     ],
     'name': 'LogMint',
+    'type': 'event'
+  },
+  {
+    'anonymous': false,
+    'inputs': [
+      {
+        'indexed': true,
+        'internalType': 'address',
+        'name': 'executor',
+        'type': 'address'
+      },
+      {
+        'indexed': false,
+        'internalType': 'uint16',
+        'name': 'timePadding',
+        'type': 'uint16'
+      }
+    ],
+    'name': 'LogPadding',
+    'type': 'event'
+  },
+  {
+    'anonymous': false,
+    'inputs': [
+      {
+        'indexed': true,
+        'internalType': 'uint256',
+        'name': 'blockId',
+        'type': 'uint256'
+      },
+      {
+        'indexed': true,
+        'internalType': 'address',
+        'name': 'voter',
+        'type': 'address'
+      },
+      {
+        'indexed': false,
+        'internalType': 'uint256',
+        'name': 'vote',
+        'type': 'uint256'
+      }
+    ],
+    'name': 'LogVoter',
     'type': 'event'
   },
   {
@@ -92,19 +123,6 @@ export const chainAbi = [
     'type': 'function'
   },
   {
-    'inputs': [],
-    'name': 'blockPadding',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
     'inputs': [
       {
         'internalType': 'uint256',
@@ -115,46 +133,19 @@ export const chainAbi = [
     'name': 'blocks',
     'outputs': [
       {
-        'components': [
-          {
-            'internalType': 'bytes32',
-            'name': 'root',
-            'type': 'bytes32'
-          },
-          {
-            'internalType': 'address',
-            'name': 'minter',
-            'type': 'address'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'staked',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'power',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'anchor',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'timestamp',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'dataTimestamp',
-            'type': 'uint256'
-          }
-        ],
-        'internalType': 'struct Chain.Block',
-        'name': 'data',
-        'type': 'tuple'
+        'internalType': 'bytes32',
+        'name': 'root',
+        'type': 'bytes32'
+      },
+      {
+        'internalType': 'uint32',
+        'name': 'dataTimestamp',
+        'type': 'uint32'
+      },
+      {
+        'internalType': 'uint128',
+        'name': 'affidavit',
+        'type': 'uint128'
       }
     ],
     'stateMutability': 'view',
@@ -165,9 +156,9 @@ export const chainAbi = [
     'name': 'blocksCount',
     'outputs': [
       {
-        'internalType': 'uint256',
+        'internalType': 'uint32',
         'name': '',
-        'type': 'uint256'
+        'type': 'uint32'
       }
     ],
     'stateMutability': 'view',
@@ -178,9 +169,9 @@ export const chainAbi = [
     'name': 'blocksCountOffset',
     'outputs': [
       {
-        'internalType': 'uint256',
+        'internalType': 'uint32',
         'name': '',
-        'type': 'uint256'
+        'type': 'uint32'
       }
     ],
     'stateMutability': 'view',
@@ -267,88 +258,13 @@ export const chainAbi = [
     'type': 'function'
   },
   {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'getBlockAnchor',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'getBlockData',
-    'outputs': [
-      {
-        'components': [
-          {
-            'internalType': 'bytes32',
-            'name': 'root',
-            'type': 'bytes32'
-          },
-          {
-            'internalType': 'address',
-            'name': 'minter',
-            'type': 'address'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'staked',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'power',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'anchor',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'timestamp',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'dataTimestamp',
-            'type': 'uint256'
-          }
-        ],
-        'internalType': 'struct Chain.Block',
-        'name': '',
-        'type': 'tuple'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
     'inputs': [],
-    'name': 'getBlockHeight',
+    'name': 'getBlockId',
     'outputs': [
       {
-        'internalType': 'uint256',
+        'internalType': 'uint32',
         'name': '',
-        'type': 'uint256'
+        'type': 'uint32'
       }
     ],
     'stateMutability': 'view',
@@ -357,47 +273,9 @@ export const chainAbi = [
   {
     'inputs': [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'getBlockMinter',
-    'outputs': [
-      {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'getBlockPower',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
+        'internalType': 'uint32',
+        'name': '_blockId',
+        'type': 'uint32'
       }
     ],
     'name': 'getBlockRoot',
@@ -414,98 +292,17 @@ export const chainAbi = [
   {
     'inputs': [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'getBlockStaked',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
+        'internalType': 'uint32',
+        'name': '_blockId',
+        'type': 'uint32'
       }
     ],
     'name': 'getBlockTimestamp',
     'outputs': [
       {
-        'internalType': 'uint256',
+        'internalType': 'uint32',
         'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'getBlockVoters',
-    'outputs': [
-      {
-        'internalType': 'address[]',
-        'name': '',
-        'type': 'address[]'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'getBlockVotersCount',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'address',
-        'name': '_voter',
-        'type': 'address'
-      }
-    ],
-    'name': 'getBlockVotes',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
+        'type': 'uint32'
       }
     ],
     'stateMutability': 'view',
@@ -536,13 +333,37 @@ export const chainAbi = [
     'type': 'function'
   },
   {
-    'inputs': [],
-    'name': 'getLatestBlockHeightWithData',
+    'inputs': [
+      {
+        'internalType': 'bytes32[]',
+        'name': '_keys',
+        'type': 'bytes32[]'
+      }
+    ],
+    'name': 'getCurrentValues',
     'outputs': [
       {
-        'internalType': 'uint256',
+        'internalType': 'uint256[]',
+        'name': 'values',
+        'type': 'uint256[]'
+      },
+      {
+        'internalType': 'uint32[]',
+        'name': 'timestamps',
+        'type': 'uint32[]'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
+    'inputs': [],
+    'name': 'getLatestBlockId',
+    'outputs': [
+      {
+        'internalType': 'uint32',
         'name': '',
-        'type': 'uint256'
+        'type': 'uint32'
       }
     ],
     'stateMutability': 'view',
@@ -565,11 +386,11 @@ export const chainAbi = [
     'inputs': [
       {
         'internalType': 'uint256',
-        'name': 'ethBlockNumber',
+        'name': '_timestamp',
         'type': 'uint256'
       }
     ],
-    'name': 'getLeaderAddressAtBlock',
+    'name': 'getLeaderAddressAtTime',
     'outputs': [
       {
         'internalType': 'address',
@@ -584,12 +405,12 @@ export const chainAbi = [
     'inputs': [
       {
         'internalType': 'uint256',
-        'name': 'numberOfValidators',
+        'name': '_numberOfValidators',
         'type': 'uint256'
       },
       {
         'internalType': 'uint256',
-        'name': 'ethBlockNumber',
+        'name': '_timestamp',
         'type': 'uint256'
       }
     ],
@@ -631,64 +452,6 @@ export const chainAbi = [
     'type': 'function'
   },
   {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'bytes32',
-        'name': '_key',
-        'type': 'bytes32'
-      }
-    ],
-    'name': 'getNumericFCD',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': 'value',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'uint256',
-        'name': 'timestamp',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_keys',
-        'type': 'bytes32[]'
-      }
-    ],
-    'name': 'getNumericFCDs',
-    'outputs': [
-      {
-        'internalType': 'uint256[]',
-        'name': 'values',
-        'type': 'uint256[]'
-      },
-      {
-        'internalType': 'uint256',
-        'name': 'timestamp',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
     'inputs': [],
     'name': 'getStatus',
     'outputs': [
@@ -698,14 +461,19 @@ export const chainAbi = [
         'type': 'uint256'
       },
       {
-        'internalType': 'uint256',
-        'name': 'lastDataTimestamp',
-        'type': 'uint256'
+        'internalType': 'uint16',
+        'name': 'timePadding',
+        'type': 'uint16'
       },
       {
-        'internalType': 'uint256',
-        'name': 'lastBlockHeight',
-        'type': 'uint256'
+        'internalType': 'uint32',
+        'name': 'lastDataTimestamp',
+        'type': 'uint32'
+      },
+      {
+        'internalType': 'uint32',
+        'name': 'lastBlockId',
+        'type': 'uint32'
       },
       {
         'internalType': 'address',
@@ -713,9 +481,9 @@ export const chainAbi = [
         'type': 'address'
       },
       {
-        'internalType': 'uint256',
-        'name': 'nextBlockHeight',
-        'type': 'uint256'
+        'internalType': 'uint32',
+        'name': 'nextBlockId',
+        'type': 'uint32'
       },
       {
         'internalType': 'address[]',
@@ -766,6 +534,30 @@ export const chainAbi = [
     'type': 'function'
   },
   {
+    'inputs': [
+      {
+        'internalType': 'bytes32',
+        'name': '',
+        'type': 'bytes32'
+      }
+    ],
+    'name': 'numericFCDs',
+    'outputs': [
+      {
+        'internalType': 'uint256',
+        'name': 'value',
+        'type': 'uint256'
+      },
+      {
+        'internalType': 'uint32',
+        'name': 'dataTimestamp',
+        'type': 'uint32'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
     'inputs': [],
     'name': 'owner',
     'outputs': [
@@ -779,10 +571,23 @@ export const chainAbi = [
     'type': 'function'
   },
   {
+    'inputs': [],
+    'name': 'padding',
+    'outputs': [
+      {
+        'internalType': 'uint16',
+        'name': '',
+        'type': 'uint16'
+      }
+    ],
+    'stateMutability': 'view',
+    'type': 'function'
+  },
+  {
     'inputs': [
       {
         'internalType': 'bytes32',
-        'name': 'affidavit',
+        'name': '_affidavit',
         'type': 'bytes32'
       },
       {
@@ -822,12 +627,12 @@ export const chainAbi = [
   {
     'inputs': [
       {
-        'internalType': 'uint256',
-        'name': '_blockPadding',
-        'type': 'uint256'
+        'internalType': 'uint16',
+        'name': '_padding',
+        'type': 'uint16'
       }
     ],
-    'name': 'setBlockPadding',
+    'name': 'setPadding',
     'outputs': [],
     'stateMutability': 'nonpayable',
     'type': 'function'
@@ -848,9 +653,9 @@ export const chainAbi = [
   {
     'inputs': [
       {
-        'internalType': 'uint256',
+        'internalType': 'uint32',
         'name': '_dataTimestamp',
-        'type': 'uint256'
+        'type': 'uint32'
       },
       {
         'internalType': 'bytes32',
@@ -884,13 +689,7 @@ export const chainAbi = [
       }
     ],
     'name': 'submit',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      }
-    ],
+    'outputs': [],
     'stateMutability': 'nonpayable',
     'type': 'function'
   },
@@ -966,7 +765,7 @@ export const chainAbi = [
     'inputs': [
       {
         'internalType': 'uint256',
-        'name': '_blockHeight',
+        'name': '_blockId',
         'type': 'uint256'
       },
       {
@@ -1000,7 +799,7 @@ export const chainAbi = [
     'inputs': [
       {
         'internalType': 'uint256',
-        'name': '_blockHeight',
+        'name': '_blockId',
         'type': 'uint256'
       },
       {
@@ -1038,9 +837,9 @@ export const chainAbi = [
   {
     'inputs': [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
+        'internalType': 'uint32',
+        'name': '_blockId',
+        'type': 'uint32'
       },
       {
         'internalType': 'bytes32[]',
@@ -1077,9 +876,9 @@ export const chainAbi = [
   {
     'inputs': [
       {
-        'internalType': 'uint256[]',
-        'name': '_blockHeights',
-        'type': 'uint256[]'
+        'internalType': 'uint32[]',
+        'name': '_blockIds',
+        'type': 'uint32[]'
       },
       {
         'internalType': 'bytes',
