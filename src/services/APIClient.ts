@@ -1,10 +1,10 @@
-import {IAPIClientOptions} from '../models/APIClientOptions';
-import axios, {AxiosInstance} from 'axios';
-import {IBlock} from '../models/ChainBlock';
-import {IBlockLeafWithProof} from '../models/BlockLeafWithProof';
-import {IProofs} from '../models/Proofs';
-import {LeafValueCoder} from './LeafValueCoder';
-import {BigNumber} from 'ethers';
+import { IAPIClientOptions } from '../models/APIClientOptions';
+import axios, { AxiosInstance } from 'axios';
+import { IBlock } from '../models/ChainBlock';
+import { IBlockLeafWithProof } from '../models/BlockLeafWithProof';
+import { IProofs } from '../models/Proofs';
+import { LeafValueCoder } from './LeafValueCoder';
+import { BigNumber } from 'ethers';
 
 export class APIClient {
   private options: IAPIClientOptions;
@@ -20,7 +20,7 @@ export class APIClient {
   async getBlocks(options?: { offset?: number; limit?: number }): Promise<IBlock[]> {
     const response = await this.axios.get<IBlock[]>('/blocks', {
       headers: {
-        'authorization': `Bearer ${this.options.apiKey}`,
+        authorization: `Bearer ${this.options.apiKey}`,
       },
       params: options,
     });
@@ -29,26 +29,23 @@ export class APIClient {
   }
 
   async getBlock(blockId: number): Promise<IBlock> {
-    const response = await this.axios.get<{ data: IBlock }>(
-      `/blocks/${blockId}`,
-      {
-        headers: {
-          'authorization': `Bearer ${this.options.apiKey}`,
-        },
+    const response = await this.axios.get<{ data: IBlock }>(`/blocks/${blockId}`, {
+      headers: {
+        authorization: `Bearer ${this.options.apiKey}`,
       },
-    );
+    });
 
     return APIClient.transformBlockFromApi(response.data.data);
   }
 
   async getNewestBlock(): Promise<IBlock> {
-    return (await this.getBlocks({limit: 1}))[0];
+    return (await this.getBlocks({ limit: 1 }))[0];
   }
 
   async getLeavesOfBlock(blockId: number): Promise<IBlockLeafWithProof[]> {
     const response = await this.axios.get<IBlockLeafWithProof[]>(`/blocks/${blockId}/leaves`, {
       headers: {
-        'authorization': `Bearer ${this.options.apiKey}`,
+        authorization: `Bearer ${this.options.apiKey}`,
       },
     });
 
@@ -58,9 +55,9 @@ export class APIClient {
   async getProofs(keys: string[]): Promise<IProofs | null> {
     const response = await this.axios.get('/proofs', {
       headers: {
-        'authorization': `Bearer ${this.options.apiKey}`,
+        authorization: `Bearer ${this.options.apiKey}`,
       },
-      params: {keys},
+      params: { keys },
     });
 
     if (response.data.data.block) {
@@ -78,7 +75,9 @@ export class APIClient {
    * Uses verifyProofForBlock method of the Chain contract.
    * @see https://kovan.etherscan.io/address/[contract-address]#readContract
    */
-  async verifyProofForNewestBlock<T extends string | number = string | number>(key: string): Promise<{ success: boolean, value: T, dataTimestamp: Date }> {
+  async verifyProofForNewestBlock<T extends string | number = string | number>(
+    key: string
+  ): Promise<{ success: boolean; value: T; dataTimestamp: Date }> {
     if (!this.options.chainContract) {
       throw new Error('chainContract is required');
     }
@@ -93,10 +92,14 @@ export class APIClient {
       proofs.block.blockId,
       proofs.leaves[0].proof,
       key,
-      proofs.leaves[0].value,
+      proofs.leaves[0].value
     );
 
-    return {success, value: LeafValueCoder.decode(proofs.leaves[0].value) as T, dataTimestamp: proofs.block.dataTimestamp};
+    return {
+      success,
+      value: LeafValueCoder.decode(proofs.leaves[0].value) as T,
+      dataTimestamp: proofs.block.dataTimestamp,
+    };
   }
 
   static transformBlockFromApi(apiBlockData: IBlock): IBlock {

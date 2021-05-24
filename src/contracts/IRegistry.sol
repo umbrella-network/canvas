@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.6.8 <=0.8.0;
+pragma solidity >=0.6.8;
 
 interface IRegistry {
   function registry(bytes32 _name) external view returns (address);

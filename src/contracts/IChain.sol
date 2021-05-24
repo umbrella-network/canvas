@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.6.8 <=0.8.0;
+pragma solidity >=0.6.8;
 pragma abicoder v2;
 
 interface IChain {
@@ -9,13 +9,13 @@ interface IChain {
     uint128 affidavit;
   }
 
-  struct NumericFCD {
-    uint256 value;
+  struct FirstClassData {
+    uint224 value;
     uint32 dataTimestamp;
   }
 
   function blocks(uint256) external view returns (Block memory);
-  function numericFCDs(bytes32) external view returns (NumericFCD memory);
+  function fcds(bytes32) external view returns (FirstClassData memory);
 
   function blocksCount() external view returns (uint32);
 
@@ -47,14 +47,14 @@ interface IChain {
   function getLeaderIndex(uint256 _numberOfValidators, uint256 _timestamp) external view returns (uint256);
 
   function getNextLeaderAddress() external view returns (address);
-  
+
   function getLeaderAddress() external view returns (address);
 
   function getLeaderAddressAtTime(uint232 _timestamp) external view returns (address);
 
-  function verifyProof(bytes32[] calldata _proof, bytes32 _root, bytes32 _leaf) external pure returns (bool);
-
   function hashLeaf(bytes calldata _key, bytes calldata _value) external pure returns (bytes32);
+
+  function verifyProof(bytes32[] calldata _proof, bytes32 _root, bytes32 _leaf) external pure returns (bool);
 
   function verifyProofForBlock(
     uint256 _blockId,
@@ -68,31 +68,6 @@ interface IChain {
     uint256 _offset,
     uint256 _items
   ) external pure returns (bytes32[] memory);
-
-  function verifyProofs(
-    uint256[] calldata _blockIds,
-    bytes calldata _proofs,
-    uint256[] calldata _proofItemsCounter,
-    bytes32[] calldata _leaves
-  ) external view returns (bool[] memory results);
-  
-  function decodeLeafToNumber(bytes calldata _leaf) external pure returns (uint);
-
-  function decodeLeafToFloat(bytes calldata _leaf) external pure returns (uint);
-
-  function verifyProofForBlockForNumber(
-    uint256 _blockId,
-    bytes32[] calldata _proof,
-    bytes calldata _key,
-    bytes calldata _value
-  ) external returns (bool, uint256);
-
-  function verifyProofForBlockForFloat(
-    uint256 _blockId,
-    bytes32[] calldata _proof,
-    bytes calldata _key,
-    bytes calldata _value
-  ) external view returns (bool, uint256);
 
   function getBlockRoot(uint256 _blockId) external view returns (bytes32);
 
