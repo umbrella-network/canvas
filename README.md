@@ -11,12 +11,12 @@ NPM package with tools eg. coders and decoders for leaf data
 ### Coders
 
 ```typescript
-import {LeafValueCoder, LeafKeyCoder, LeafType} from '@umb-network/toolbox';
+import {LeafValueCoder, LeafKeyCoder} from '@umb-network/toolbox';
 
 const f: number = 1234.0000987;
 
 // encode data for leaf:
-const leafData: Buffer = LeafValueCoder.encode(f, LeafType.TYPE_FLOAT);
+const leafData: Buffer = LeafValueCoder.encode(f);
 
 // decode data
 const originalValue: number = LeafValueCoder.decode(leafData.toString('hex'))
@@ -42,13 +42,14 @@ import {ContractRegistry, ChainContract, APIClient} from '@umb-network/toolbox';
 const chainContractAddress = new ContractRegistry(provider, contractRegistryAddress).getAddress('Chain');
 const chainContract = new ChainContract(provider, chainContractAddress);
 const apiClient = new APIClient({
-  baseURL: 'https://sanctuary-playground-api.network/api/',
+  baseURL: 'https://api.umb.network/',
   chainContract,
 });
 
 const verificationResult = await apiClient.verifyProofForNewestBlock('ETH-USD');
 
-console.log(verificationResult) // output: {success: true, value: 1234} or throw
+// output: {success: true, value: 1234, dataTimestamp: 1234567} or throw
+console.log(verificationResult) 
 ```
 
 # ContractRegistry
@@ -100,20 +101,18 @@ chainContract.verifyProofForBlock(
   blockHeight: number,
   proof: string[],
   key: string,
-  value: string,
-  leafType: LeafType): Promise<boolean>;
+  value: string
+  ): Promise<boolean>;
 ```
 
 ### Examples
 
 ```typescript
-import {LeafType} from '@umb-network/toolbox';
-
 const verified: boolean = await chainContract.verifyProofForBlock(
-  blockHeight,
+  blockId,
   proof,
   'ETH-USD',
-  LeafType.TYPE_FLOAT,
+  '2755000000000000000000'
 );
 ```
 
@@ -132,7 +131,7 @@ LeafKeyCoder.encode(key: string): Buffer;
 ```typescript
 import {LeafKeyCoder} from '@umb-network/toolbox';
 
-LeafKeyCoder.encode('ETH-USD'); // <Buffer 65 74 68 2d 75 73 64>
+LeafKeyCoder.encode('ETH-USD');
 ```
 
 ## LeafKeyCoder#decode
@@ -148,9 +147,8 @@ LeafKeyCoder.decode(key: Buffer | string): string;
 ```typescript
 import {LeafKeyCoder} from '@umb-network/toolbox';
 
-LeafKeyCoder.decode(Buffer.from('6574682d757364', 'hex')); // 'ETH-USD'
-LeafKeyCoder.decode('0x6574682d757364'); // 'ETH-USD'
-LeafKeyCoder.decode('6574682d757364'); // 'ETH-USD'
+LeafKeyCoder.decode(Buffer.from('4554482d555344', 'hex')); // 'ETH-USD'
+LeafKeyCoder.decode('0x4554482d555344'); // 'ETH-USD'
 ```
 
 # LeafValueCoder
@@ -160,7 +158,8 @@ LeafKeyCoder.decode('6574682d757364'); // 'ETH-USD'
 ### Signature
 
 ```shell
-LeafValueCoder.encode(data: any, type: LeafType): Buffer;
+LeafValueCoder.encode(n: number, bits = 256): Buffer;
+LeafValueCoder.encodeHex(leafAsHex: string, bits = 256): Buffer;
 ```
 
 ### Examples
@@ -168,9 +167,13 @@ LeafValueCoder.encode(data: any, type: LeafType): Buffer;
 ```typescript
 import {LeafValueCoder} from '@umb-network/toolbox';
 
-LeafValueCoder.encode('0x11', LeafType.TYPE_HEX); // <Buffer 11 ff 01>
-LeafValueCoder.encode(10, LeafType.TYPE_INTEGER); // <Buffer 0a ff 02>
-LeafValueCoder.encode(10.01, LeafType.TYPE_FLOAT); // <Buffer 03 e9 ee 02 ff 03>
+// 0000000000000000000000000000000000000000000000008ac7230489e80000
+LeafValueCoder.encode(10);
+
+// 0000000000000000000000000000000000000000000000008aeaa9f6f9a90000
+LeafValueCoder.encode(10.01);
+
+LeafValueCoder.encodeHex('01A')
 ```
 
 ## LeafValueCoder.decode
@@ -178,7 +181,7 @@ LeafValueCoder.encode(10.01, LeafType.TYPE_FLOAT); // <Buffer 03 e9 ee 02 ff 03>
 ### Signature
 
 ```shell
-LeafValueCoder.decode(leaf: string): string | number | undefined
+LeafValueCoder.decode(leaf: string): number
 ```
 
 ### Examples
@@ -186,45 +189,10 @@ LeafValueCoder.decode(leaf: string): string | number | undefined
 ```typescript
 import {LeafValueCoder} from '@umb-network/toolbox';
 
-LeafValueCoder.decode('0x11ff01') // '0x11'
-LeafValueCoder.decode('0x0aff02') // 10
-LeafValueCoder.decode('0x03e9ee02ff03') // 10.01
-LeafValueCoder.decode('') // undefined
-```
-
-# converters
-
-## converters.numberToUint256
-
-### Signature
-
-```shell
-function numberToUint256(n: number): string;
-```
-
-### Examples
-
-```typescript
-import {converters} from '@umb-network/toolbox';
-
-converters.numberToUint256(10); // '0x8ac7230489e80000'
-converters.numberToUint256(10.01); // '0x8aeaa9f6f9a90000'
-```
-
-## converters.strToBytes32
-
-### Signature
-
-```shell
-function strToBytes32(n: string): string;
-```
-
-### Examples
-
-```typescript
-import {converters} from '@umb-network/toolbox';
-
-converters.strToBytes32('Hi there!'); // '0x4869207468657265210000000000000000000000000000000000000000000000'
+LeafValueCoder.decode('0x1') // 1e-18
+LeafValueCoder.decode('0x11') // 1.7e-17
+LeafValueCoder.decode('0de0b6b3a7640000') // 1.0
+LeafValueCoder.decode('') // 0
 ```
 
 # APIClient
@@ -309,24 +277,33 @@ Response example:
 
 ```json
 {
-  "staked": "3000000000000000000",
-  "power": "3000000000000000000",
+  "staked": {
+    "type": "BigNumber",
+    "hex": "0x6124fee993bc0000"
+  },
+  "power": {
+    "type": "BigNumber",
+    "hex": "0x4563918244f40000"
+  },
   "voters": [
     "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
     "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
   ],
   "votes": {
     "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
-    "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "1000000000000000000"
+    "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "3000000000000000000"
   },
-  "_id": "block::8683",
-  "blockId": 8683,
+  "_id": "block::120539",
+  "blockId": 120539,
   "__v": 1,
-  "chainAddress": "0xc94A585C1bC804C03A864Ee766Dd1B432f73f9A8",
-  "dataTimestamp": "2021-05-14T11:58:44.000Z",
-  "root": "0x77b003cda5af3e6256eaa6dd591ef62b83dc61207e74a0318f387bb9b4adda64",
+  "chainAddress": "0x41f16D60C58a0D13C89149A1675c0ca39e170EDD",
+  "dataTimestamp": "2021-05-23T14:01:52.000Z",
+  "root": "0xde1f03f6e568365db09e6e4a826f2591c32d393bd64dc6998fa4ec86b6dd2c3e",
   "status": "finalized",
-  "anchor": "8833747",
+  "anchor": {
+    "type": "BigNumber",
+    "hex": "0x017db636"
+  },
   "minter": "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0"
 }
 ```
@@ -372,31 +349,20 @@ Response example:
 ```json
 [
   {
-    "block": {
-      "staked": "3000000000000000000",
-      "power": "3000000000000000000",
-      "voters": [
-        "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
-        "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
-      ],
-      "votes": {
-        "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
-        "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "1000000000000000000"
-      },
-      "_id": "block::8715",
-      "blockId": 8715,
-      "__v": 1,
-      "chainAddress": "0xc94A585C1bC804C03A864Ee766Dd1B432f73f9A8",
-      "dataTimestamp": "2021-05-14T12:26:02.000Z",
-      "root": "0x26d3f38382e60d459304a0c6da84365e49aa371fbbe71012d5d85ae82daef6dc",
-      "status": "finalized",
-      "anchor": "8834294",
-      "minter": "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0"
-    },
-    "keys": [
-      "eth-usd"
+    "proof": [
+      "0xb01d5b067b172ba0a361cf7fe7375a55a727dd1a20834f0962185f37b8981371",
+      "0x3b113a401b261dfb04166a9c652af63ccb6d77a5db0b4c0d127ecbc306fdb990",
+      "0xda4a6c7a5f7414401f4cb34a536518ad48ee742797506650249bcc34774c5f41",
+      "0x96c4d220b2697326a21d3ef00c1cb5fd1afd1724acfca4d78c4d8bd79c32e775",
+      "0x71b12dff5ec4202dbe8d7352b36058e883025859097aa17400c347d49edba62c",
+      "0x006dca779b13b296942d266433327c4c35f5122419474a753d854ce2ebe0c271",
+      "0xb8aa806a9e49fff22eab7f86c56584db8084c6fbbbef8c9a8a5ef35607be72c2"
     ],
-    "leaves": []
+    "_id": "block::120536::leaf::ADA-BTC",
+    "blockId": "120536",
+    "key": "ADA-BTC",
+    "__v": 0,
+    "value": "0x00000000000000000000000000000000000000000000000000001fe0b6cca400"
   }
 ]
 ```
@@ -422,44 +388,63 @@ Response example:
 ```json
 {
   "block": {
-    "staked": "3000000000000000000",
-    "power": "3000000000000000000",
+    "staked": {
+      "type": "BigNumber",
+      "hex": "0x6124fee993bc0000"
+    },
+    "power": {
+      "type": "BigNumber",
+      "hex": "0x4563918244f40000"
+    },
     "voters": [
       "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
       "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
     ],
     "votes": {
       "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
-      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "1000000000000000000"
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "3000000000000000000"
     },
-    "_id": "block::8785",
-    "blockId": 8785,
+    "_id": "block::120541",
+    "blockId": 120541,
     "__v": 1,
-    "chainAddress": "0xc94A585C1bC804C03A864Ee766Dd1B432f73f9A8",
-    "dataTimestamp": "2021-05-14T13:25:38.000Z",
-    "root": "0x2b80af04191488b681c2a4e9b6de2af65ad41989790552fbbe9df5806edf9b64",
+    "chainAddress": "0x41f16D60C58a0D13C89149A1675c0ca39e170EDD",
+    "dataTimestamp": "2021-05-23T14:03:52.000Z",
+    "root": "0x9984950d3ac4bd4e98912db7aeb91c8bc1a50a0af84b9c0d99249ff46d5a1b06",
     "status": "finalized",
-    "anchor": "8835485",
+    "anchor": {
+      "type": "BigNumber",
+      "hex": "0x017db652"
+    },
     "minter": "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0"
   },
   "keys": [
-    "ETH-USD"
+    "ADA-BTC",
+    "ADA-USD",
+    "ADA-USDT",
+    "AMPL-USD-VWAP-1day",
+    "ATOM-USDT",
+    "BCH-BTC",
+    "BNB-BTC",
+    "BNB-BUSD",
+    "BNB-USD",
+    "BNT-USD"
   ],
   "leaves": [
     {
       "proof": [
-        "0x05d50c714affbf38869af124d95aa24f6a833fc73fee4d83433bea4fb48aa827",
-        "0xec6ee8a045775f222b3b25ec2a261d95d85a5f67ca7f84ee69363da335593f83",
-        "0x57da399a6b1fec549c2e2966d6b5db8f3e7a0ea97d96cc0eca3c3b5c2179c3da",
-        "0x01deb8e0d56fbdef560d90ebbb78c9bd35e8d5d39ee653b0d5e0ca8f1a212838",
-        "0x4bdb9dacb8a0d4366835d012c5968de190b56d8c9f9d0dd174710c769a2b4006",
-        "0xdc7405bef384e420fd7950bb92c96153d20e3ace36d27860263b2e831e053d4a"
+        "0x4ea61613b7559f7f90d5ec5758268d9db4b40d285bb91f0836a482db86108c9c",
+        "0x31c294d7875566fddab273247575b0cf746f46959efacd1cbae0bc363bed8a44",
+        "0x2a3169d555d173f035ba472e902fe20740cbd48c13e72aaac0971021dbc35ad6",
+        "0x0f6e1194a152d1bd86404ab8a6ebd9d499e1536c8c9e9d3387bdbe0ab3afacd0",
+        "0xc8dcc3b734fa40f1f0bf5fe83f4edaf0e6646169400f3f6bf3cfbf601cb5ab93",
+        "0xf3a886434970e44c0d1beae167e14e5ce150fefa3205f0a5f1fcc4a7f9518514",
+        "0x03181c924011b0f040e13936715134692e48b13d3c85929f960356e9c94e0fe7"
       ],
-      "_id": "block::8785::leaf::ETH-USD",
-      "blockId": "8785",
-      "key": "ETH-USD",
+      "_id": "block::120541::leaf::ADA-BTC",
+      "blockId": "120541",
+      "key": "ADA-BTC",
       "__v": 0,
-      "value": "0x0511b9ee02ff03"
+      "value": "0x00000000000000000000000000000000000000000000000000001fe0b6cca400"
     }
   ]
 }

@@ -1,13 +1,13 @@
 import dotenv from 'dotenv';
-import {APIClient, ChainContract} from '../../src';
-import {expect} from 'chai';
-import {ethers} from 'ethers';
-import {Registry} from '../../src/contracts/Registry';
-import {BlockStatus} from '../../src/types/BlockStatuses';
+import { APIClient, ChainContract } from '../../src';
+import { expect } from 'chai';
+import { ethers } from 'ethers';
+import { Registry } from '../../src/contracts/Registry';
+import { BlockStatus } from '../../src/types/BlockStatuses';
 
 dotenv.config();
 
-const {REGISTRY_CONTRACT_ADDRESS, BLOCKCHAIN_PROVIDER_URL, API_BASE_URL, API_KEY} = process.env;
+const { REGISTRY_CONTRACT_ADDRESS, BLOCKCHAIN_PROVIDER_URL, API_BASE_URL, API_KEY } = process.env;
 
 describe('APIClient()', async () => {
   const apiClient = new APIClient({
@@ -37,6 +37,8 @@ describe('APIClient()', async () => {
       const blockId = blocks[0].blockId;
       const block = await apiClient.getBlock(blockId);
 
+      console.log(JSON.stringify(block));
+
       expect(block).be.an('object');
       expect(block).to.have.property('blockId').that.is.a('number');
       expect(block.blockId).to.be.gt(0);
@@ -58,6 +60,8 @@ describe('APIClient()', async () => {
       const block = await apiClient.getNewestBlock();
       const blockId = block.status === BlockStatus.Finalized ? block.blockId : block.blockId - 1;
       const leaves = await apiClient.getLeavesOfBlock(blockId);
+
+      //console.log(JSON.stringify(leaves));
 
       expect(leaves).be.an('array');
       expect(leaves.length).gt(0);
@@ -93,9 +97,15 @@ describe('APIClient() with chain settings', () => {
     it('expect to return valid result when api key is set', async () => {
       const lastBlock = await apiClient.getNewestBlock();
 
+      console.log(JSON.stringify(lastBlock));
+
       // if last block is not finalized yet, lets use previous
-      const leaves = await apiClient.getLeavesOfBlock(lastBlock.status == BlockStatus.Finalized ? lastBlock.blockId : lastBlock.blockId - 1);
-      const proofs = await apiClient.getProofs(leaves.slice(0, 10).map(leaf => leaf.key));
+      const leaves = await apiClient.getLeavesOfBlock(
+        lastBlock.status == BlockStatus.Finalized ? lastBlock.blockId : lastBlock.blockId - 1
+      );
+      const proofs = await apiClient.getProofs(leaves.slice(0, 10).map((leaf) => leaf.key));
+
+      // console.log(JSON.stringify(proofs));
 
       expect(proofs).be.an('object');
       expect(proofs).to.have.nested.property('block.blockId').that.is.a('number');
@@ -105,7 +115,7 @@ describe('APIClient() with chain settings', () => {
       if (proofs) {
         expect(proofs.leaves.length).to.eql(10);
 
-        proofs.leaves.forEach(leaf => {
+        proofs.leaves.forEach((leaf) => {
           expect(leaf.proof.length).to.gt(0);
         });
       }
@@ -117,9 +127,7 @@ describe('APIClient() with chain settings', () => {
       const verificationResult = await apiClient.verifyProofForNewestBlock('UMB-USD');
 
       expect(verificationResult).be.an('object');
-      expect(verificationResult)
-        .to.have.property('success')
-        .that.is.a('boolean');
+      expect(verificationResult).to.have.property('success').that.is.a('boolean');
       expect(verificationResult).to.have.property('value').that.is.a('number');
       expect(verificationResult).to.have.property('dataTimestamp').that.is.a('Date');
       expect(verificationResult.value).gt(0);

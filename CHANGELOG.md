@@ -6,18 +6,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [2.0.0-alpha.22] - 2021-05-24
+
 ### Added
-- 2.0.0-alpha.2: `fcdValueToNumber` converts solidity `uint256` with 18 decimals to `number`
-- git action pipeline for develop and production for both blockchains
+- git action pipeline for develop and production for all blockchains
+- `ValueDecoder.sol` library
+- `SortedMerkleTree` library
 
 ### Changed
-- 2.0.0-alpha.0: adjust SDK to new way of storing FCD
-- 2.0.0-alpha.1: update ethers library
-- 2.0.0-alpha.3: optimise `Chain` storage
-- 2.0.0-alpha.4: update Chain events
-- 2.0.0-alpha.5: fix `fcdValueToNumber` and adjusted to the newest Chain
-- 2.0.0-alpha.6: fix IChain
-- 2.0.0-alpha.7: fix IChain 
+- adjust SDK to new way of storing FCD
+- update ethers library
+- optimise `Chain` storage
+- `LeafValuecoder.encode` returns buffer of size 32 (256 bits) by default
+- `LeafKeyCoder.encode` returns buffer of size 32
+
+### Removed
+- values/leaf types, by default type is numeric
+- converters
 
 ## [1.0.1] - 2021-05-07
 ### Added

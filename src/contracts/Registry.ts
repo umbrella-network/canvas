@@ -1,8 +1,8 @@
-import {Contract, ethers} from 'ethers';
-import {registryAbi} from './abi/registry.abi';
+import { Contract, ethers } from 'ethers';
+import { registryAbi } from './abi/registry.abi';
 
 export class Registry {
-  private contract: Contract
+  private contract: Contract;
 
   constructor(web3Provider: ethers.providers.Provider, registryContractAddress: string) {
     if (!registryContractAddress) {
@@ -12,7 +12,7 @@ export class Registry {
     this.contract = new ethers.Contract(registryContractAddress, registryAbi, web3Provider);
   }
 
-  getAddress = async (name: string): Promise<string> => this.contract.getAddress(this.strToBytes32(name))
+  getAddress = async (name: string): Promise<string> => this.contract.getAddress(this.strToBytes32(name));
 
   private strToBytes32 = (str: string): string => {
     const bytes = Buffer.from(str).toString('hex');

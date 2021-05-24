@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "2.0.0-alpha.7",
+  "version": "2.0.0-alpha.22",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
@@ -14,7 +14,12 @@
     "url": "git+https://github.com/umbrella-network/canvas.git"
   },
   "scripts": {
-    "lint": "eslint ./src/**/*.ts ./test/**/*.ts --max-warnings=0 --fix",
+    "lint": "eslint ./src/**/*.ts ./test/**/*.ts --max-warnings=0",
+    "lint:fix": "eslint ./src/**/*.ts ./test/**/*.ts --max-warnings=0 --fix",
+    "prettier": "prettier --config .prettierrc 'src/**/*.ts' 'test/**/*.ts' --check",
+    "linters": "npm run lint && npm run prettier",
+    "prettier:format": "prettier --config .prettierrc 'src/**/*.ts' 'test/**/*.ts' --write",
+    "format": "npm run lint:fix && npm run prettier:format",
     "clean": "rm -fr dist",
     "compile": "tsc",
     "copy:assets": "cpx 'src/**/*.{graphql,html,png,json,sol}' dist",
@@ -36,6 +41,7 @@
     "eslint": "^7.15.0",
     "mocha": "^8.2.1",
     "moxios": "^0.4.0",
+    "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
