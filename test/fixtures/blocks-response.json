@@ -1,40 +1,44 @@
 [
   {
-      "staked": 100,
-      "power": 75,
-      "voters": [
-          "0xA405324F4b6EB7Bc76f1964489b3769cfc71445F"
-      ],
-      "votes": {
-          "0xA405324F4b6EB7Bc76f1964489b3769cfc71445F": 200
-      },
-      "numericFcdKeys": [],
-      "_id": "block::99",
-      "height": 99,
-      "status": "finalized",
-      "anchor": 1816,
-      "timestamp": "2020-12-28T13:16:36.582Z",
-      "root": "0x56570de287d73cd1cb6092bb8fdee6173974955fdef345ae579ee9f475ea7432",
-      "minter": "0xA405324F4b6EB7Bc76f1964489b3769cfc71445F",
-      "__v": 0
+    "staked": "7000000000000000000",
+    "power": "5000000000000000000",
+    "voters": [
+      "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
+    ],
+    "votes": {
+      "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "3000000000000000000"
+    },
+    "_id": "block::110917",
+    "blockId": 110917,
+    "__v": 1,
+    "chainAddress": "0x9f3b01F0521efe0622CA0c14A0e237FdCd61cB89",
+    "dataTimestamp": "2021-05-13T09:23:00.000Z",
+    "root": "0xa7195f8972d42f2c283dfbb5e891425e8c36dc746206ba6dba5ac8f26ea0b78d",
+    "status": "finalized",
+    "anchor": "24810880",
+    "minter": "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0"
   },
   {
-      "staked": 100,
-      "power": 75,
-      "voters": [
-          "0xA405324F4b6EB7Bc76f1964489b3769cfc71445F"
-      ],
-      "votes": {
-          "0xA405324F4b6EB7Bc76f1964489b3769cfc71445F": 200
-      },
-      "numericFcdKeys": [],
-      "_id": "block::98",
-      "height": 98,
-      "status": "finalized",
-      "anchor": 1808,
-      "timestamp": "2020-12-28T13:16:36.547Z",
-      "root": "0x56570de287d73cd1cb6092bb8fdee6173974955fdef345ae579ee9f475ea7432",
-      "minter": "0xA405324F4b6EB7Bc76f1964489b3769cfc71445F",
-      "__v": 0
+    "staked": "7000000000000000000",
+    "power": "5000000000000000000",
+    "voters": [
+      "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0",
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
+    ],
+    "votes": {
+      "0x998cb7821e605cC16b6174e7C50E19ADb2Dd2fB0": "2000000000000000000",
+      "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C": "3000000000000000000"
+    },
+    "_id": "block::110918",
+    "blockId": 110918,
+    "__v": 1,
+    "chainAddress": "0x9f3b01F0521efe0622CA0c14A0e237FdCd61cB89",
+    "dataTimestamp": "2021-05-13T09:24:06.000Z",
+    "root": "0xadd44e89b0ad9ead0980a81cb4b7eb1d2715ae114ccc958b1bccb29d97382e09",
+    "status": "finalized",
+    "anchor": "24810891",
+    "minter": "0xDc3eBc37DA53A644D67E5E3b5BA4EEF88D969d5C"
   }
 ]

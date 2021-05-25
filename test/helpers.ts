@@ -1,54 +1,53 @@
-import chai from 'chai'
+import chai from 'chai';
 
-const { expect } = chai
-
+const { expect } = chai;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const expectThrowsAsync = async (method: Function, errorType: object, errorMessage: string): Promise<void> => {
-  let msg = ''
+  let msg = '';
 
   try {
-    await method()
-    msg = 'Expect method to throw'
+    await method();
+    msg = 'Expect method to throw';
 
     if (errorMessage) {
-      msg += ` with message: ${errorMessage}`
+      msg += ` with message: ${errorMessage}`;
     }
   } catch (err) {
-    expect(err).to.be.an.instanceOf(errorType)
+    expect(err).to.be.an.instanceOf(errorType);
 
     if (errorMessage) {
-      expect(err.message).to.equal(errorMessage)
+      expect(err.message).to.equal(errorMessage);
     }
   }
 
   if (msg) {
-    throw Error(msg)
+    throw Error(msg);
   }
-}
+};
 
 export const expectThrows = (method: Function, errorMessage: string) => {
-  let error = null
-  let msg: string = '';
+  let error = null;
+  let msg = '';
 
   try {
-    method()
-    msg = 'Expect method to throw'
+    method();
+    msg = 'Expect method to throw';
 
     if (errorMessage) {
-      msg += ` with message: ${errorMessage}`
+      msg += ` with message: ${errorMessage}`;
     }
   } catch (err) {
-    error = err
+    error = err;
   }
 
   if (!error) {
-    throw Error(msg)
+    throw Error(msg);
   }
 
-  expect(error).to.be.an.instanceOf(Error)
+  expect(error).to.be.an.instanceOf(Error);
 
   if (errorMessage) {
-    expect(error.message).to.equal(errorMessage)
+    expect(error.message).to.equal(errorMessage);
   }
-}
+};

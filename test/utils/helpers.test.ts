@@ -1,30 +1,22 @@
-import {extractFromLeaf} from '../../src/utils/helpers';
+import { expect } from 'chai';
+import { remove0x } from '../../src/utils/helpers';
+import { prepend0x } from '../../src/utils/helpers';
+import { evenHex } from '../../src/utils/helpers';
 
-import {expect} from 'chai';
-import {LeafType} from '../../src';
-import {LEAF_TYPE_SEPARATOR_HEX} from '../../src/constants';
+it('remove0x', () => {
+  expect(remove0x('')).to.eql('');
+  expect(remove0x('a')).to.eql('a');
+  expect(remove0x('0x')).to.eql('');
+});
 
-describe('extractFromLeaf()', () => {
-  describe('when leaf is invalid', () => {
-    it('expect to return undefined type', () => {
-      expect(extractFromLeaf('')).to.eql([null, undefined]);
-      expect(extractFromLeaf('0')).to.eql([null, undefined]);
-      expect(extractFromLeaf('0x0')).to.eql([null, undefined]);
-      expect(extractFromLeaf('zzz')).to.eql([null, undefined]);
-      expect(extractFromLeaf('0xf1')).to.eql([null, undefined]);
-      expect(extractFromLeaf('')).to.eql([null, undefined]);
-      expect(extractFromLeaf('0')).to.eql([null, undefined]);
-      expect(extractFromLeaf('0x123f1')).to.eql([null, undefined]);
-      expect(extractFromLeaf('0x02')).to.eql([null, undefined]);
-    });
+it('prepend0x', () => {
+  expect(prepend0x('')).to.eql('0x0');
+  expect(prepend0x('a')).to.eql('0xa');
+  expect(prepend0x('0x')).to.eql('0x');
+});
 
-    describe('when leaf is valid', () => {
-      it('expect to return valid data and type', () => {
-        expect(extractFromLeaf(`0x${LEAF_TYPE_SEPARATOR_HEX}1`)).to.eql(['', LeafType.TYPE_HEX]);
-        expect(extractFromLeaf(`${LEAF_TYPE_SEPARATOR_HEX}${LEAF_TYPE_SEPARATOR_HEX}02`)).to.eql(['ff', LeafType.TYPE_INTEGER]);
-        expect(extractFromLeaf(`0x0FF${LEAF_TYPE_SEPARATOR_HEX}02`)).to.eql(['0FF', LeafType.TYPE_INTEGER]);
-        expect(extractFromLeaf(`0x2${LEAF_TYPE_SEPARATOR_HEX}003`)).to.eql(['2', LeafType.TYPE_FLOAT]);
-      });
-    });
-  });
+it('evenHex', () => {
+  expect(evenHex('')).to.eql('');
+  expect(evenHex('a')).to.eql('0a');
+  expect(evenHex('0x')).to.eql('');
 });

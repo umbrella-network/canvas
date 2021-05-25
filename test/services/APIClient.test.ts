@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {APIClient} from '../../src';
+import { APIClient } from '../../src';
 import moxios from 'moxios';
 import blocksResponse from '../fixtures/blocks-response.json';
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 describe('APIClient()', () => {
   it('expect to instantiate', () => {
@@ -24,7 +24,7 @@ describe('APIClient()', () => {
   describe('#getBlocks', () => {
     it('expect to work', async () => {
       moxios.stubRequest('/blocks', {
-        response: blocksResponse
+        response: blocksResponse,
       });
 
       const blocks = await client.getBlocks();
@@ -32,7 +32,8 @@ describe('APIClient()', () => {
 
       blocks.forEach((block) => {
         expect(block).be.an('object');
-        expect(block).to.have.property('_id').that.is.a('string');
+        expect(block).to.have.property('blockId').that.is.a('number');
+        expect(block.blockId).gt(0);
       });
     });
   });

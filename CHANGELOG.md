@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [2.0.0] - 2021-05-24
+
+### Added
+- git action pipeline for develop and production for all blockchains
+- `ValueDecoder.sol` library
+- `SortedMerkleTree` library
+
+### Changed
+- adjust SDK to new way of storing FCD
+- update ethers library
+- optimise `Chain` storage
+- `LeafValuecoder.encode` returns buffer of size 32 (256 bits) by default
+- `LeafKeyCoder.encode` returns buffer of size 32
+
+### Removed
+- values/leaf types, by default type is numeric
+- converters
 
 ## [1.0.1] - 2021-05-07
 ### Added

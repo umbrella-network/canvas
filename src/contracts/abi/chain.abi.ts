@@ -1,1111 +1,833 @@
 export const chainAbi = [
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'address',
-        'name': '_contractRegistry',
-        'type': 'address'
+        internalType: 'address',
+        name: '_contractRegistry',
+        type: 'address',
       },
       {
-        'internalType': 'uint256',
-        'name': '_blockPadding',
-        'type': 'uint256'
-      }
+        internalType: 'uint16',
+        name: '_padding',
+        type: 'uint16',
+      },
     ],
-    'stateMutability': 'nonpayable',
-    'type': 'constructor'
+    stateMutability: 'nonpayable',
+    type: 'constructor',
   },
   {
-    'anonymous': false,
-    'inputs': [
+    anonymous: false,
+    inputs: [
       {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'executor',
-        'type': 'address'
+        indexed: true,
+        internalType: 'address',
+        name: 'minter',
+        type: 'address',
       },
       {
-        'indexed': false,
-        'internalType': 'uint256',
-        'name': 'blockPadding',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'LogBlockPadding',
-    'type': 'event'
-  },
-  {
-    'anonymous': false,
-    'inputs': [
-      {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'minter',
-        'type': 'address'
+        indexed: false,
+        internalType: 'uint256',
+        name: 'blockId',
+        type: 'uint256',
       },
       {
-        'indexed': false,
-        'internalType': 'uint256',
-        'name': 'blockHeight',
-        'type': 'uint256'
+        indexed: false,
+        internalType: 'uint256',
+        name: 'staked',
+        type: 'uint256',
       },
       {
-        'indexed': false,
-        'internalType': 'uint256',
-        'name': 'anchor',
-        'type': 'uint256'
-      }
+        indexed: false,
+        internalType: 'uint256',
+        name: 'power',
+        type: 'uint256',
+      },
     ],
-    'name': 'LogMint',
-    'type': 'event'
+    name: 'LogMint',
+    type: 'event',
   },
   {
-    'anonymous': false,
-    'inputs': [
+    anonymous: false,
+    inputs: [
       {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'previousOwner',
-        'type': 'address'
+        indexed: true,
+        internalType: 'address',
+        name: 'executor',
+        type: 'address',
       },
       {
-        'indexed': true,
-        'internalType': 'address',
-        'name': 'newOwner',
-        'type': 'address'
-      }
+        indexed: false,
+        internalType: 'uint16',
+        name: 'timePadding',
+        type: 'uint16',
+      },
     ],
-    'name': 'OwnershipTransferred',
-    'type': 'event'
+    name: 'LogPadding',
+    type: 'event',
   },
   {
-    'inputs': [],
-    'name': 'ETH_PREFIX',
-    'outputs': [
+    anonymous: false,
+    inputs: [
       {
-        'internalType': 'bytes',
-        'name': '',
-        'type': 'bytes'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'blockPadding',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'blocks',
-    'outputs': [
-      {
-        'components': [
-          {
-            'internalType': 'bytes32',
-            'name': 'root',
-            'type': 'bytes32'
-          },
-          {
-            'internalType': 'address',
-            'name': 'minter',
-            'type': 'address'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'staked',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'power',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'anchor',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'timestamp',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'dataTimestamp',
-            'type': 'uint256'
-          }
-        ],
-        'internalType': 'struct Chain.Block',
-        'name': 'data',
-        'type': 'tuple'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'blocksCount',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [],
-    'name': 'blocksCountOffset',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'bytes',
-        'name': '_data',
-        'type': 'bytes'
+        indexed: true,
+        internalType: 'uint256',
+        name: 'blockId',
+        type: 'uint256',
       },
       {
-        'internalType': 'uint256',
-        'name': '_offset',
-        'type': 'uint256'
+        indexed: true,
+        internalType: 'address',
+        name: 'voter',
+        type: 'address',
       },
       {
-        'internalType': 'uint256',
-        'name': '_items',
-        'type': 'uint256'
-      }
+        indexed: false,
+        internalType: 'uint256',
+        name: 'vote',
+        type: 'uint256',
+      },
     ],
-    'name': 'bytesToBytes32Array',
-    'outputs': [
-      {
-        'internalType': 'bytes32[]',
-        'name': '',
-        'type': 'bytes32[]'
-      }
-    ],
-    'stateMutability': 'pure',
-    'type': 'function'
+    name: 'LogVoter',
+    type: 'event',
   },
   {
-    'inputs': [],
-    'name': 'contractRegistry',
-    'outputs': [
+    anonymous: false,
+    inputs: [
       {
-        'internalType': 'contract IRegistry',
-        'name': '',
-        'type': 'address'
-      }
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'OwnershipTransferred',
+    type: 'event',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'ETH_PREFIX',
+    outputs: [
       {
-        'internalType': 'bytes',
-        'name': '_leaf',
-        'type': 'bytes'
-      }
+        internalType: 'bytes',
+        name: '',
+        type: 'bytes',
+      },
     ],
-    'name': 'decodeLeafToFloat',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'pure',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'bytes',
-        'name': '_leaf',
-        'type': 'bytes'
-      }
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
     ],
-    'name': 'decodeLeafToNumber',
-    'outputs': [
+    name: 'blocks',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
+        internalType: 'bytes32',
+        name: 'root',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'uint32',
+        name: 'dataTimestamp',
+        type: 'uint32',
+      },
+      {
+        internalType: 'uint128',
+        name: 'affidavit',
+        type: 'uint128',
+      },
     ],
-    'stateMutability': 'pure',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'blocksCount',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'uint32',
+        name: '',
+        type: 'uint32',
+      },
     ],
-    'name': 'getBlockAnchor',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'blocksCountOffset',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'uint32',
+        name: '',
+        type: 'uint32',
+      },
     ],
-    'name': 'getBlockData',
-    'outputs': [
-      {
-        'components': [
-          {
-            'internalType': 'bytes32',
-            'name': 'root',
-            'type': 'bytes32'
-          },
-          {
-            'internalType': 'address',
-            'name': 'minter',
-            'type': 'address'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'staked',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'power',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'anchor',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'timestamp',
-            'type': 'uint256'
-          },
-          {
-            'internalType': 'uint256',
-            'name': 'dataTimestamp',
-            'type': 'uint256'
-          }
-        ],
-        'internalType': 'struct Chain.Block',
-        'name': '',
-        'type': 'tuple'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'getBlockHeight',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
+        internalType: 'bytes',
+        name: '_data',
+        type: 'bytes',
+      },
+      {
+        internalType: 'uint256',
+        name: '_offset',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_items',
+        type: 'uint256',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'bytesToBytes32Array',
+    outputs: [
+      {
+        internalType: 'bytes32[]',
+        name: '',
+        type: 'bytes32[]',
+      },
+    ],
+    stateMutability: 'pure',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'contractRegistry',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'contract IRegistry',
+        name: '',
+        type: 'address',
+      },
     ],
-    'name': 'getBlockMinter',
-    'outputs': [
-      {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
     ],
-    'name': 'getBlockPower',
-    'outputs': [
+    name: 'fcds',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
+        internalType: 'uint224',
+        name: 'value',
+        type: 'uint224',
+      },
+      {
+        internalType: 'uint32',
+        name: 'dataTimestamp',
+        type: 'uint32',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'getBlockId',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'uint32',
+        name: '',
+        type: 'uint32',
+      },
     ],
-    'name': 'getBlockRoot',
-    'outputs': [
-      {
-        'internalType': 'bytes32',
-        'name': '',
-        'type': 'bytes32'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'uint32',
+        name: '_blockId',
+        type: 'uint32',
+      },
     ],
-    'name': 'getBlockStaked',
-    'outputs': [
+    name: 'getBlockRoot',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'uint32',
+        name: '_blockId',
+        type: 'uint32',
+      },
     ],
-    'name': 'getBlockTimestamp',
-    'outputs': [
+    name: 'getBlockTimestamp',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
+        internalType: 'uint32',
+        name: '',
+        type: 'uint32',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'bytes32',
+        name: '_key',
+        type: 'bytes32',
+      },
     ],
-    'name': 'getBlockVoters',
-    'outputs': [
+    name: 'getCurrentValue',
+    outputs: [
       {
-        'internalType': 'address[]',
-        'name': '',
-        'type': 'address[]'
-      }
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'timestamp',
+        type: 'uint256',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      }
+        internalType: 'bytes32[]',
+        name: '_keys',
+        type: 'bytes32[]',
+      },
     ],
-    'name': 'getBlockVotersCount',
-    'outputs': [
+    name: 'getCurrentValues',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
+        internalType: 'uint256[]',
+        name: 'values',
+        type: 'uint256[]',
+      },
+      {
+        internalType: 'uint32[]',
+        name: 'timestamps',
+        type: 'uint32[]',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'getLatestBlockId',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
+        internalType: 'uint32',
+        name: '',
+        type: 'uint32',
       },
-      {
-        'internalType': 'address',
-        'name': '_voter',
-        'type': 'address'
-      }
     ],
-    'name': 'getBlockVotes',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'getLeaderAddress',
+    outputs: [
       {
-        'internalType': 'bytes32',
-        'name': '_key',
-        'type': 'bytes32'
-      }
-    ],
-    'name': 'getCurrentValue',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': 'value',
-        'type': 'uint256'
+        internalType: 'address',
+        name: '',
+        type: 'address',
       },
-      {
-        'internalType': 'uint256',
-        'name': 'timestamp',
-        'type': 'uint256'
-      }
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'getLatestBlockHeightWithData',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
+        internalType: 'uint256',
+        name: '_timestamp',
+        type: 'uint256',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'getLeaderAddressAtTime',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'getLeaderAddress',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
+        internalType: 'uint256',
+        name: '_numberOfValidators',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_timestamp',
+        type: 'uint256',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'getLeaderIndex',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'getName',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': 'ethBlockNumber',
-        'type': 'uint256'
-      }
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
     ],
-    'name': 'getLeaderAddressAtBlock',
-    'outputs': [
-      {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'pure',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'getNextLeaderAddress',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': 'numberOfValidators',
-        'type': 'uint256'
+        internalType: 'address',
+        name: '',
+        type: 'address',
       },
-      {
-        'internalType': 'uint256',
-        'name': 'ethBlockNumber',
-        'type': 'uint256'
-      }
     ],
-    'name': 'getLeaderIndex',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'getName',
-    'outputs': [
+    inputs: [],
+    name: 'getStatus',
+    outputs: [
       {
-        'internalType': 'bytes32',
-        'name': '',
-        'type': 'bytes32'
-      }
+        internalType: 'uint256',
+        name: 'blockNumber',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint16',
+        name: 'timePadding',
+        type: 'uint16',
+      },
+      {
+        internalType: 'uint32',
+        name: 'lastDataTimestamp',
+        type: 'uint32',
+      },
+      {
+        internalType: 'uint32',
+        name: 'lastBlockId',
+        type: 'uint32',
+      },
+      {
+        internalType: 'address',
+        name: 'nextLeader',
+        type: 'address',
+      },
+      {
+        internalType: 'uint32',
+        name: 'nextBlockId',
+        type: 'uint32',
+      },
+      {
+        internalType: 'address[]',
+        name: 'validators',
+        type: 'address[]',
+      },
+      {
+        internalType: 'uint256[]',
+        name: 'powers',
+        type: 'uint256[]',
+      },
+      {
+        internalType: 'string[]',
+        name: 'locations',
+        type: 'string[]',
+      },
+      {
+        internalType: 'uint256',
+        name: 'staked',
+        type: 'uint256',
+      },
     ],
-    'stateMutability': 'pure',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'getNextLeaderAddress',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
+        internalType: 'bytes',
+        name: '_key',
+        type: 'bytes',
+      },
+      {
+        internalType: 'bytes',
+        name: '_value',
+        type: 'bytes',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'hashLeaf',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'owner',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
+        internalType: 'address',
+        name: '',
+        type: 'address',
       },
-      {
-        'internalType': 'bytes32',
-        'name': '_key',
-        'type': 'bytes32'
-      }
     ],
-    'name': 'getNumericFCD',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': 'value',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'uint256',
-        'name': 'timestamp',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'padding',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
+        internalType: 'uint16',
+        name: '',
+        type: 'uint16',
       },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_keys',
-        'type': 'bytes32[]'
-      }
     ],
-    'name': 'getNumericFCDs',
-    'outputs': [
-      {
-        'internalType': 'uint256[]',
-        'name': 'values',
-        'type': 'uint256[]'
-      },
-      {
-        'internalType': 'uint256',
-        'name': 'timestamp',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'getStatus',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'uint256',
-        'name': 'blockNumber',
-        'type': 'uint256'
+        internalType: 'bytes32',
+        name: '_affidavit',
+        type: 'bytes32',
       },
       {
-        'internalType': 'uint256',
-        'name': 'lastDataTimestamp',
-        'type': 'uint256'
+        internalType: 'uint8',
+        name: '_v',
+        type: 'uint8',
       },
       {
-        'internalType': 'uint256',
-        'name': 'lastBlockHeight',
-        'type': 'uint256'
+        internalType: 'bytes32',
+        name: '_r',
+        type: 'bytes32',
       },
       {
-        'internalType': 'address',
-        'name': 'nextLeader',
-        'type': 'address'
+        internalType: 'bytes32',
+        name: '_s',
+        type: 'bytes32',
       },
-      {
-        'internalType': 'uint256',
-        'name': 'nextBlockHeight',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'address[]',
-        'name': 'validators',
-        'type': 'address[]'
-      },
-      {
-        'internalType': 'uint256[]',
-        'name': 'powers',
-        'type': 'uint256[]'
-      },
-      {
-        'internalType': 'string[]',
-        'name': 'locations',
-        'type': 'string[]'
-      },
-      {
-        'internalType': 'uint256',
-        'name': 'staked',
-        'type': 'uint256'
-      }
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'recoverSigner',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'pure',
+    type: 'function',
   },
   {
-    'inputs': [
-      {
-        'internalType': 'bytes',
-        'name': '_key',
-        'type': 'bytes'
-      },
-      {
-        'internalType': 'bytes',
-        'name': '_value',
-        'type': 'bytes'
-      }
-    ],
-    'name': 'hashLeaf',
-    'outputs': [
-      {
-        'internalType': 'bytes32',
-        'name': '',
-        'type': 'bytes32'
-      }
-    ],
-    'stateMutability': 'pure',
-    'type': 'function'
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'owner',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
+        internalType: 'uint16',
+        name: '_padding',
+        type: 'uint16',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'setPadding',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'stakingBankContract',
+    outputs: [
       {
-        'internalType': 'bytes32',
-        'name': 'affidavit',
-        'type': 'bytes32'
+        internalType: 'contract IStakingBank',
+        name: '',
+        type: 'address',
       },
-      {
-        'internalType': 'uint8',
-        'name': '_v',
-        'type': 'uint8'
-      },
-      {
-        'internalType': 'bytes32',
-        'name': '_r',
-        'type': 'bytes32'
-      },
-      {
-        'internalType': 'bytes32',
-        'name': '_s',
-        'type': 'bytes32'
-      }
     ],
-    'name': 'recoverSigner',
-    'outputs': [
-      {
-        'internalType': 'address',
-        'name': '',
-        'type': 'address'
-      }
-    ],
-    'stateMutability': 'pure',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'renounceOwnership',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    inputs: [
+      {
+        internalType: 'uint32',
+        name: '_dataTimestamp',
+        type: 'uint32',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_root',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32[]',
+        name: '_keys',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'uint256[]',
+        name: '_values',
+        type: 'uint256[]',
+      },
+      {
+        internalType: 'uint8[]',
+        name: '_v',
+        type: 'uint8[]',
+      },
+      {
+        internalType: 'bytes32[]',
+        name: '_r',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'bytes32[]',
+        name: '_s',
+        type: 'bytes32[]',
+      },
+    ],
+    name: 'submit',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'tokenContract',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_blockPadding',
-        'type': 'uint256'
-      }
+        internalType: 'contract ERC20',
+        name: '',
+        type: 'address',
+      },
     ],
-    'name': 'setBlockPadding',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'stakingBankContract',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'contract IStakingBank',
-        'name': '',
-        'type': 'address'
-      }
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [],
+    name: 'validatorRegistryContract',
+    outputs: [
       {
-        'internalType': 'uint256',
-        'name': '_dataTimestamp',
-        'type': 'uint256'
+        internalType: 'contract IValidatorRegistry',
+        name: '',
+        type: 'address',
       },
-      {
-        'internalType': 'bytes32',
-        'name': '_root',
-        'type': 'bytes32'
-      },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_keys',
-        'type': 'bytes32[]'
-      },
-      {
-        'internalType': 'uint256[]',
-        'name': '_values',
-        'type': 'uint256[]'
-      },
-      {
-        'internalType': 'uint8[]',
-        'name': '_v',
-        'type': 'uint8[]'
-      },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_r',
-        'type': 'bytes32[]'
-      },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_s',
-        'type': 'bytes32[]'
-      }
     ],
-    'name': 'submit',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      }
-    ],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'tokenContract',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'contract ERC20',
-        'name': '',
-        'type': 'address'
-      }
+        internalType: 'bytes32[]',
+        name: '_proof',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_root',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_leaf',
+        type: 'bytes32',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'verifyProof',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'address',
-        'name': 'newOwner',
-        'type': 'address'
-      }
+        internalType: 'uint256',
+        name: '_blockId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'bytes32[]',
+        name: '_proof',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'bytes',
+        name: '_key',
+        type: 'bytes',
+      },
+      {
+        internalType: 'bytes',
+        name: '_value',
+        type: 'bytes',
+      },
     ],
-    'name': 'transferOwnership',
-    'outputs': [],
-    'stateMutability': 'nonpayable',
-    'type': 'function'
+    name: 'verifyProofForBlock',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [],
-    'name': 'validatorRegistryContract',
-    'outputs': [
+    inputs: [
       {
-        'internalType': 'contract IValidatorRegistry',
-        'name': '',
-        'type': 'address'
-      }
+        internalType: 'uint32',
+        name: '_blockId',
+        type: 'uint32',
+      },
+      {
+        internalType: 'bytes32[]',
+        name: '_proof',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'bytes',
+        name: '_key',
+        type: 'bytes',
+      },
+      {
+        internalType: 'bytes',
+        name: '_value',
+        type: 'bytes',
+      },
     ],
-    'stateMutability': 'view',
-    'type': 'function'
+    name: 'verifyProofForBlockForNumber',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    'inputs': [
+    inputs: [
       {
-        'internalType': 'bytes32[]',
-        'name': '_proof',
-        'type': 'bytes32[]'
+        internalType: 'uint32[]',
+        name: '_blockIds',
+        type: 'uint32[]',
       },
       {
-        'internalType': 'bytes32',
-        'name': '_root',
-        'type': 'bytes32'
+        internalType: 'bytes',
+        name: '_proofs',
+        type: 'bytes',
       },
       {
-        'internalType': 'bytes32',
-        'name': '_leaf',
-        'type': 'bytes32'
-      }
-    ],
-    'name': 'verifyProof',
-    'outputs': [
+        internalType: 'uint256[]',
+        name: '_proofItemsCounter',
+        type: 'uint256[]',
+      },
       {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      }
+        internalType: 'bytes32[]',
+        name: '_leaves',
+        type: 'bytes32[]',
+      },
     ],
-    'stateMutability': 'pure',
-    'type': 'function'
+    name: 'verifyProofs',
+    outputs: [
+      {
+        internalType: 'bool[]',
+        name: 'results',
+        type: 'bool[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_proof',
-        'type': 'bytes32[]'
-      },
-      {
-        'internalType': 'bytes',
-        'name': '_key',
-        'type': 'bytes'
-      },
-      {
-        'internalType': 'bytes',
-        'name': '_value',
-        'type': 'bytes'
-      }
-    ],
-    'name': 'verifyProofForBlock',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_proof',
-        'type': 'bytes32[]'
-      },
-      {
-        'internalType': 'bytes',
-        'name': '_key',
-        'type': 'bytes'
-      },
-      {
-        'internalType': 'bytes',
-        'name': '_value',
-        'type': 'bytes'
-      }
-    ],
-    'name': 'verifyProofForBlockForFloat',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      },
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256',
-        'name': '_blockHeight',
-        'type': 'uint256'
-      },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_proof',
-        'type': 'bytes32[]'
-      },
-      {
-        'internalType': 'bytes',
-        'name': '_key',
-        'type': 'bytes'
-      },
-      {
-        'internalType': 'bytes',
-        'name': '_value',
-        'type': 'bytes'
-      }
-    ],
-    'name': 'verifyProofForBlockForNumber',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool'
-      },
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint256[]',
-        'name': '_blockHeights',
-        'type': 'uint256[]'
-      },
-      {
-        'internalType': 'bytes',
-        'name': '_proofs',
-        'type': 'bytes'
-      },
-      {
-        'internalType': 'uint256[]',
-        'name': '_proofItemsCounter',
-        'type': 'uint256[]'
-      },
-      {
-        'internalType': 'bytes32[]',
-        'name': '_leaves',
-        'type': 'bytes32[]'
-      }
-    ],
-    'name': 'verifyProofs',
-    'outputs': [
-      {
-        'internalType': 'bool[]',
-        'name': 'results',
-        'type': 'bool[]'
-      }
-    ],
-    'stateMutability': 'view',
-    'type': 'function'
-  }
 ];

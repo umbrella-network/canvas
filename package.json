@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
@@ -14,13 +14,18 @@
     "url": "git+https://github.com/umbrella-network/canvas.git"
   },
   "scripts": {
-    "lint": "eslint ./src/**/*.ts ./test/**/*.ts --max-warnings=1 --fix",
+    "lint": "eslint ./src/**/*.ts ./test/**/*.ts --max-warnings=0",
+    "lint:fix": "eslint ./src/**/*.ts ./test/**/*.ts --max-warnings=0 --fix",
+    "prettier": "prettier --config .prettierrc 'src/**/*.ts' 'test/**/*.ts' --check",
+    "linters": "npm run lint && npm run prettier",
+    "prettier:format": "prettier --config .prettierrc 'src/**/*.ts' 'test/**/*.ts' --write",
+    "format": "npm run lint:fix && npm run prettier:format",
     "clean": "rm -fr dist",
     "compile": "tsc",
     "copy:assets": "cpx 'src/**/*.{graphql,html,png,json,sol}' dist",
     "typeorm": "node --require ./node_modules/ts-node/register ./node_modules/typeorm/cli.js",
     "build": "npm run clean && npm run compile && npm run copy:assets",
-    "test": "npx mocha --require ts-node/register --ui bdd 'test/**/*.test.ts' --timeout 20000",
+    "test": "npx mocha --require ts-node/register --ui bdd 'test/**/*.test.ts' --timeout=30000",
     "prepare": "npm run build"
   },
   "devDependencies": {
@@ -36,12 +41,13 @@
     "eslint": "^7.15.0",
     "mocha": "^8.2.1",
     "moxios": "^0.4.0",
+    "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
-    "ethers": "^5.0.24"
+    "ethers": "^5.1.4"
   }
 }
