@@ -1,3 +1,5 @@
+[![SDK QA - Development](https://github.com/umbrella-network/canvas/actions/workflows/pipeline.develop.yml/badge.svg?branch=develop)](https://github.com/umbrella-network/canvas/actions/workflows/pipeline.develop.yml)
+[![SDK QA - Production](https://github.com/umbrella-network/canvas/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/umbrella-network/canvas/actions/workflows/pipeline.yml)
 # Umbrella Network Toolbox
 
 ![Umbrella network - logo](./umb.network-logo.png)
