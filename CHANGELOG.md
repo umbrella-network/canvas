@@ -6,11 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [2.0.2] - 2021-06-04
+### Changed
+- Update tests
+- add back workflow on PR requests 
+
 ## [2.0.1] - 2021-06-01
 ### Added
 - Improve tests execution
 - Add Notifications
 - Add Badges for actions
+
 ## [2.0.0] - 2021-05-24
 
 ### Added

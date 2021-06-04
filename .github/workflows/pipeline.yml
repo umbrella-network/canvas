@@ -6,6 +6,9 @@ name: SDK QA - Production
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
   repository_dispatch:
     types:
       - SDK_Test
