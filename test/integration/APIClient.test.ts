@@ -68,7 +68,7 @@ describe('APIClient()', async () => {
 
       leaves.forEach((leaf) => {
         expect(leaf).be.an('object');
-        expect(leaf).to.have.property('blockId').that.is.a('string');
+        expect(leaf).to.have.property('blockId').that.is.a('number');
       });
     });
   });

@@ -6,6 +6,9 @@ name: SDK QA - Development
 on:
   push:
     branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
   repository_dispatch:
     types:
       - SDK_Test_Develop
