@@ -2,6 +2,7 @@ import { IAPIClientOptions } from './models/APIClientOptions';
 import { LeafKeyCoder } from './services/LeafKeyCoder';
 import { APIClient } from './services/APIClient';
 import { LeafValueCoder } from './services/LeafValueCoder';
+import loadFeeds from './services/loadFeeds';
 import { Registry as ContractRegistry } from './contracts/Registry';
 import { ChainContract } from './contracts/Chain';
 import { SortedMerkleTree } from './lib/SortedMerkleTree';
@@ -16,4 +17,5 @@ export {
   ChainContract,
   ABI,
   SortedMerkleTree,
+  loadFeeds,
 };

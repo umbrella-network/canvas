@@ -1,0 +1,39 @@
+BTC-USDT:
+  discrepancy: 1.0
+  precision: 2
+  inputs:
+    - fetcher:
+        name: CryptoComparePriceWS
+        params:
+          fsym: BTC
+          tsym: USDT
+
+BTC-USD:
+  discrepancy: 1.0
+  precision: 2
+  inputs:
+    - fetcher:
+        name: CryptoComparePriceWS
+        params:
+          fsym: BTC
+          tsym: USD
+
+ETH-USDT:
+  discrepancy: 1.0
+  precision: 2
+  inputs:
+    - fetcher:
+        name: CryptoComparePriceWS
+        params:
+          fsym: ETH
+          tsym: USDT
+
+ETH-USD:
+  discrepancy: 1.0
+  precision: 2
+  inputs:
+    - fetcher:
+        name: CryptoComparePriceWS
+        params:
+          fsym: ETH
+          tsym: USD
