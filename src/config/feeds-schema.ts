@@ -32,6 +32,7 @@ export default {
             { $ref: '#/definitions/BEACPIAverageFetcher' },
             { $ref: '#/definitions/CoingeckoPriceFetcher' },
             { $ref: '#/definitions/CoinmarketcapPriceFetcher' },
+            { $ref: '#/definitions/OnChainDataFetcher' },
           ],
         },
         calculator: {
@@ -199,6 +200,25 @@ export default {
             months: { type: 'number' },
           },
           required: ['months'],
+          additionalProperties: false,
+        },
+      },
+      required: ['params'],
+      additionalProperties: false,
+    },
+    OnChainDataFetcher: {
+      properties: {
+        name: { const: 'OnChainData' },
+        params: {
+          type: 'object',
+          properties: {
+            address: { type: 'string' },
+            method: { type: 'string' },
+            inputs: { type: 'array' },
+            outputs: { type: 'array' },
+            args: { type: 'array' },
+          },
+          required: ['address', 'method', 'inputs', 'outputs', 'args'],
           additionalProperties: false,
         },
       },
