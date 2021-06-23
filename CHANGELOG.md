@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [3.0.0] - 2021-06-29
+### Added
+- New `OnChainDataFetcher` fetcher definition
+- Add support of new numeric type: `FIXED.`
+
+### Changed
+- restrict packages versions with `~`
+
 ## [2.1.2] - 2021-06-29
 ### Added
 - Added freshness field to CryptoComparePriceWSFetcher
@@ -13,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.1.1] - 2021-06-08
 ### Added
 - Add ENV variables to development pipeline
+
 ### Changed
 - Typo fix on CHANGELOG file 
 

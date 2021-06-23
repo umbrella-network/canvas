@@ -97,7 +97,7 @@ export class APIClient {
 
     return {
       success,
-      value: LeafValueCoder.decode(proofs.leaves[0].value) as T,
+      value: LeafValueCoder.decode(proofs.leaves[0].value, key) as T,
       dataTimestamp: proofs.block.dataTimestamp,
     };
   }
