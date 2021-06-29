@@ -86,6 +86,7 @@ export default {
           properties: {
             fsym: { type: 'string' },
             tsym: { type: 'string' },
+            freshness: { type: 'number' },
           },
           required: ['fsym', 'tsym'],
           additionalProperties: false,

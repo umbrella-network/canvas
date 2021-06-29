@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [2.1.2] - 2021-06-29
+### Added
+- Added freshness field to CryptoComparePriceWSFetcher
+
 ## [2.1.1] - 2021-06-08
 ### Added
 - Add ENV variables to development pipeline
