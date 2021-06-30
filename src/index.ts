@@ -7,6 +7,7 @@ import { Registry as ContractRegistry } from './contracts/Registry';
 import { ChainContract } from './contracts/Chain';
 import { SortedMerkleTree } from './lib/SortedMerkleTree';
 import * as ABI from './contracts/abi';
+import * as constants from './constants';
 
 export {
   IAPIClientOptions,
@@ -18,4 +19,5 @@ export {
   ABI,
   SortedMerkleTree,
   loadFeeds,
+  constants,
 };

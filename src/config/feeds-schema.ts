@@ -2,7 +2,7 @@ export default {
   description: 'Feeds schema for the JSONSchema validator',
   type: 'object',
   propertyNames: {
-    pattern: '^[A-Za-z0-9][A-Za-z0-9-:]*$',
+    pattern: '^[A-Za-z0-9][A-Za-z0-9-:_]*$',
   },
   patternProperties: {
     '.*': { type: 'object', $ref: '#/definitions/feed' },
@@ -32,6 +32,7 @@ export default {
             { $ref: '#/definitions/BEACPIAverageFetcher' },
             { $ref: '#/definitions/CoingeckoPriceFetcher' },
             { $ref: '#/definitions/CoinmarketcapPriceFetcher' },
+            { $ref: '#/definitions/OnChainDataFetcher' },
           ],
         },
         calculator: {
@@ -86,6 +87,7 @@ export default {
           properties: {
             fsym: { type: 'string' },
             tsym: { type: 'string' },
+            freshness: { type: 'number' },
           },
           required: ['fsym', 'tsym'],
           additionalProperties: false,
@@ -199,6 +201,25 @@ export default {
             months: { type: 'number' },
           },
           required: ['months'],
+          additionalProperties: false,
+        },
+      },
+      required: ['params'],
+      additionalProperties: false,
+    },
+    OnChainDataFetcher: {
+      properties: {
+        name: { const: 'OnChainData' },
+        params: {
+          type: 'object',
+          properties: {
+            address: { type: 'string' },
+            method: { type: 'string' },
+            inputs: { type: 'array' },
+            outputs: { type: 'array' },
+            args: { type: 'array' },
+          },
+          required: ['address', 'method', 'inputs', 'outputs', 'args'],
           additionalProperties: false,
         },
       },
