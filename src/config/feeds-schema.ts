@@ -32,6 +32,8 @@ export default {
             { $ref: '#/definitions/BEACPIAverageFetcher' },
             { $ref: '#/definitions/CoingeckoPriceFetcher' },
             { $ref: '#/definitions/CoinmarketcapPriceFetcher' },
+            { $ref: '#/definitions/CoinmarketcapHistoHourFetcher' },
+            { $ref: '#/definitions/CoinmarketcapHistoDayFetcher' },
             { $ref: '#/definitions/OnChainDataFetcher' },
           ],
         },
@@ -140,6 +142,40 @@ export default {
             convert: { type: 'string' },
           },
           required: ['symbol', 'convert'],
+          additionalProperties: false,
+        },
+      },
+      required: ['params'],
+      additionalProperties: false,
+    },
+    CoinmarketcapHistoHourFetcher: {
+      properties: {
+        name: { const: 'CoinmarketcapHistoHour' },
+        params: {
+          type: 'object',
+          properties: {
+            symbol: { type: 'string' },
+            convert: { type: 'string' },
+            count: { type: 'number' },
+          },
+          required: ['symbol', 'convert', 'count'],
+          additionalProperties: false,
+        },
+      },
+      required: ['params'],
+      additionalProperties: false,
+    },
+    CoinmarketcapHistoDayFetcher: {
+      properties: {
+        name: { const: 'CoinmarketcapHistoDay' },
+        params: {
+          type: 'object',
+          properties: {
+            symbol: { type: 'string' },
+            convert: { type: 'string' },
+            count: { type: 'number' },
+          },
+          required: ['symbol', 'convert', 'count'],
           additionalProperties: false,
         },
       },
