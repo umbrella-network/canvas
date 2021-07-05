@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- New fetcher PolygonIOStockPriceFetcher
+- New fetcher PolygonIOCryptoPriceFetcher
+
 ## [3.0.1] - 2021-07-01
 - New fetcher CoinmarketcapHistoDay
 - New fetcher CoinmarketcapHistoHour

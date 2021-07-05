@@ -28,6 +28,8 @@ export default {
             { $ref: '#/definitions/CryptoComparePriceFetcher' },
             { $ref: '#/definitions/CryptoComparePriceWSFetcher' },
             { $ref: '#/definitions/PolygonIOPriceFetcher' },
+            { $ref: '#/definitions/PolygonIOStockPriceFetcher' },
+            { $ref: '#/definitions/PolygonIOCryptoPriceFetcher' },
             { $ref: '#/definitions/IEXEnergyFetcher' },
             { $ref: '#/definitions/BEACPIAverageFetcher' },
             { $ref: '#/definitions/CoingeckoPriceFetcher' },
@@ -207,6 +209,37 @@ export default {
             sym: { type: 'string' },
           },
           required: ['sym'],
+          additionalProperties: false,
+        },
+      },
+      required: ['params'],
+      additionalProperties: false,
+    },
+    PolygonIOStockPriceFetcher: {
+      properties: {
+        name: { const: 'PolygonIOStockPrice' },
+        params: {
+          type: 'object',
+          properties: {
+            sym: { type: 'string' },
+          },
+          required: ['sym'],
+          additionalProperties: false,
+        },
+      },
+      required: ['params'],
+      additionalProperties: false,
+    },
+    PolygonIOCryptoPriceFetcher: {
+      properties: {
+        name: { const: 'PolygonIOCryptoPrice' },
+        params: {
+          type: 'object',
+          properties: {
+            fsym: { type: 'string' },
+            tsym: { type: 'string' },
+          },
+          required: ['fsym', 'tsym'],
           additionalProperties: false,
         },
       },
