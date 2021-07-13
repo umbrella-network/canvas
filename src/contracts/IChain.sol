@@ -42,6 +42,9 @@ interface IChain {
 
   function getBlockId() external view returns (uint32);
 
+  // this function does not works for past timestamps
+  function getBlockIdAtTimestamp(uint256 _timestamp) external view returns (uint32);
+
   function getLatestBlockId() external view returns (uint32);
 
   function getLeaderIndex(uint256 _numberOfValidators, uint256 _timestamp) external view returns (uint256);
@@ -69,12 +72,19 @@ interface IChain {
     uint256 _items
   ) external pure returns (bytes32[] memory);
 
+  function verifyProofs(
+    uint32[] memory _blockIds,
+    bytes memory _proofs,
+    uint256[] memory _proofItemsCounter,
+    bytes32[] memory _leaves
+  ) external view returns (bool[] memory results);
+  
   function getBlockRoot(uint256 _blockId) external view returns (bytes32);
 
   function getBlockTimestamp(uint32 _blockId) external view returns (uint32);
 
   function getCurrentValues(bytes32[] calldata _keys)
-  external view returns (uint256[] memory values, uint256[] memory timestamps);
+  external view returns (uint256[] memory values, uint32[] memory timestamps);
 
   function getCurrentValue(bytes32 _key) external view returns (uint256 value, uint256 timestamp);
 }
