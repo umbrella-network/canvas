@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [3.2.0] - 2021-07-13
+### Added
+- add method to flatten multiple proofs
+
 ## [3.1.1] - 2021-07-08
 ### Updated
 - update pipeline for github actions

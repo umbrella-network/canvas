@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { KeyValuePairs } from '../types/custom';
 import { LeafKeyCoder } from '../services/LeafKeyCoder';
+import { remove0x } from '../utils/helpers';
 
 const hash = ethers.utils.solidityKeccak256;
 const lastHash = '0x' + 'f'.repeat(64);
@@ -115,5 +116,20 @@ export class SortedMerkleTree {
     });
 
     return computedHash === root;
+  }
+
+  static flattenProofs(proofs: string[][]): { proofs: string; proofItemsCounter: number[] } {
+    const proofItemsCounter: number[] = [];
+
+    const flattened =
+      '0x' +
+      proofs
+        .map((proof) => {
+          proofItemsCounter.push(proof.length);
+          return proof.map((item) => remove0x(item)).join('');
+        })
+        .join('');
+
+    return { proofs: flattened, proofItemsCounter };
   }
 }
