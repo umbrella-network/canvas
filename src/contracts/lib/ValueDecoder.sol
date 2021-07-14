@@ -10,7 +10,7 @@ library ValueDecoder {
 
   function toUint(bytes32 _bytes) internal pure returns (uint256 value) {
     assembly {
-      value := mload(add(_bytes, 32))
+      value := _bytes
     }
   }
 }

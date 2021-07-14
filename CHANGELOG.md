@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [3.3.1] - 2021-07-14
+### Fixed
+- fix method `ValueDecoder.toUint(bytes32)`
+
 ## [3.3.0] - 2021-07-13
 ### Added
 - add method to `ValueDecoder` that converts `bytes32` to `uint256`
