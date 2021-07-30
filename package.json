@@ -49,8 +49,8 @@
   },
   "dependencies": {
     "axios": "~0.21.1",
-    "chai-as-promised": "~7.1.1",
     "bignumber.js": "~9.0.1",
+    "chai-as-promised": "~7.1.1",
     "ethers": "~5.3.1",
     "js-yaml": "~3.14.1",
     "jsonschema": "~1.4.0"

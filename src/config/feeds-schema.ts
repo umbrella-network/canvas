@@ -37,6 +37,8 @@ export default {
             { $ref: '#/definitions/CoinmarketcapHistoHourFetcher' },
             { $ref: '#/definitions/CoinmarketcapHistoDayFetcher' },
             { $ref: '#/definitions/OnChainDataFetcher' },
+            { $ref: '#/definitions/KaikoPriceStreamFetcher' },
+            { $ref: '#/definitions/KaikoSpotPriceFetcher' },
           ],
         },
         calculator: {
@@ -289,6 +291,39 @@ export default {
             args: { type: 'array' },
           },
           required: ['address', 'method', 'inputs', 'outputs', 'args'],
+          additionalProperties: false,
+        },
+      },
+      required: ['params'],
+      additionalProperties: false,
+    },
+    KaikoPriceStreamFetcher: {
+      properties: {
+        name: { const: 'KaikoPriceStream' },
+        params: {
+          type: 'object',
+          properties: {
+            fsym: { type: 'string' },
+            tsym: { type: 'string' },
+            freshness: { type: 'number' },
+          },
+          required: ['fsym', 'tsym'],
+          additionalProperties: false,
+        },
+      },
+      required: ['params'],
+      additionalProperties: false,
+    },
+    KaikoSpotPriceFetcher: {
+      properties: {
+        name: { const: 'KaikoSpotPrice' },
+        params: {
+          type: 'object',
+          properties: {
+            fsym: { type: 'string' },
+            tsym: { type: 'string' },
+          },
+          required: ['fsym', 'tsym'],
           additionalProperties: false,
         },
       },
