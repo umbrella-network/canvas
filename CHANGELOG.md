@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [3.4.0] - 2021-08-02
+## Added
+- add support to `KaikoPriceStream` and `KaikoSpotPrice` fetchers
+
 ## [3.3.1] - 2021-07-14
 ### Fixed
 - fix method `ValueDecoder.toUint(bytes32)`
