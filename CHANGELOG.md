@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+
+## [3.4.0] - 2021-08-02
 ## Added
-- add `KaikoPriceStream` and `KaikoSpotPrice` fetchers
+- add support to `KaikoPriceStream` and `KaikoSpotPrice` fetchers
 
 ## [3.3.1] - 2021-07-14
 ### Fixed
