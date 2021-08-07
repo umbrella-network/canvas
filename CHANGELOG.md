@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [4.0.0] - 2021-08-07
+## Changed
+- update abi for `Chain` and `StakingBank` (`ValidatorRegistry` is deprecated)
+
 ## [3.4.1] - 2021-08-03
 ## Changed
 - update `package.json` version to 3.4.1

@@ -11,6 +11,11 @@ export const chainAbi = [
         name: '_padding',
         type: 'uint16',
       },
+      {
+        internalType: 'uint16',
+        name: '_signatures',
+        type: 'uint16',
+      },
     ],
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -259,6 +264,25 @@ export const chainAbi = [
   {
     inputs: [
       {
+        internalType: 'uint256',
+        name: '_timestamp',
+        type: 'uint256',
+      },
+    ],
+    name: 'getBlockIdAtTimestamp',
+    outputs: [
+      {
+        internalType: 'uint32',
+        name: '',
+        type: 'uint32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'uint32',
         name: '_blockId',
         type: 'uint32',
@@ -491,6 +515,11 @@ export const chainAbi = [
         name: 'staked',
         type: 'uint256',
       },
+      {
+        internalType: 'uint16',
+        name: 'minSignatures',
+        type: 'uint16',
+      },
     ],
     stateMutability: 'view',
     type: 'function',
@@ -516,7 +545,7 @@ export const chainAbi = [
         type: 'bytes32',
       },
     ],
-    stateMutability: 'view',
+    stateMutability: 'pure',
     type: 'function',
   },
   {
@@ -584,6 +613,19 @@ export const chainAbi = [
     name: 'renounceOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'requiredSignatures',
+    outputs: [
+      {
+        internalType: 'uint16',
+        name: '',
+        type: 'uint16',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -682,19 +724,6 @@ export const chainAbi = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'validatorRegistryContract',
-    outputs: [
-      {
-        internalType: 'contract IValidatorRegistry',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [
       {
         internalType: 'bytes32[]',
@@ -720,7 +749,7 @@ export const chainAbi = [
         type: 'bool',
       },
     ],
-    stateMutability: 'view',
+    stateMutability: 'pure',
     type: 'function',
   },
   {
@@ -752,45 +781,6 @@ export const chainAbi = [
         internalType: 'bool',
         name: '',
         type: 'bool',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint32',
-        name: '_blockId',
-        type: 'uint32',
-      },
-      {
-        internalType: 'bytes32[]',
-        name: '_proof',
-        type: 'bytes32[]',
-      },
-      {
-        internalType: 'bytes',
-        name: '_key',
-        type: 'bytes',
-      },
-      {
-        internalType: 'bytes',
-        name: '_value',
-        type: 'bytes',
-      },
-    ],
-    name: 'verifyProofForBlockForNumber',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
       },
     ],
     stateMutability: 'view',
