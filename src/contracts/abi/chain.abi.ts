@@ -13,7 +13,7 @@ export const chainAbi = [
       },
       {
         internalType: 'uint16',
-        name: '_signatures',
+        name: '_requiredSignatures',
         type: 'uint16',
       },
     ],
@@ -146,11 +146,6 @@ export const chainAbi = [
         internalType: 'uint32',
         name: 'dataTimestamp',
         type: 'uint32',
-      },
-      {
-        internalType: 'uint128',
-        name: 'affidavit',
-        type: 'uint128',
       },
     ],
     stateMutability: 'view',
@@ -639,6 +634,19 @@ export const chainAbi = [
     name: 'setPadding',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'stakingBank',
+    outputs: [
+      {
+        internalType: 'contract IStakingBank',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
