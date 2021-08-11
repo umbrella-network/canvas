@@ -302,6 +302,19 @@ export const stakingBankAbi = [
   },
   {
     inputs: [],
+    name: 'exit',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: 'success',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'getName',
     outputs: [
       {
@@ -475,6 +488,19 @@ export const stakingBankAbi = [
         internalType: 'string',
         name: '',
         type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'token',
+    outputs: [
+      {
+        internalType: 'contract ERC20',
+        name: '',
+        type: 'address',
       },
     ],
     stateMutability: 'view',
