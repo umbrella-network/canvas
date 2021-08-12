@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [4.1.0] - 2021-08-12
+### Added
+- update ethers to version that supports EIP-1559 London
+
 ## [4.0.1] - 2021-08-11
 ### Changed
 - update abi
