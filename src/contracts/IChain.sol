@@ -6,7 +6,6 @@ interface IChain {
   struct Block {
     bytes32 root;
     uint32 dataTimestamp;
-    uint128 affidavit;
   }
 
   struct FirstClassData {
