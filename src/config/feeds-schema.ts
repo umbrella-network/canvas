@@ -39,6 +39,7 @@ export default {
             { $ref: '#/definitions/OnChainDataFetcher' },
             { $ref: '#/definitions/KaikoPriceStreamFetcher' },
             { $ref: '#/definitions/KaikoSpotPriceFetcher' },
+            { $ref: '#/definitions/OptionsPriceFetcher' },
           ],
         },
         calculator: {
@@ -329,6 +330,11 @@ export default {
       },
       required: ['params'],
       additionalProperties: false,
+    },
+    OptionsPriceFetcher: {
+      properties: {
+        name: { const: 'OptionsPrice' },
+      },
     },
   },
 };
