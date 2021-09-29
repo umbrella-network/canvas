@@ -9,6 +9,11 @@ export interface IAPIClientOptions {
   baseURL: string;
 
   /**
+   * Chain id
+   */
+  chainId: string;
+
+  /**
    * Required for `APIClient#verifyProofForBlock(...)`
    */
   chainContract?: ChainContract;

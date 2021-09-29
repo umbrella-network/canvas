@@ -6,13 +6,13 @@ import { expect } from 'chai';
 
 describe('APIClient()', () => {
   it('expect to instantiate', () => {
-    new APIClient({ baseURL: 'http://localhost:3003', apiKey: 'xxx' });
+    new APIClient({ baseURL: 'http://localhost:3003', apiKey: 'xxx', chainId: 'bsc' });
   });
 
   let client: APIClient;
 
   beforeEach(() => {
-    client = new APIClient({ baseURL: 'http://localhost:3003', apiKey: 'xxx' });
+    client = new APIClient({ baseURL: 'http://localhost:3003', apiKey: 'xxx', chainId: 'bsc' });
     // @ts-ignore
     moxios.install(client['axios']);
   });
@@ -23,7 +23,7 @@ describe('APIClient()', () => {
 
   describe('#getBlocks', () => {
     it('expect to work', async () => {
-      moxios.stubRequest('/blocks', {
+      moxios.stubRequest('/blocks?chainId=bsc', {
         response: blocksResponse,
       });
 
