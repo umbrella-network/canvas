@@ -98,7 +98,7 @@ export class APIClient {
     const proofs = await this.getProofs([key]);
 
     if (!proofs || proofs.leaves.length === 0 || !proofs.leaves[0].proof) {
-      throw new Error('Proof not found');
+      throw new Error(`Proof not found for key ${key}`);
     }
 
     const success = await this.options.chainContract.verifyProofForBlock(

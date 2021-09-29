@@ -6,10 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [5.0.0] - 2021-09-29
+### Added
+- multichain support
+
 ## [4.2.0] - 2021-09-24
 ### Added
 - added `OptionsPrice` to feeds schema
-- multichain support
 
 ## [4.1.1] - 2021-08-12
 ### Changed
