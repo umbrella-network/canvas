@@ -26,7 +26,8 @@ export const expectThrowsAsync = async (method: Function, errorType: object, err
   }
 };
 
-export const expectThrows = (method: Function, errorMessage: string) => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const expectThrows = (method: Function, errorMessage: string): void => {
   let error = null;
   let msg = '';
 
