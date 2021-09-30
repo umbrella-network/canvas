@@ -7,12 +7,13 @@ import { BlockStatus } from '../../src/types/BlockStatuses';
 
 dotenv.config();
 
-const { REGISTRY_CONTRACT_ADDRESS, BLOCKCHAIN_PROVIDER_URL, API_BASE_URL, API_KEY } = process.env;
+const { REGISTRY_CONTRACT_ADDRESS, BLOCKCHAIN_PROVIDER_URL, API_BASE_URL, API_KEY, CHAIN_ID } = process.env;
 
 describe('APIClient()', async () => {
   const apiClient = new APIClient({
     baseURL: API_BASE_URL as string,
     apiKey: API_KEY as string,
+    chainId: CHAIN_ID as string,
   });
 
   // These are integration tests that do not require api key
@@ -90,6 +91,7 @@ describe('APIClient() with chain settings', () => {
       baseURL: API_BASE_URL as string,
       apiKey: API_KEY as string,
       chainContract,
+      chainId: CHAIN_ID as string,
     });
   });
 
@@ -113,7 +115,7 @@ describe('APIClient() with chain settings', () => {
       expect(proofs).to.have.property('leaves').that.is.an('array');
 
       if (proofs) {
-        expect(proofs.leaves.length).to.eql(10);
+        expect(proofs.leaves.length).to.gt(0);
 
         proofs.leaves.forEach((leaf) => {
           expect(leaf.proof.length).to.gt(0);

@@ -39,16 +39,18 @@ jobs:
           API_BASE_URL: ${{ secrets.API_BASE_URL_DEVELOP }}
           API_KEY: ${{ secrets.API_KEY_DEVELOP }}
           BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_DEVELOP }}
-          REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_DEVELOP }}
-          FEEDS_URL: ${{ secrets.FEEDS_URL_DEVELOP }}
+          REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_ETH_DEVELOP }}
+          FEEDS_URL: ${{ secrets.FEEDS_URL_ETH_DEVELOP }}
+          CHAIN_ID: ${{ secrets.CHAIN_ID_ETH }}
         run: npm run test
       - name: Unit tests for BSC
         env:
-          API_BASE_URL: ${{ secrets.API_BASE_URL_BSC_DEVELOP }}
-          API_KEY: ${{ secrets.API_KEY_BSC_DEVELOP }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL_DEVELOP }}
+          API_KEY: ${{ secrets.API_KEY_DEVELOP }}
           BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_BSC_DEVELOP }}
           REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_BSC_DEVELOP }}
           FEEDS_URL: ${{ secrets.FEEDS_URL_BSC_DEVELOP }}
+          CHAIN_ID: ${{ secrets.CHAIN_ID_BSC }}
         run: npm run test
       - name: Lint
         run: npm run linters

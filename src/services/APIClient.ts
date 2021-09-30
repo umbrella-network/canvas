@@ -18,21 +18,27 @@ export class APIClient {
   }
 
   async getBlocks(options?: { offset?: number; limit?: number }): Promise<IBlock[]> {
+    const chainId = this.options.chainId;
     const response = await this.axios.get<IBlock[]>('/blocks', {
       headers: {
         authorization: `Bearer ${this.options.apiKey}`,
       },
-      params: options,
+      params: {
+        ...options,
+        chainId,
+      },
     });
 
     return APIClient.transformBlocksFromApi(response.data);
   }
 
   async getBlock(blockId: number): Promise<IBlock> {
+    const chainId = this.options.chainId;
     const response = await this.axios.get<{ data: IBlock }>(`/blocks/${blockId}`, {
       headers: {
         authorization: `Bearer ${this.options.apiKey}`,
       },
+      params: { chainId },
     });
 
     return APIClient.transformBlockFromApi(response.data.data);
@@ -43,21 +49,28 @@ export class APIClient {
   }
 
   async getLeavesOfBlock(blockId: number): Promise<IBlockLeafWithProof[]> {
+    const chainId = this.options.chainId;
     const response = await this.axios.get<IBlockLeafWithProof[]>(`/blocks/${blockId}/leaves`, {
       headers: {
         authorization: `Bearer ${this.options.apiKey}`,
       },
+      params: { chainId },
     });
 
     return response.data;
   }
 
   async getProofs(keys: string[]): Promise<IProofs | null> {
+    const chainId = this.options.chainId;
     const response = await this.axios.get('/proofs', {
       headers: {
         authorization: `Bearer ${this.options.apiKey}`,
       },
-      params: { keys },
+      params: keys,
+      paramsSerializer: function paramsSerializer(params) {
+        const query = params.map((key: string, index: number) => `keys[${index}]=${key}`).join('&');
+        return `${query}&chainId=${chainId}`;
+      },
     });
 
     if (response.data.data.block) {
@@ -85,7 +98,7 @@ export class APIClient {
     const proofs = await this.getProofs([key]);
 
     if (!proofs || proofs.leaves.length === 0 || !proofs.leaves[0].proof) {
-      throw new Error('Proof not found');
+      throw new Error(`Proof not found for key ${key}`);
     }
 
     const success = await this.options.chainContract.verifyProofForBlock(

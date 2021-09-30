@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "4.2.1",
+  "version": "5.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
@@ -16,9 +16,9 @@
   "scripts": {
     "lint": "eslint ./src/**/*.ts ./test/**/*.ts --max-warnings=0",
     "lint:fix": "eslint ./src/**/*.ts ./test/**/*.ts --max-warnings=0 --fix",
-    "prettier": "prettier --config .prettierrc 'src/**/*.ts' 'test/**/*.ts' --check",
+    "prettier": "prettier --config .prettierrc ./src/**/*.ts ./test/**/*.ts --check",
     "linters": "npm run lint && npm run prettier",
-    "prettier:format": "prettier --config .prettierrc 'src/**/*.ts' 'test/**/*.ts' --write",
+    "prettier:format": "prettier --config .prettierrc ./src/**/*.ts ./test/**/*.ts --write",
     "format": "npm run lint:fix && npm run prettier:format",
     "clean": "rm -fr dist",
     "compile": "tsc",
