@@ -115,7 +115,7 @@ describe('APIClient() with chain settings', () => {
       expect(proofs).to.have.property('leaves').that.is.an('array');
 
       if (proofs) {
-        expect(proofs.leaves.length).to.eql(10);
+        expect(proofs.leaves.length).to.gt(0);
 
         proofs.leaves.forEach((leaf) => {
           expect(leaf.proof.length).to.gt(0);
