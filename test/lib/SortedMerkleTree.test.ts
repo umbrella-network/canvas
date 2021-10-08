@@ -1,8 +1,23 @@
 import { expect } from 'chai';
 
 import { SortedMerkleTree } from '../../src';
+import { LeafValueCoder } from '../../src';
 
 describe('SortedMerkleTree', () => {
+  it('expect to squash root and verify it', () => {
+    const tree = new SortedMerkleTree({
+      a: LeafValueCoder.encode(1, 'a'),
+      b: LeafValueCoder.encode(2, 'b'),
+    });
+
+    expect(tree.getRoot()).eql('0xaf2e73e60e165f7d9065b4b5e8419ff907a0ba801e686156ae90c9dbbf747db3');
+    expect(tree.getRoot(0)).eql('0xaf2e73e60e165f7d9065b4b5e8419ff907a0ba801e686156ae90c9db000000');
+    expect(tree.getRoot(0).length).eql(64);
+
+    expect(tree.verifyProof(tree.getProofForKey('a'), tree.getRoot(), tree.createLeafHash('a'))).eql(true);
+    expect(tree.verifyProof(tree.getProofForKey('a'), tree.getRoot(123), tree.createLeafHash('a'))).eql(true);
+  });
+
   it('.flattenProofs expect', () => {
     const proof1 = [
       '0x9f6ec43bda049c7170a46ab9a5f8c968e97b7833dddd69fd28e898e724a61677',
