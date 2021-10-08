@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [5.1.0] - 2021-10-08
+### Changed
+- adjust `SortedMerkleTree` to support squashed root 
 
 ## [5.0.0] - 2021-09-29
 ### Added

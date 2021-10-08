@@ -9,6 +9,7 @@ const emptyRoot = ethers.constants.HashZero;
 const isOdd = (n: number): boolean => n % 2 !== 0;
 
 export class SortedMerkleTree {
+  static SQUASHED_ROOT_SIZE = 58;
   keys: Record<string, number>;
   tree: string[][];
   data: KeyValuePairs;
@@ -96,12 +97,14 @@ export class SortedMerkleTree {
     return this.generateProof(0, this.getIndexForKey(key));
   }
 
-  getRoot(): string {
-    if (this.tree.length === 0) {
-      return emptyRoot;
-    }
+  getRoot(timestamp?: number): string {
+    const root = this.tree.length === 0 ? emptyRoot : this.tree[this.tree.length - 1][0];
 
-    return this.tree[this.tree.length - 1][0];
+    return timestamp === undefined ? root : SortedMerkleTree.squashRoot(root, timestamp);
+  }
+
+  extractRoot(root: string): string {
+    return root.slice(0, SortedMerkleTree.SQUASHED_ROOT_SIZE);
   }
 
   verifyProof(proof: string[], root: string, leaf: string): boolean {
@@ -115,7 +118,13 @@ export class SortedMerkleTree {
       }
     });
 
-    return computedHash === root;
+    return computedHash === root || this.extractRoot(computedHash) === this.extractRoot(root);
+  }
+
+  static squashRoot(root: string, timestamp: number): string {
+    return `${root.slice(0, SortedMerkleTree.SQUASHED_ROOT_SIZE)}${timestamp
+      .toString(16)
+      .padStart(64 - SortedMerkleTree.SQUASHED_ROOT_SIZE, '0')}`;
   }
 
   static flattenProofs(proofs: string[][]): { proofs: string; proofItemsCounter: number[] } {
