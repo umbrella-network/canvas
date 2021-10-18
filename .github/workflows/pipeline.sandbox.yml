@@ -33,13 +33,22 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
+      - name: Unit tests for POLYGON
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL_SANDBOX }}
+          API_KEY: ${{ secrets.API_KEY_SANDBOX }}
+          BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_POLYGON_SANDBOX }}
+          REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_POLYGON_SANDBOX }}
+          FEEDS_URL: ${{ secrets.FEEDS_URL }}
+          CHAIN_ID: ${{ secrets.CHAIN_ID_ETH }}
+        run: npm run test
       - name: Unit tests for ETH
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL_SANDBOX }}
           API_KEY: ${{ secrets.API_KEY_SANDBOX }}
-          BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_SANDBOX }}
+          BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_ETH_SANDBOX }}
           REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_ETH_SANDBOX }}
-          FEEDS_URL: ${{ secrets.FEEDS_URL_ETH }}
+          FEEDS_URL: ${{ secrets.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_ETH }}
         run: npm run test
       - name: Unit tests for BSC
@@ -48,7 +57,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY_SANDBOX }}
           BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_BSC_SANDBOX }}
           REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_BSC_SANDBOX }}
-          FEEDS_URL: ${{ secrets.FEEDS_URL_BSC }}
+          FEEDS_URL: ${{ secrets.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_BSC }}
         run: npm run test
       - name: Lint
