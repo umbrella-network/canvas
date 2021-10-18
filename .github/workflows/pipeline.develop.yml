@@ -41,7 +41,7 @@ jobs:
           BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_POLYGON_DEVELOP }}
           REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_POLYGON_DEVELOP }}
           FEEDS_URL: ${{ secrets.FEEDS_URL_DEVELOP }}
-          CHAIN_ID: ${{ secrets.CHAIN_ID_ETH }}
+          CHAIN_ID: ${{ secrets.CHAIN_ID_POLYGON }}
         run: npm run test
       - name: Unit tests for ETH
         env:
