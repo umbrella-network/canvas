@@ -13,7 +13,7 @@ interface IChain {
     uint32 dataTimestamp;
   }
 
-  function isForeign() override external pure returns (bool);
+  function isForeign() external pure returns (bool);
 
   function blocks(uint256) external view returns (Block memory);
 

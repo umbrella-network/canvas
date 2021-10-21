@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [5.2.2] - 2021-10-21
+### Fixed 
+- `IChain` interface
+
 ## [5.2.1] - 2021-10-18
 ### Fixed
 - fix polygon workflow
