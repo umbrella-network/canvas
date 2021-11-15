@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [5.3.0] - 2021-11-25
+### Changed
+- update ethers `~5.5.1`
+
 ## [5.2.2] - 2021-10-21
 ### Fixed 
 - `IChain` interface
