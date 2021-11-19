@@ -108,4 +108,46 @@ describe('LeafValueCoder', () => {
       });
     });
   });
+
+  describe('.printableKey()', () => {
+    it('converts the key of a non-fixed value', () => {
+      expect(LeafValueCoder.printableKey('TEST')).to.eql('TEST');
+    });
+
+    it('converts the key of a fixed value', () => {
+      expect(LeafValueCoder.printableKey('FIXED_TEST')).to.eql('TEST');
+    });
+  });
+
+  describe('.printableValue()', () => {
+    it('converts the value of a fixed value', () => {
+      expect(
+        LeafValueCoder.printableValue(
+          '0xbf524e3f2420dd7eb7a2af57b8930105b682b41a67266ba3002843f6296d67c2',
+          'FIXED_TEST'
+        )
+      ).to.eql('0xbf524e3f2420dd7eb7a2af57b8930105b682b41a67266ba3002843f6296d67c2');
+    });
+
+    it('converts zero value of a fixed value', () => {
+      expect(
+        LeafValueCoder.printableValue(
+          '0x0000000000000000000000000000000000000000000000000000000000000000',
+          'FIXED_TEST'
+        )
+      ).to.eql('0x0000000000000000000000000000000000000000000000000000000000000000');
+    });
+
+    it('converts the value of a non-fixed value', () => {
+      expect(
+        LeafValueCoder.printableValue('0x00000000000000000000000000000000000000000000000000001d3b2d487800', 'TEST')
+      ).to.eql('0.00003214');
+    });
+
+    it('converts zero value of a non-fixed value', () => {
+      expect(
+        LeafValueCoder.printableValue('0x0000000000000000000000000000000000000000000000000000000000000000', 'TEST')
+      ).to.eql('0');
+    });
+  });
 });

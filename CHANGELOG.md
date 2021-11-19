@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
-## [5.3.0] - 2021-11-25
+## [5.4.0] - 2021-11-19
+### Added
+- printableValue and printableKey functions to be used in UI
+
+## [5.3.0] - 2021-10-25
 ### Changed
 - update ethers `~5.5.1`
 
