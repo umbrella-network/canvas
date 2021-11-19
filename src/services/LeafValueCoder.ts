@@ -40,6 +40,31 @@ export class LeafValueCoder {
     return LeafValueCoder.isFixedValue(label) ? bn.toFixed() : bn.div(NUMERIC_MULTIPLIER).toNumber();
   };
 
+  /**
+   * Omits unnecessary parts from the key
+   * @param label {string}
+   */
+  static printableKey = (label: string): string => {
+    if (LeafValueCoder.isFixedValue(label)) {
+      return label.slice(FIXED_NUMBER_PREFIX.length);
+    }
+
+    return label;
+  };
+
+  /**
+   * Omits unnecessary parts from the key
+   * @param leafAsHex
+   * @param label {string}
+   */
+  static printableValue = (leafAsHex: string, label: string): string => {
+    if (LeafValueCoder.isFixedValue(label)) {
+      return leafAsHex;
+    }
+
+    return LeafValueCoder.decode(leafAsHex, label).toString();
+  };
+
   static isFixedValue = (label: string): boolean => label.startsWith(FIXED_NUMBER_PREFIX);
 
   private static fixedValueToHex = (n: FeedValue): string => {
