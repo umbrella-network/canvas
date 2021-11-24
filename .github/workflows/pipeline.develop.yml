@@ -34,7 +34,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - name: Unit tests for POLYGON
+      - name: Unit tests for AVAX
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL_DEVELOP }}
+          API_KEY: ${{ secrets.API_KEY_DEVELOP }}
+          BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_AVAX_DEVELOP }}
+          REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_AVAX_DEVELOP }}
+          FEEDS_URL: ${{ secrets.FEEDS_URL_DEVELOP }}
+          CHAIN_ID: ${{ secrets.CHAIN_ID_AVAX }}
+        run: npm run test
+      - name: Unit tests for AVAX
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL_DEVELOP }}
           API_KEY: ${{ secrets.API_KEY_DEVELOP }}
