@@ -5,3 +5,4 @@ tsconfig.json
 src
 test
 .env*
+hardhat.config.ts
