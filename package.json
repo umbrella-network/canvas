@@ -29,6 +29,8 @@
     "prepare": "npm run build"
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.4",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@types/chai": "~4.2.14",
     "@types/chai-as-promised": "~7.1.4",
     "@types/js-yaml": "~4.0.1",
@@ -41,6 +43,9 @@
     "cpx": "~1.5.0",
     "dotenv": "~8.2.0",
     "eslint": "~7.15.0",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.3",
+    "hardhat": "^2.8.2",
     "mocha": "~8.2.1",
     "moxios": "~0.4.0",
     "prettier": "~2.3.1",
@@ -51,7 +56,6 @@
     "axios": "~0.21.1",
     "bignumber.js": "~9.0.1",
     "chai-as-promised": "~7.1.1",
-    "ethers": "~5.5.1",
     "js-yaml": "~3.14.1",
     "jsonschema": "~1.4.0"
   }
