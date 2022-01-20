@@ -1,4 +1,4 @@
-import {JsonRpcProvider, Block} from '@ethersproject/providers';
+import { JsonRpcProvider, Block } from '@ethersproject/providers';
 
 interface ProviderComparand {
   blockNumber: number;
@@ -15,7 +15,7 @@ class RPCSelector {
     } else {
       this.urls = urls;
     }
-    
+
     this.preferredProviderUrl = this.urls[0];
   }
 
@@ -49,15 +49,15 @@ class RPCSelector {
       try {
         const provider = new JsonRpcProvider(url);
         const blockNumber = await provider.getBlockNumber();
-        return {blockNumber, url};
+        return { blockNumber, url };
       } catch (e) {
-        return {blockNumber: 0, url};
+        return { blockNumber: 0, url };
       }
     });
   }
 
   private getMostUpToDateProvider(providers: ProviderComparand[]): string {
-    const {url} = providers.reduce((acc, cur) => (acc.blockNumber > cur.blockNumber ? acc : cur));
+    const { url } = providers.reduce((acc, cur) => (acc.blockNumber > cur.blockNumber ? acc : cur));
     return url;
   }
 }
