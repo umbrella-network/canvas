@@ -10,9 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - RPCSelector for choosing the most up to date RPC
 
-### Changed
-- Downgrade ethers to 5.4.5
-
 ## [5.5.0] - 2021-11-24
 ### Added
 - github workflow for avalanche (avax)
