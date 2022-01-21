@@ -8,15 +8,12 @@ interface ProviderComparand {
 class RPCSelector {
   readonly urls: string[];
   readonly preferredProviderUrl: string;
+  readonly rpcRequestTimeout: number;
 
-  constructor(urls: string | string[]) {
-    if (typeof urls === 'string') {
-      this.urls = urls.split(',');
-    } else {
-      this.urls = urls;
-    }
-
+  constructor(urls: string | string[], rpcRequestTimeout = 15000) {
+    this.urls = typeof urls === 'string' ? urls.split(',') : urls;
     this.preferredProviderUrl = this.urls[0];
+    this.rpcRequestTimeout = rpcRequestTimeout;
   }
 
   async apply(): Promise<string> {
@@ -31,13 +28,13 @@ class RPCSelector {
   private async isPreferredProviderUpToDate(): Promise<boolean> {
     try {
       const provider = new JsonRpcProvider(this.preferredProviderUrl);
-      const block = await provider.getBlock('latest');
-      return this.isBlockRecentlyMinted(block);
+      const block = await Promise.race([provider.getBlock('latest'), this.timeout()]);
+      return this.isBlockRecentlyMinted(block as Block);
     } catch (e) {
       return false;
     }
   }
-
+  
   private isBlockRecentlyMinted(block: Block): boolean {
     const currentDateInSeconds = Math.floor(Date.now() / 1000),
       oneMinute = 60;
@@ -48,12 +45,18 @@ class RPCSelector {
     return providersURLs.map(async (url) => {
       try {
         const provider = new JsonRpcProvider(url);
-        const blockNumber = await provider.getBlockNumber();
-        return { blockNumber, url };
+        const blockNumber = await Promise.race([provider.getBlockNumber(), this.timeout()]);
+        return { blockNumber: blockNumber || 0, url };
       } catch (e) {
         return { blockNumber: 0, url };
       }
     });
+  }
+
+  private timeout(): void {
+    setTimeout(() => {
+      return Promise.reject('Took too long to fetch RPC data');
+    }, this.rpcRequestTimeout);
   }
 
   private getMostUpToDateProvider(providers: ProviderComparand[]): string {
