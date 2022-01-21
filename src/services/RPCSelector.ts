@@ -34,7 +34,7 @@ class RPCSelector {
       return false;
     }
   }
-  
+
   private isBlockRecentlyMinted(block: Block): boolean {
     const currentDateInSeconds = Math.floor(Date.now() / 1000),
       oneMinute = 60;
