@@ -28,9 +28,9 @@ contract ExampleContract {
 
     function sub(int256 a, int256 b) public view returns (int256) {
         if(a > 0 && b < 0) {
-            require(a >= MAX_SIGNED_INT + b, "will overflow");
+            require(a <= MAX_SIGNED_INT + b, "will overflow");
         } else if(a < 0 && b > 0) {
-            require(a >= MIN_SIGNED_INT - b, "will overflow");
+            require(a >= MIN_SIGNED_INT + b, "will overflow");
         }
         return a - b;
     }
