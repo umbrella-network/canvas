@@ -10,11 +10,13 @@ class RPCSelector {
   readonly urls: string[];
   readonly preferredProviderUrl: string;
   readonly rpcRequestTimeout: number;
+  readonly maxBlockAge: number;
 
-  constructor(urls: string | string[], rpcRequestTimeout = 15000) {
+  constructor(urls: string | string[], rpcRequestTimeout = 15000, maxBlockAge = 60) {
     this.urls = typeof urls === 'string' ? urls.split(',') : urls;
     this.preferredProviderUrl = this.urls[0];
     this.rpcRequestTimeout = rpcRequestTimeout;
+    this.maxBlockAge = maxBlockAge;
   }
 
   async apply(): Promise<string> {
@@ -37,7 +39,7 @@ class RPCSelector {
   }
 
   private isBlockRecentlyMinted(block: Block): boolean {
-    return isTimestampMoreRecentThan(block.timestamp, 60);
+    return isTimestampMoreRecentThan(block.timestamp, this.maxBlockAge);
   }
 
   private getProviders(providersURLs: string[]): Promise<ProviderComparand>[] {
