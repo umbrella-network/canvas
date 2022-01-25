@@ -22,13 +22,7 @@ it('evenHex', () => {
 describe('isTimestampMoreRecentThan', () => {
   const timestamp = Math.floor(Date.now() / 1000);
 
-  describe('when timestamp is greater the current time', () => {
-    it('returns false', () => {
-      expect(isTimestampMoreRecentThan(timestamp + 1000, 60)).to.be.false;
-    });
-  });
-
-  describe('when timestamp is not between the current date and the the current date minus the limit', () => {
+  describe('when timestamp is not between the current date and the current date minus the limit', () => {
     it('returns false', () => {
       expect(isTimestampMoreRecentThan(timestamp - 120, 60)).to.be.false;
     });

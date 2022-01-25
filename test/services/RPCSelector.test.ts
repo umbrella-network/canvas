@@ -3,7 +3,7 @@ import { RPCSelector } from '../../src/services/RPCSelector';
 import { JsonRpcProvider, Block } from '@ethersproject/providers';
 import sinon from 'sinon';
 
-describe('RPCSelector', () => {
+describe.only('RPCSelector', () => {
   describe('when class is instantiated with a string', () => {
     it('parses the string to an array', () => {
       const rpcSelector = new RPCSelector('http://127.0.0.1:8545');
@@ -33,17 +33,21 @@ describe('RPCSelector', () => {
           timestamp: Math.floor(Date.now() / 1000) - 30,
         } as Block;
 
-        it('returns the preferred URL', async () => {
-          const mockedProvider = sinon.stub(JsonRpcProvider.prototype, 'getBlock').resolves(stubValue);
+        it('returns the preferred URL without checking the complementary RPCs', async () => {
+          const mockedGetBlock = sinon.stub(JsonRpcProvider.prototype, 'getBlock').resolves(stubValue);
+          const mockedGetBlockNumber = sinon.stub(JsonRpcProvider.prototype, 'getBlockNumber').resolves(100_000);
 
           const urls = [
             'https://data-seed-prebsc-1-s2.binance.org:8545/',
             'https://data-seed-prebsc-2-s3.binance.org:8545/',
           ];
           const rpcSelector = new RPCSelector(urls);
-          expect(await rpcSelector.apply()).to.eq(urls[0]);
 
-          mockedProvider.restore();
+          expect(await rpcSelector.apply()).to.eq(urls[0]);
+          expect(mockedGetBlockNumber.notCalled);
+
+          mockedGetBlock.restore();
+          mockedGetBlockNumber.restore();
         });
       });
 
@@ -60,7 +64,9 @@ describe('RPCSelector', () => {
             'https://data-seed-prebsc-1-s1.binance.org:8545/',
             'https://data-seed-prebsc-1-s2.binance.org:8545/',
           ];
+
           const rpcSelector = new RPCSelector(urls, 100);
+
           expect(await rpcSelector.apply()).to.eq(urls[1]);
           expect(mockedGetBlock.called);
 
@@ -69,7 +75,7 @@ describe('RPCSelector', () => {
         });
       });
 
-      describe('when RPC exceeds request time threshold', () => {
+      describe('when all RPCs exceeds request time threshold', () => {
         const fakeGetBlock = (): Promise<Block> => {
           return new Promise((resolve) => {
             setTimeout(resolve, 5000, { timestamp: Math.floor(Date.now() / 1000) });
@@ -82,7 +88,7 @@ describe('RPCSelector', () => {
           });
         };
 
-        it('timeouts and select the first of the non-preferred RPCs', async () => {
+        it('timeouts and selects the first of the non-preferred RPCs', async () => {
           const mockedGetBlock = sinon.stub(JsonRpcProvider.prototype, 'getBlock').callsFake(fakeGetBlock);
           const mockedGetBlockNumber = sinon
             .stub(JsonRpcProvider.prototype, 'getBlockNumber')
