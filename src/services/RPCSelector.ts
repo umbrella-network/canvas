@@ -1,4 +1,5 @@
 import { JsonRpcProvider, Block } from '@ethersproject/providers';
+import { isTimestampMoreRecentThan } from '../utils/helpers';
 
 interface ProviderComparand {
   blockNumber: number;
@@ -36,9 +37,7 @@ class RPCSelector {
   }
 
   private isBlockRecentlyMinted(block: Block): boolean {
-    const currentDateInSeconds = Math.floor(Date.now() / 1000),
-      oneMinute = 60;
-    return block.timestamp - (currentDateInSeconds - oneMinute) <= oneMinute;
+    return isTimestampMoreRecentThan(block.timestamp, 60);
   }
 
   private getProviders(providersURLs: string[]): Promise<ProviderComparand>[] {

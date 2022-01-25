@@ -1,7 +1,5 @@
 import { expect } from 'chai';
-import { remove0x } from '../../src/utils/helpers';
-import { prepend0x } from '../../src/utils/helpers';
-import { evenHex } from '../../src/utils/helpers';
+import { remove0x, prepend0x, evenHex, isTimestampMoreRecentThan } from '../../src/utils/helpers';
 
 it('remove0x', () => {
   expect(remove0x('')).to.eql('');
@@ -19,4 +17,26 @@ it('evenHex', () => {
   expect(evenHex('')).to.eql('');
   expect(evenHex('a')).to.eql('0a');
   expect(evenHex('0x')).to.eql('');
+});
+
+describe('isTimestampMoreRecentThan', () => {
+  const timestamp = Math.floor(Date.now() / 1000);
+
+  describe('when timestamp is greater the current time', () => {
+    it('returns false', () => {
+      expect(isTimestampMoreRecentThan(timestamp + 1000, 60)).to.be.false;
+    });
+  });
+
+  describe('when timestamp is not between the current date and the the current date minus the limit', () => {
+    it('returns false', () => {
+      expect(isTimestampMoreRecentThan(timestamp - 120, 60)).to.be.false;
+    });
+  });
+
+  describe('when timestamp is between the current date and the current date minus the limit', () => {
+    it('returns true', () => {
+      expect(isTimestampMoreRecentThan(timestamp - 50, 60)).to.be.true;
+    });
+  });
 });
