@@ -15,5 +15,5 @@ export const evenHex = (v: string): string => {
 
 export const isTimestampMoreRecentThan = (timestamp: number, limit: number): boolean => {
   const currentDate = Math.floor(Date.now() / 1000);
-  return timestamp < currentDate && timestamp >= (currentDate - limit);
+  return timestamp < currentDate && timestamp >= currentDate - limit;
 };

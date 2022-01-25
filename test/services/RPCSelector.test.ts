@@ -30,7 +30,7 @@ describe('RPCSelector', () => {
     describe('when there are multiple URLs', () => {
       describe('when the preferred URL is up to date', () => {
         const stubValue = {
-          timestamp: Math.floor(Date.now() / 1000) - 30
+          timestamp: Math.floor(Date.now() / 1000) - 30,
         } as Block;
 
         it('returns the preferred URL', async () => {
@@ -49,7 +49,7 @@ describe('RPCSelector', () => {
 
       describe('when the preferred URL is not up to date', () => {
         const stubValue = {
-          timestamp: Math.floor(Date.now() / 1000) - 120
+          timestamp: Math.floor(Date.now() / 1000) - 120,
         } as Block;
 
         it('returns the RPC with highest block number', async () => {
@@ -84,7 +84,9 @@ describe('RPCSelector', () => {
 
         it('timeouts and select the first of the non-preferred RPCs', async () => {
           const mockedGetBlock = sinon.stub(JsonRpcProvider.prototype, 'getBlock').callsFake(fakeGetBlock);
-          const mockedGetBlockNumber = sinon.stub(JsonRpcProvider.prototype, 'getBlockNumber').callsFake(fakeGetBlockNumber);
+          const mockedGetBlockNumber = sinon
+            .stub(JsonRpcProvider.prototype, 'getBlockNumber')
+            .callsFake(fakeGetBlockNumber);
 
           const urls = [
             'https://data-seed-prebsc-1-s1.binance.org:8545/',
@@ -100,7 +102,9 @@ describe('RPCSelector', () => {
 
         it('runs close to the threshold time', async () => {
           const mockedGetBlock = sinon.stub(JsonRpcProvider.prototype, 'getBlock').callsFake(fakeGetBlock);
-          const mockedGetBlockNumber = sinon.stub(JsonRpcProvider.prototype, 'getBlockNumber').callsFake(fakeGetBlockNumber);
+          const mockedGetBlockNumber = sinon
+            .stub(JsonRpcProvider.prototype, 'getBlockNumber')
+            .callsFake(fakeGetBlockNumber);
 
           const urls = [
             'https://data-seed-prebsc-1-s1.binance.org:8545/',
@@ -108,10 +112,10 @@ describe('RPCSelector', () => {
           ];
 
           const rpcSelector = new RPCSelector(urls, 500);
-          
+
           const start = new Performance().now();
           await rpcSelector.apply();
-          const duration = new Performance().now() - start; 
+          const duration = new Performance().now() - start;
 
           expect(duration).to.be.lessThan(1.5);
 
