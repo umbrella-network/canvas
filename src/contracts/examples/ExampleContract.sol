@@ -19,33 +19,33 @@ contract ExampleContract {
 
     function add(int256 a, int256 b) public view returns (int256) {
         if(a > 0 && b > 0) {
-            require(a <= MAX_SIGNED_INT - b, "will overflow");
+            require(a <= MAX_SIGNED_INT - b, "will overflow max signed int");
         } else if(a < 0 && b < 0) {
-            require(a >= MIN_SIGNED_INT - b, "will overflow");
+            require(a >= MIN_SIGNED_INT - b, "will overflow min signed int");
         }
         return a + b;
     }
 
     function sub(int256 a, int256 b) public view returns (int256) {
         if(a > 0 && b < 0) {
-            require(a <= MAX_SIGNED_INT + b, "will overflow");
+            require(a <= MAX_SIGNED_INT + b, "will overflow max signed int");
         } else if(a < 0 && b > 0) {
-            require(a >= MIN_SIGNED_INT + b, "will overflow");
+            require(a >= MIN_SIGNED_INT + b, "will overflow min signed int");
         }
         return a - b;
     }
 
     function mul(int256 a, int256 b) public view returns (int256) {
         if(abs(a) >= ROOT) {
-            require(abs(b) <= MAX_SIGNED_INT / abs(a), "will overflow");
+            require(abs(b) <= MAX_SIGNED_INT / abs(a), "will overflow: a");
         } else if(abs(b) >= ROOT) {
-            require(abs(a) <= MAX_SIGNED_INT / abs(b), "will overflow");
+            require(abs(a) <= MAX_SIGNED_INT / abs(b), "will overflow: b");
         }
         return a * b;
     }
 
     function div(int256 a, int256 b) public pure returns (int256) {
-        require(b > 0, "cannot divide by zero");
+        require(b != 0, "cannot divide by zero");
         return a / b;
     }
 
