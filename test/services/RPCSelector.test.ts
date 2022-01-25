@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 import { RPCSelector } from '../../src/services/RPCSelector';
+import { JsonRpcProvider, Block } from '@ethersproject/providers';
+import sinon from 'sinon';
 
 describe('RPCSelector', () => {
   describe('when class is instantiated with a string', () => {
@@ -26,38 +28,95 @@ describe('RPCSelector', () => {
     });
 
     describe('when there are multiple URLs', () => {
-      // Skipping because the RPCs results are not always reliable
       describe('when the preferred URL is up to date', () => {
-        it.skip('returns the preferred URL', async () => {
+        const stubValue = {
+          timestamp: Math.floor(Date.now() / 1000) - 30
+        } as Block;
+
+        it('returns the preferred URL', async () => {
+          const mockedProvider = sinon.stub(JsonRpcProvider.prototype, 'getBlock').resolves(stubValue);
+
           const urls = [
             'https://data-seed-prebsc-1-s2.binance.org:8545/',
             'https://data-seed-prebsc-2-s3.binance.org:8545/',
           ];
           const rpcSelector = new RPCSelector(urls);
           expect(await rpcSelector.apply()).to.eq(urls[0]);
+
+          mockedProvider.restore();
         });
       });
 
       describe('when the preferred URL is not up to date', () => {
-        it.skip('returns the RPC with highest block number', async () => {
+        const stubValue = {
+          timestamp: Math.floor(Date.now() / 1000) - 120
+        } as Block;
+
+        it('returns the RPC with highest block number', async () => {
+          const mockedGetBlock = sinon.stub(JsonRpcProvider.prototype, 'getBlock').resolves(stubValue);
+          const mockedGetBlockNumber = sinon.stub(JsonRpcProvider.prototype, 'getBlockNumber').resolves(100_000);
+
           const urls = [
             'https://data-seed-prebsc-1-s1.binance.org:8545/',
             'https://data-seed-prebsc-1-s2.binance.org:8545/',
           ];
-          const rpcSelector = new RPCSelector(urls);
+          const rpcSelector = new RPCSelector(urls, 100);
           expect(await rpcSelector.apply()).to.eq(urls[1]);
+          expect(mockedGetBlock.called);
+
+          mockedGetBlock.restore();
+          mockedGetBlockNumber.restore();
         });
       });
 
       describe('when RPC exceeds request time threshold', () => {
-        it('timeouts', async () => {
+        const fakeGetBlock = (): Promise<Block> => {
+          return new Promise((resolve) => {
+            setTimeout(resolve, 5000, { timestamp: Math.floor(Date.now() / 1000) });
+          });
+        };
+
+        const fakeGetBlockNumber = (): Promise<number> => {
+          return new Promise((resolve) => {
+            setTimeout(resolve, 5000, 100_000);
+          });
+        };
+
+        it('timeouts and select the first of the non-preferred RPCs', async () => {
+          const mockedGetBlock = sinon.stub(JsonRpcProvider.prototype, 'getBlock').callsFake(fakeGetBlock);
+          const mockedGetBlockNumber = sinon.stub(JsonRpcProvider.prototype, 'getBlockNumber').callsFake(fakeGetBlockNumber);
+
           const urls = [
             'https://data-seed-prebsc-1-s1.binance.org:8545/',
             'https://data-seed-prebsc-1-s2.binance.org:8545/',
           ];
 
-          const rpcSelector = new RPCSelector(urls, 1);
+          const rpcSelector = new RPCSelector(urls, 500);
           expect(await rpcSelector.apply()).to.eq(urls[1]);
+
+          mockedGetBlock.restore();
+          mockedGetBlockNumber.restore();
+        });
+
+        it('runs close to the threshold time', async () => {
+          const mockedGetBlock = sinon.stub(JsonRpcProvider.prototype, 'getBlock').callsFake(fakeGetBlock);
+          const mockedGetBlockNumber = sinon.stub(JsonRpcProvider.prototype, 'getBlockNumber').callsFake(fakeGetBlockNumber);
+
+          const urls = [
+            'https://data-seed-prebsc-1-s1.binance.org:8545/',
+            'https://data-seed-prebsc-1-s2.binance.org:8545/',
+          ];
+
+          const rpcSelector = new RPCSelector(urls, 500);
+          
+          const start = new Performance().now();
+          await rpcSelector.apply();
+          const duration = new Performance().now() - start; 
+
+          expect(duration).to.be.lessThan(1.5);
+
+          mockedGetBlock.restore();
+          mockedGetBlockNumber.restore();
         });
       });
     });
