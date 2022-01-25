@@ -52,10 +52,10 @@ class RPCSelector {
     });
   }
 
-  private timeout(): void {
-    setTimeout(() => {
-      return Promise.reject('Took too long to fetch RPC data');
-    }, this.rpcRequestTimeout);
+  private timeout(): Promise<void> {
+    return new Promise((_, reject) => {
+      setTimeout(reject, this.rpcRequestTimeout, 'Took too long to fetch RPC data');
+    });
   }
 
   private getMostUpToDateProvider(providers: ProviderComparand[]): string {

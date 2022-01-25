@@ -111,13 +111,17 @@ describe('RPCSelector', () => {
             'https://data-seed-prebsc-1-s2.binance.org:8545/',
           ];
 
-          const rpcSelector = new RPCSelector(urls, 500);
+          const rpcSelector = new RPCSelector(urls, 200);
 
-          const start = new Performance().now();
+          const start = Date.now();
           await rpcSelector.apply();
-          const duration = new Performance().now() - start;
+          const duration = Date.now() - start;
 
-          expect(duration).to.be.lessThan(1.5);
+          // we're running the timeout two times.
+          // so it's expected that the runtime is roughly
+          // the configured timeout * 2.
+          const expectedRuntime = 450;
+          expect(duration).to.be.lessThan(expectedRuntime);
 
           mockedGetBlock.restore();
           mockedGetBlockNumber.restore();
