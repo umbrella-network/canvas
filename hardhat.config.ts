@@ -13,8 +13,5 @@ export default {
     tests: './test/contracts',
     sources: './src/contracts/examples',
     artifacts: './src/contracts/examples/artifacts'
-  },
-  mocha: {
-    extension: ['js']
   }
 };

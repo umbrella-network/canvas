@@ -74,6 +74,5 @@
     "node_modules",
     "dist",
     "**/*.spec.ts"
-  ],
-  "files": ["./hardhat.config.ts"]
+  ]
 }
