@@ -66,7 +66,7 @@ contract ExampleContract {
     }
 
     // example usage of ValueDecoder.toUint function
-    // expects a int256 in raw bytes
+    // expects a int224 in raw bytes
     function convertIntToUInt(int224 i) external pure returns (uint224) {
 
         // first convert signed int input to bytes

@@ -32,7 +32,8 @@ describe('ExampleContract', () => {
   describe('add()', () => {
     it('expect to add 2 positive integers', async () => {
       const sum = await exampleContract.add(10000000000, 10000000000);
-      expect(sum).to.eql(BigNumber.from('20000000000'));
+      console.log(sum);
+      expect(sum.eq(BigNumber.from('20000000000'))).to.be.true;
     });
 
     it('expect it to revert when trying to add numbers that will result in a sum larger than the max signed int', async () => {
@@ -49,12 +50,12 @@ describe('ExampleContract', () => {
 
     it('expect to add a positive and negative integer', async () => {
       const sum = await exampleContract.add(10000000000, -10000000000);
-      expect(sum).to.eql(BigNumber.from('0'));
+      expect(sum.eq(BigNumber.from('0'))).to.be.true;
     });
 
     it('expect to add 2 negative integers', async () => {
       const sum = await exampleContract.add(-10000000000, -10000000000);
-      expect(sum).to.eql(BigNumber.from('-20000000000'));
+      expect(sum.eq(BigNumber.from('-20000000000'))).to.be.true;
     });
 
     it('expect it to revert when trying to add negative numbers that will result in a sum smaller than the min signed int', async () => {
@@ -73,22 +74,22 @@ describe('ExampleContract', () => {
   describe('sub()', async () => {
     it('expect to subtract a positive integer from a positive integer', async () => {
       const diff = await exampleContract.sub(10000000000, 10000000000);
-      expect(diff).to.eql(BigNumber.from('0'));
+      expect(diff.eq(BigNumber.from('0'))).to.be.true;
     });
 
     it('expect to subtract a negative integer from a positive integer', async () => {
       const diff = await exampleContract.sub(10000000000, -10000000000);
-      expect(diff).to.eql(BigNumber.from('20000000000'));
+      expect(diff.eq(BigNumber.from('20000000000'))).to.be.true;
     });
 
     it('expect to subtract a positive integer from a negative integer', async () => {
       const diff = await exampleContract.sub(-10000000000, 10000000000);
-      expect(diff).to.eql(BigNumber.from('-20000000000'));
+      expect(diff.eq(BigNumber.from('-20000000000'))).to.be.true;
     });
 
     it('expect to subtract a negative integer from a negative integer', async () => {
       const diff = await exampleContract.sub(-10000000000, -10000000000);
-      expect(diff).to.eql(BigNumber.from('0'));
+      expect(diff.eq(BigNumber.from('0'))).to.be.true;
     });
 
     it('expect it to revert when performing subtraction that results in a difference greater than the max signed int', async () => {
@@ -131,34 +132,34 @@ describe('ExampleContract', () => {
   describe('abs()', async () => {
     it('expect to return the absolute value of a positive integer', async () => {
       const abs = await exampleContract.abs(10000000000);
-      expect(abs).to.eql(BigNumber.from('10000000000'));
+      expect(abs.eq(BigNumber.from('10000000000'))).to.be.true;
     });
 
     it('expect to return the absolute value of a negative integer', async () => {
       const abs = await exampleContract.abs(-10000000000);
-      expect(abs).to.eql(BigNumber.from('10000000000'));
+      expect(abs.eq(BigNumber.from('10000000000'))).to.be.true;
     });
 
     it('expect to return the absolute value of zero', async () => {
       const abs = await exampleContract.abs(0);
-      expect(abs).to.eql(BigNumber.from('0'));
+      expect(abs.eq(BigNumber.from('0'))).to.be.true;
     });
   });
 
   describe('mul()', async () => {
     it('expect to multiply a positive integer with a positive integer', async () => {
       const prod = await exampleContract.mul(10000000000, 10000000000);
-      expect(prod).to.eql(BigNumber.from('100000000000000000000'));
+      expect(prod.eq(BigNumber.from('100000000000000000000'))).to.be.true;
     });
 
     it('expect to multiply a positive integer with a negative integer', async () => {
       const prod = await exampleContract.mul(10000000000, -10000000000);
-      expect(prod).to.eql(BigNumber.from('-100000000000000000000'));
+      expect(prod.eq(BigNumber.from('-100000000000000000000'))).to.be.true;
     });
 
     it('expect to multiply a negative integer with a negative integer', async () => {
       const prod = await exampleContract.mul(-10000000000, -10000000000);
-      expect(prod).to.eql(BigNumber.from('100000000000000000000'));
+      expect(prod.eq(BigNumber.from('100000000000000000000'))).to.be.true;
     });
 
     it('expect it to not revert when performing multiplication that results in a product less than the max signed int', async () => {
@@ -183,32 +184,32 @@ describe('ExampleContract', () => {
   describe('div()', async () => {
     it('expect to divide a positive integer by itself', async () => {
       const quotient = await exampleContract.div(10000000000, 10000000000);
-      expect(quotient).to.eql(BigNumber.from('1'));
+      expect(quotient.eq(BigNumber.from('1'))).to.be.true;
     });
 
     it('expect to divide a positive integer by a positive integer', async () => {
       const quotient = await exampleContract.div(100000000000, 10000000000);
-      expect(quotient).to.eql(BigNumber.from('10'));
+      expect(quotient.eq(BigNumber.from('10'))).to.be.true;
     });
 
     it('expect to divide a positive integer by a negative integer', async () => {
       const quotient = await exampleContract.div(100000000000, -10000000000);
-      expect(quotient).to.eql(BigNumber.from('-10'));
+      expect(quotient.eq(BigNumber.from('-10'))).to.be.true;
     });
 
     it('expect to divide a negative integer by a positive integer', async () => {
       const quotient = await exampleContract.div(-100000000000, 10000000000);
-      expect(quotient).to.eql(BigNumber.from('-10'));
+      expect(quotient.eq(BigNumber.from('-10'))).to.be.true;
     });
 
     it('expect to divide a negative integer by a negative integer', async () => {
       const quotient = await exampleContract.div(-100000000000, -10000000000);
-      expect(quotient).to.eql(BigNumber.from('10'));
+      expect(quotient.eq(BigNumber.from('10'))).to.be.true;
     });
 
     it('expect to divide zero by a positive integer', async () => {
       const quotient = await exampleContract.div(0, 10000000000);
-      expect(quotient).to.eql(BigNumber.from('0'));
+      expect(quotient.eq(BigNumber.from('0'))).to.be.true;
     });
 
     it('expect it to revert when dividing by zero', async () => {
@@ -219,23 +220,23 @@ describe('ExampleContract', () => {
   describe('square()', async () => {
     it('expect to square a positive integer', async () => {
       const square = await exampleContract.square(10000000000);
-      expect(square).to.eql(BigNumber.from('100000000000000000000'));
+      expect(square.eq(BigNumber.from('100000000000000000000'))).to.be.true;
     });
 
     it('expect to square a negative integer', async () => {
       const square = await exampleContract.square(-10000000000);
-      expect(square).to.eql(BigNumber.from('100000000000000000000'));
+      expect(square.eq(BigNumber.from('100000000000000000000'))).to.be.true;
     });
 
     it('expect to square zero', async () => {
       const square = await exampleContract.square(0);
-      expect(square).to.eql(BigNumber.from('0'));
+      expect(square.eq(BigNumber.from('0'))).to.be.true;
     });
 
     it('expect to square the largest root without overflow', async () => {
       const square = await exampleContract.square(maxRoot);
       const expected = BigNumber.from('57896044618658097711785492504343953926579659927927152379400772292519990683329');
-      expect(square).to.eql(expected);
+      expect(square.eq(expected)).to.be.true;
     });
 
     it('expect it to revert when trying to square a number that will result in a value higher than the max signed int', async () => {
