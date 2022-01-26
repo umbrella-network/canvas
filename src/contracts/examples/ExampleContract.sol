@@ -9,6 +9,7 @@ import "../lib/ValueDecoder.sol";
 // contract with examples for working with signed integers in solidity
 contract ExampleContract {
     using ValueDecoder for uint224;
+    using ValueDecoder for bytes;
 
     // declaration of signed integers
     int256 public MAX_SIGNED_INT = type(int256).max;
@@ -62,5 +63,17 @@ contract ExampleContract {
     // expects a signed integer encoded as a uint224
     function convertUintToInt(uint224 u) external pure returns (int256) {
         return u.toInt();
+    }
+
+    // example usage of ValueDecoder.toUint function
+    // expects a int256 in raw bytes
+    function convertIntToUInt(int224 i) external pure returns (uint224) {
+
+        // first convert signed int input to bytes
+        bytes memory b = new bytes(32);
+        assembly { mstore(add(b, 32), i) }
+
+        // convert to uint
+        return uint224(b.toUint());
     }
 }

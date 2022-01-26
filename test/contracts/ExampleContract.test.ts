@@ -9,7 +9,6 @@ use(waffleChai);
 
 const setup = async () => {
   const ExampleContract = await ethers.getContractFactory('ExampleContract');
-  //console.log('deploying ExampleContract');
   const exampleContract = await ExampleContract.deploy();
   await exampleContract.deployed();
   const maxSignedInt = BigNumber.from('57896044618658097711785492504343953926634992332820282019728792003956564819967');
@@ -28,7 +27,6 @@ describe('ExampleContract', () => {
 
   beforeEach(async () => {
     return ({ exampleContract, maxSignedInt, minSignedInt, maxRoot } = await setup());
-    //exampleContract = await setup();
   });
 
   describe('add()', () => {
@@ -131,7 +129,6 @@ describe('ExampleContract', () => {
   });
 
   describe('abs()', async () => {
-
     it('expect to return the absolute value of a positive integer', async () => {
       const abs = await exampleContract.abs(10000000000);
       expect(abs).to.eql(BigNumber.from('10000000000'));
@@ -247,5 +244,41 @@ describe('ExampleContract', () => {
     });
   });
 
-  // TODO - add test cases for convertUintToInt()
+  describe('convertUintToInt()', async () => {
+    const maxUint224 = BigNumber.from('0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+    const maxInt224 = maxUint224.sub(1).div(2);
+    const minInt224 = maxInt224.add(1).mul(-1);
+
+    const testCases = [
+      { input: 0, expected: 0 },
+      { input: 1, expected: 1 },
+      { input: maxUint224.add(1).div(2).toString(), expected: minInt224 },
+      { input: maxUint224.toString(), expected: -1 },
+    ];
+
+    testCases.forEach(({ input, expected }) => {
+      it(`testToInt(${input}) => ${expected}`, async () => {
+        expect(await exampleContract.convertUintToInt(input)).to.eq(expected);
+      });
+    });
+  });
+
+  describe('convertIntToUInt', async () => {
+    const maxUint224 = BigNumber.from('0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+    const maxInt224 = maxUint224.sub(1).div(2);
+    const minInt224 = maxInt224.add(1).mul(-1);
+
+    const testCases = [
+      { input: 0, expected: 0 },
+      { input: 1, expected: 1 },
+      { input: minInt224, expected: maxUint224.add(1).div(2).toString() },
+      { input: -1, expected: maxUint224.toString() },
+    ];
+
+    testCases.forEach(({ input, expected }) => {
+      it(`testToInt(${input}) => ${expected}`, async () => {
+        expect(await exampleContract.convertIntToUInt(input)).to.eq(expected);
+      });
+    });
+  });
 });
