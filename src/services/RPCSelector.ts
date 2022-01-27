@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Block } from '@ethersproject/providers';
+import { providers } from 'ethers';
 import { isTimestampMoreRecentThan } from '../utils/helpers';
 
 interface ProviderComparand {
@@ -6,53 +6,64 @@ interface ProviderComparand {
   url: string;
 }
 
+interface Config {
+  rpcRequestTimeout: number;
+  maxBlockAge: number;
+}
+
 class RPCSelector {
-  readonly urls: string[];
-  readonly preferredProviderUrl: string;
-  readonly rpcRequestTimeout: number;
-  readonly maxBlockAge: number;
+  private readonly urls: string[];
+  private readonly rpcRequestTimeout: number;
+  private readonly maxBlockAge: number;
 
-  constructor(urls: string | string[], rpcRequestTimeout = 15000, maxBlockAge = 60) {
+  constructor(urls: string | string[], config: Config = { rpcRequestTimeout: 15000, maxBlockAge: 60 }) {
     this.urls = typeof urls === 'string' ? urls.split(',') : urls;
-    this.preferredProviderUrl = this.urls[0];
-    this.rpcRequestTimeout = rpcRequestTimeout;
-    this.maxBlockAge = maxBlockAge;
+    this.rpcRequestTimeout = config.rpcRequestTimeout;
+    this.maxBlockAge = config.maxBlockAge;
   }
 
-  async apply(): Promise<string> {
-    if (this.urls.length === 1 || (await this.isPreferredProviderUpToDate())) {
-      return this.preferredProviderUrl;
-    } else {
-      const providers = await Promise.all(this.getProviders(this.urls.slice(1)));
-      return this.getMostUpToDateProvider(providers);
+  public async selectByTimestamp(): Promise<string> {
+    if (this.urls.length === 1) return this.urls[0];
+
+    for (const url of this.urls) {
+      if (await this.isProviderUpToDate(url)) {
+        return url;
+      }
     }
+
+    return this.urls[0];
   }
 
-  private async isPreferredProviderUpToDate(): Promise<boolean> {
+  public async selectByLatestBlockNumber(): Promise<string> {
+    if (this.urls.length === 1) return this.urls[0];
+
+    const providerComparands = await Promise.all(this.getProviderComparands());
+
+    return this.getProviderWithHighestBlockNumber(providerComparands);
+  }
+
+  private async isProviderUpToDate(url: string): Promise<boolean> {
     try {
-      const provider = new JsonRpcProvider(this.preferredProviderUrl);
-      const block = await Promise.race([provider.getBlock('latest'), this.timeout()]);
-      return this.isBlockRecentlyMinted(block as Block);
-    } catch (e) {
+      const provider = providers.getDefaultProvider(url);
+      const block = <{ timestamp: number }> await Promise.race([provider.getBlock('latest'), this.timeout()]);
+      return isTimestampMoreRecentThan(block.timestamp, this.maxBlockAge);
+    } catch {
       return false;
     }
   }
 
-  private isBlockRecentlyMinted(block: Block): boolean {
-    return isTimestampMoreRecentThan(block.timestamp, this.maxBlockAge);
-  }
-
-  private getProviders(providersURLs: string[]): Promise<ProviderComparand>[] {
-    return providersURLs.map(async (url) => {
+  private getProviderComparands(): Promise<ProviderComparand>[] {
+    return this.urls.map(async (url) => {
       try {
-        const provider = new JsonRpcProvider(url);
+        const provider = providers.getDefaultProvider(url);
         const blockNumber = await Promise.race([provider.getBlockNumber(), this.timeout()]);
         return { blockNumber: blockNumber || 0, url };
-      } catch (e) {
+      } catch {
         return { blockNumber: 0, url };
       }
     });
   }
+
 
   private timeout(): Promise<void> {
     return new Promise((_, reject) => {
@@ -60,8 +71,8 @@ class RPCSelector {
     });
   }
 
-  private getMostUpToDateProvider(providers: ProviderComparand[]): string {
-    const { url } = providers.reduce((acc, cur) => (acc.blockNumber > cur.blockNumber ? acc : cur));
+  private getProviderWithHighestBlockNumber(comparands: ProviderComparand[]): string {
+    const { url } = comparands.reduce((acc, cur) => cur.blockNumber > acc.blockNumber ? cur : acc);
     return url;
   }
 }
