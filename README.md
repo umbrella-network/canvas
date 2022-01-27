@@ -501,7 +501,8 @@ const rpcSelector = new RPCSelector(URLS);
 ### Signature
 
 ```shell
-rpcSelector.apply(): Promise<string>
+rpcSelector.selectByTimestamp(): Promise<string>
+rpcSelector.selectByLatestBlockNumber(): Promise<string>
 ```
 
 ### Examples
@@ -509,8 +510,9 @@ rpcSelector.apply(): Promise<string>
 Code
 
 ```ts
-const mostUpToDateRpc = await rpcSelector.apply();
+const youngestBlockAgeRPC = await rpcSelector.selectByTimestamp();
+const latestBlockNumberRPC = await rpcSelector.selectByLatestBlockNumber();
 
 // use it to create a new ethers provider
-const provider = new JsonRpcProvider(mostUpToDateRpc);
+const provider = new JsonRpcProvider(youngestBlockAgeRPC);
 ```
