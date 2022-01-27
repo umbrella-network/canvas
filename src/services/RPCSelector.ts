@@ -45,7 +45,7 @@ class RPCSelector {
   private async isProviderUpToDate(url: string): Promise<boolean> {
     try {
       const provider = providers.getDefaultProvider(url);
-      const block = <{ timestamp: number }> await Promise.race([provider.getBlock('latest'), this.timeout()]);
+      const block = <{ timestamp: number }>await Promise.race([provider.getBlock('latest'), this.timeout()]);
       return isTimestampMoreRecentThan(block.timestamp, this.maxBlockAge);
     } catch {
       return false;
@@ -64,7 +64,6 @@ class RPCSelector {
     });
   }
 
-
   private timeout(): Promise<void> {
     return new Promise((_, reject) => {
       setTimeout(reject, this.rpcRequestTimeout, 'Took too long to fetch RPC data');
@@ -72,7 +71,7 @@ class RPCSelector {
   }
 
   private getProviderWithHighestBlockNumber(comparands: ProviderComparand[]): string {
-    const { url } = comparands.reduce((acc, cur) => cur.blockNumber > acc.blockNumber ? cur : acc);
+    const { url } = comparands.reduce((acc, cur) => (cur.blockNumber > acc.blockNumber ? cur : acc));
     return url;
   }
 }
