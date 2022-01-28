@@ -7,19 +7,17 @@ interface ProviderComparand {
 }
 
 interface Config {
-  rpcRequestTimeout: number;
-  maxBlockAge: number;
+  timeout: number;
+  recentTimestampDiff: number;
 }
 
 class RPCSelector {
   private readonly urls: string[];
-  private readonly rpcRequestTimeout: number;
-  private readonly maxBlockAge: number;
+  private readonly config: Config;
 
-  constructor(urls: string | string[], config: Config = { rpcRequestTimeout: 15000, maxBlockAge: 60 }) {
+  constructor(urls: string | string[], config: Config = { timeout: 15000, recentTimestampDiff: 60000 }) {
     this.urls = typeof urls === 'string' ? urls.split(',') : urls;
-    this.rpcRequestTimeout = config.rpcRequestTimeout;
-    this.maxBlockAge = config.maxBlockAge;
+    this.config = config;
   }
 
   public async selectByTimestamp(): Promise<string> {
@@ -46,7 +44,7 @@ class RPCSelector {
     try {
       const provider = providers.getDefaultProvider(url);
       const block = <{ timestamp: number }>await Promise.race([provider.getBlock('latest'), this.timeout()]);
-      return isTimestampMoreRecentThan(block.timestamp, this.maxBlockAge);
+      return isTimestampMoreRecentThan(block.timestamp, this.config.recentTimestampDiff / 1000);
     } catch {
       return false;
     }
@@ -66,7 +64,7 @@ class RPCSelector {
 
   private timeout(): Promise<void> {
     return new Promise((_, reject) => {
-      setTimeout(reject, this.rpcRequestTimeout, 'Took too long to fetch RPC data');
+      setTimeout(reject, this.config.timeout, 'Took too long to fetch RPC data');
     });
   }
 
