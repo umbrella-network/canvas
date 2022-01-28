@@ -8,14 +8,14 @@ interface ProviderComparand {
 
 interface Config {
   timeout: number;
-  recentTimestampDiff: number;
+  maxTimestampDiff: number;
 }
 
 class RPCSelector {
   private readonly urls: string[];
   private readonly config: Config;
 
-  constructor(urls: string | string[], config: Config = { timeout: 15000, recentTimestampDiff: 60000 }) {
+  constructor(urls: string | string[], config: Config = { timeout: 15000, maxTimestampDiff: 60000 }) {
     this.urls = typeof urls === 'string' ? urls.split(',') : urls;
     this.config = config;
   }
@@ -44,7 +44,7 @@ class RPCSelector {
     try {
       const provider = providers.getDefaultProvider(url);
       const block = <{ timestamp: number }>await Promise.race([provider.getBlock('latest'), this.timeout()]);
-      return isTimestampMoreRecentThan(block.timestamp, this.config.recentTimestampDiff / 1000);
+      return isTimestampMoreRecentThan(block.timestamp, this.config.maxTimestampDiff / 1000);
     } catch {
       return false;
     }
