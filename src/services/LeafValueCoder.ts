@@ -1,8 +1,11 @@
 import BigNumber from 'bignumber.js';
-import { FIXED_NUMBER_PREFIX, NUMERIC_MULTIPLIER } from '../constants';
+import { FIXED_NUMBER_PREFIX, NUMERIC_MULTIPLIER, INT_PREFIX, MAX_UINT224_HEX } from '../constants';
 import { utils } from 'ethers';
 import { evenHex, prepend0x } from '../utils/helpers';
 import { FeedValue } from '../types/Feed';
+const maxUint224 = new BigNumber(MAX_UINT224_HEX);
+const maxInt224 = maxUint224.minus(1).div(2);
+const minInt224 = maxInt224.plus(1).times(-1);
 
 export class LeafValueCoder {
   /**
@@ -12,10 +15,15 @@ export class LeafValueCoder {
    * @param bits
    */
   static encode = (n: FeedValue, label: string, bits = 256): Buffer => {
-    const hex = LeafValueCoder.isFixedValue(label)
-      ? LeafValueCoder.fixedValueToHex(n)
-      : new BigNumber(n, 10).times(NUMERIC_MULTIPLIER).toString(16);
-    return LeafValueCoder.encodeHex(hex, bits);
+    if (LeafValueCoder.isFixedValue(label)) {
+      return LeafValueCoder.encodeHex(LeafValueCoder.fixedValueToHex(n), bits);
+    }
+
+    if (LeafValueCoder.isIntValue(label)) {
+      return LeafValueCoder.encodeHex(LeafValueCoder.intValueToHex(n), bits);
+    }
+
+    return LeafValueCoder.encodeHex(new BigNumber(n, 10).times(NUMERIC_MULTIPLIER).toString(16), bits);
   };
 
   static encodeHex = (leafAsHex: string, bits = 256): Buffer => {
@@ -37,7 +45,16 @@ export class LeafValueCoder {
    */
   static decode = (leafAsHex: string, label: string): number | string => {
     const bn = new BigNumber(leafAsHex, 16);
-    return LeafValueCoder.isFixedValue(label) ? bn.toFixed() : bn.div(NUMERIC_MULTIPLIER).toNumber();
+
+    if (LeafValueCoder.isFixedValue(label)) {
+      return bn.toFixed();
+    }
+
+    if (LeafValueCoder.isIntValue(label)) {
+      return LeafValueCoder.toInt(bn);
+    }
+
+    return bn.div(NUMERIC_MULTIPLIER).toNumber();
   };
 
   /**
@@ -73,5 +90,23 @@ export class LeafValueCoder {
     }
 
     return new BigNumber(n || '0', n.startsWith('0x') ? 16 : 10).toString(16);
+  };
+
+  static isIntValue = (label: string): boolean => label.startsWith(INT_PREFIX);
+
+  private static intValueToHex = (n: FeedValue): string => {
+    if (n >= 0) {
+      return n.toString(16);
+    }
+
+    return maxUint224.plus(n).plus(1).toString(16);
+  };
+
+  private static toInt = (n: BigNumber): string => {
+    if (maxInt224.gte(n)) {
+      return n.toFixed();
+    }
+
+    return minInt224.plus(n.minus(maxInt224).minus(1)).toFixed();
   };
 }
