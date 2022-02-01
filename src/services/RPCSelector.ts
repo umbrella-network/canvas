@@ -25,10 +25,12 @@ class RPCSelector {
 
     for (const url of this.urls) {
       if (await this.isProviderUpToDate(url)) {
+        console.log(`[RPCSelector] Found up-to-date RPC ${url}`);
         return url;
       }
     }
 
+    console.log('[RPCSelector] No up-to-date Provider was found. Using default.');
     return this.urls[0];
   }
 
@@ -70,6 +72,7 @@ class RPCSelector {
 
   private getProviderWithHighestBlockNumber(comparands: ProviderComparand[]): string {
     const { url } = comparands.reduce((acc, cur) => (cur.blockNumber > acc.blockNumber ? cur : acc));
+    console.log(`[RPCSelector] Found highest block number on ${url}`);
     return url;
   }
 }
