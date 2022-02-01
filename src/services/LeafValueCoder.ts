@@ -20,7 +20,7 @@ export class LeafValueCoder {
     }
 
     if (LeafValueCoder.isIntValue(label)) {
-      return LeafValueCoder.encodeHex(LeafValueCoder.intValueToHex(n), bits);
+      return LeafValueCoder.encodeHex(LeafValueCoder.intValueToHex(new BigNumber(n, 10)), bits);
     }
 
     return LeafValueCoder.encodeHex(new BigNumber(n, 10).times(NUMERIC_MULTIPLIER).toString(16), bits);
@@ -94,7 +94,7 @@ export class LeafValueCoder {
 
   static isIntValue = (label: string): boolean => label.startsWith(INT_PREFIX);
 
-  private static intValueToHex = (n: FeedValue): string => {
+  static intValueToHex = (n: BigNumber | number): string => {
     if (n >= 0) {
       return n.toString(16);
     }
@@ -102,11 +102,11 @@ export class LeafValueCoder {
     return maxUint224.plus(n).plus(1).toString(16);
   };
 
-  private static toInt = (n: BigNumber): string => {
+  static toInt = (n: BigNumber): number => {
     if (maxInt224.gte(n)) {
-      return n.toFixed();
+      return n.toNumber();
     }
 
-    return minInt224.plus(n.minus(maxInt224).minus(1)).toFixed();
+    return minInt224.plus(n.minus(maxInt224).minus(1)).toNumber();
   };
 }
