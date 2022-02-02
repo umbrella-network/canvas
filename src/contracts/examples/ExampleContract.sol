@@ -16,3 +16,4 @@ contract ExampleContract {
         return u.toInt();
     }
 }
+
