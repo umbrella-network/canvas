@@ -3,9 +3,9 @@ import { FIXED_NUMBER_PREFIX, NUMERIC_MULTIPLIER, INT_PREFIX, MAX_UINT224_HEX } 
 import { utils } from 'ethers';
 import { evenHex, prepend0x } from '../utils/helpers';
 import { FeedValue } from '../types/Feed';
-const maxUint224 = new BigNumber(MAX_UINT224_HEX);
-const maxInt224 = maxUint224.minus(1).div(2);
-const minInt224 = maxInt224.plus(1).times(-1);
+const maxUint224 = BigInt(MAX_UINT224_HEX);
+const maxInt224 = (maxUint224 - 1n) / 2n;
+const minInt224 = (maxInt224 + 1n) * -1n;
 
 export class LeafValueCoder {
   /**
@@ -20,10 +20,18 @@ export class LeafValueCoder {
     }
 
     if (LeafValueCoder.isIntValue(label)) {
-      return LeafValueCoder.encodeHex(LeafValueCoder.intValueToHex(new BigNumber(n, 10)), bits);
+      if (typeof n === 'number' || typeof n === 'bigint') {
+        return LeafValueCoder.encodeHex(LeafValueCoder.intValueToHex(n), bits);
+      } else {
+        throw Error(`${n} is not valid number or bigint`);
+      }
     }
 
-    return LeafValueCoder.encodeHex(new BigNumber(n, 10).times(NUMERIC_MULTIPLIER).toString(16), bits);
+    if (typeof n === 'number') {
+      return LeafValueCoder.encodeHex(new BigNumber(n, 10).times(NUMERIC_MULTIPLIER).toString(16), bits);
+    } else {
+      throw Error(`${n} is not valid number`);
+    }
   };
 
   static encodeHex = (leafAsHex: string, bits = 256): Buffer => {
@@ -43,7 +51,7 @@ export class LeafValueCoder {
    * @param leafAsHex {string} data in hex format
    * @param label {string}
    */
-  static decode = (leafAsHex: string, label: string): number | string => {
+  static decode = (leafAsHex: string, label: string): number | bigint | string => {
     const bn = new BigNumber(leafAsHex, 16);
 
     if (LeafValueCoder.isFixedValue(label)) {
@@ -51,7 +59,7 @@ export class LeafValueCoder {
     }
 
     if (LeafValueCoder.isIntValue(label)) {
-      return LeafValueCoder.toInt(bn);
+      return LeafValueCoder.toInt(BigInt(prepend0x(bn.toString(16))));
     }
 
     return bn.div(NUMERIC_MULTIPLIER).toNumber();
@@ -88,25 +96,26 @@ export class LeafValueCoder {
     if (typeof n === 'number') {
       return n.toString(16);
     }
-
-    return new BigNumber(n || '0', n.startsWith('0x') ? 16 : 10).toString(16);
+    if (typeof n === 'string') {
+      return new BigNumber(n || '0', n.startsWith('0x') ? 16 : 10).toString(16);
+    }
+    throw Error(`${n} is not valid number or hex string`);
   };
 
   static isIntValue = (label: string): boolean => label.startsWith(INT_PREFIX);
 
-  static intValueToHex = (n: BigNumber | number): string => {
+  static intValueToHex = (n: bigint | number): string => {
     if (n >= 0) {
       return n.toString(16);
     }
-
-    return maxUint224.plus(n).plus(1).toString(16);
+    return (typeof n === 'bigint' ? maxUint224 + n + 1n : maxUint224 + BigInt(n) + 1n).toString(16);
   };
 
-  static toInt = (n: BigNumber): number => {
-    if (maxInt224.gte(n)) {
-      return n.toNumber();
+  static toInt = (n: bigint): bigint => {
+    if (maxInt224 >= n) {
+      return n;
     }
 
-    return minInt224.plus(n.minus(maxInt224).minus(1)).toNumber();
+    return minInt224 + n - maxInt224 - 1n;
   };
 }

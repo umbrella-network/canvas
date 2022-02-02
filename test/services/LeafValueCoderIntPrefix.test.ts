@@ -1,12 +1,10 @@
 import { expect } from 'chai';
-//import { BigNumber } from 'ethers';
-import BigNumber from 'bignumber.js';
 import { LeafValueCoder } from '../../src/';
 import { INT_PREFIX } from '../../src/constants';
 
-const maxUint224 = new BigNumber('0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-const maxInt224 = maxUint224.minus(1).div(2);
-const minInt224 = maxInt224.plus(1).times(-1);
+const maxUint224 = BigInt('0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+const maxInt224 = (maxUint224 - 1n) / 2n;
+const minInt224 = (maxInt224 + 1n) * -1n;
 
 describe('LeafValueCoder', () => {
   describe('test isIntValue()', async () => {
@@ -27,7 +25,7 @@ describe('LeafValueCoder', () => {
     const testCases = [
       { input: 0, expected: '0' },
       { input: 1, expected: '1' },
-      { input: minInt224, expected: maxUint224.plus(1).div(2).toString(16) },
+      { input: minInt224, expected: ((maxUint224 + 1n) / 2n).toString(16) },
       { input: -1, expected: maxUint224.toString(16) },
     ];
     testCases.forEach(({ input, expected }) => {
@@ -39,38 +37,40 @@ describe('LeafValueCoder', () => {
 
   describe('test toInt()', async () => {
     const testCases = [
-      { input: 0, expected: 0 },
-      { input: 1, expected: 1 },
-      { input: maxUint224.plus(1).div(2).toFixed(), expected: minInt224.toNumber() },
-      { input: maxUint224.toFixed(), expected: -1 },
+      { input: 0n, expected: 0n },
+      { input: 1n, expected: 1n },
+      { input: (maxUint224 + 1n) / 2n, expected: minInt224 },
+      { input: maxUint224, expected: -1n },
     ];
     testCases.forEach(({ input, expected }) => {
       it(`convert int ${input} to int => expect ${expected}`, async () => {
-        expect(LeafValueCoder.toInt(new BigNumber(input))).to.eq(expected);
+        expect(LeafValueCoder.toInt(input)).to.eq(expected);
       });
     });
   });
 
   describe('test decoder', async () => {
     const testCases = [
-      { input: new BigNumber(0).toString(16), expected: 0 },
-      { input: new BigNumber(1).toString(16), expected: 1 },
-      { input: maxUint224.plus(1).div(2).toString(16), expected: minInt224.toNumber() },
-      { input: maxUint224.toString(16), expected: -1 },
+      { input: '0x' + 0n.toString(16), expected: 0n },
+      { input: '0x' + 1n.toString(16), expected: 1n },
+      { input: '0x' + ((maxUint224 + 1n) / 2n).toString(16), expected: minInt224 },
+      { input: '0x' + maxUint224.toString(16), expected: -1n },
     ];
     testCases.forEach(({ input, expected }) => {
       it(`decode ${input} => expect ${expected}`, async () => {
-        expect(await LeafValueCoder.decode(input, INT_PREFIX)).to.eq(expected);
+        const decoded = LeafValueCoder.decode(input, INT_PREFIX);
+        expect(decoded).to.eq(expected);
       });
     });
   });
 
   describe('test encoder', async () => {
-    const values = [0, 1, Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER, -1];
+    const values = [0n, 1n, maxInt224, minInt224, -1n];
     values.forEach((value) => {
       it(`expect to encode and decode integers ${value}`, async () => {
         const leaf = LeafValueCoder.encode(value, INT_PREFIX).toString('hex');
-        expect(LeafValueCoder.decode(leaf, INT_PREFIX)).to.eql(value);
+        const decoded = LeafValueCoder.decode(leaf, INT_PREFIX);
+        expect(decoded).to.eql(value);
       });
     });
   });
