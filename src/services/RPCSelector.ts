@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Block } from '@ethersproject/providers';
+import { providers } from 'ethers';
 import { isTimestampMoreRecentThan } from '../utils/helpers';
 
 interface ProviderComparand {
@@ -6,49 +6,59 @@ interface ProviderComparand {
   url: string;
 }
 
+interface Config {
+  timeout: number;
+  maxTimestampDiff: number;
+}
+
 class RPCSelector {
-  readonly urls: string[];
-  readonly preferredProviderUrl: string;
-  readonly rpcRequestTimeout: number;
-  readonly maxBlockAge: number;
+  private readonly urls: string[];
+  private readonly config: Config;
 
-  constructor(urls: string | string[], rpcRequestTimeout = 15000, maxBlockAge = 60) {
+  constructor(urls: string | string[], config: Config = { timeout: 15000, maxTimestampDiff: 60000 }) {
     this.urls = typeof urls === 'string' ? urls.split(',') : urls;
-    this.preferredProviderUrl = this.urls[0];
-    this.rpcRequestTimeout = rpcRequestTimeout;
-    this.maxBlockAge = maxBlockAge;
+    this.config = config;
   }
 
-  async apply(): Promise<string> {
-    if (this.urls.length === 1 || (await this.isPreferredProviderUpToDate())) {
-      return this.preferredProviderUrl;
-    } else {
-      const providers = await Promise.all(this.getProviders(this.urls.slice(1)));
-      return this.getMostUpToDateProvider(providers);
+  public async selectByTimestamp(): Promise<string> {
+    if (this.urls.length === 1) return this.urls[0];
+
+    for (const url of this.urls) {
+      if (await this.isProviderUpToDate(url)) {
+        console.log(`[RPCSelector] Found up-to-date RPC ${url}`);
+        return url;
+      }
     }
+
+    console.log('[RPCSelector] No up-to-date Provider was found. Using default.');
+    return this.urls[0];
   }
 
-  private async isPreferredProviderUpToDate(): Promise<boolean> {
+  public async selectByLatestBlockNumber(): Promise<string> {
+    if (this.urls.length === 1) return this.urls[0];
+
+    const providerComparands = await Promise.all(this.getProviderComparands());
+
+    return this.getProviderWithHighestBlockNumber(providerComparands);
+  }
+
+  private async isProviderUpToDate(url: string): Promise<boolean> {
     try {
-      const provider = new JsonRpcProvider(this.preferredProviderUrl);
-      const block = await Promise.race([provider.getBlock('latest'), this.timeout()]);
-      return this.isBlockRecentlyMinted(block as Block);
-    } catch (e) {
+      const provider = providers.getDefaultProvider(url);
+      const block = <{ timestamp: number }>await Promise.race([provider.getBlock('latest'), this.timeout()]);
+      return isTimestampMoreRecentThan(block.timestamp, this.config.maxTimestampDiff / 1000);
+    } catch {
       return false;
     }
   }
 
-  private isBlockRecentlyMinted(block: Block): boolean {
-    return isTimestampMoreRecentThan(block.timestamp, this.maxBlockAge);
-  }
-
-  private getProviders(providersURLs: string[]): Promise<ProviderComparand>[] {
-    return providersURLs.map(async (url) => {
+  private getProviderComparands(): Promise<ProviderComparand>[] {
+    return this.urls.map(async (url) => {
       try {
-        const provider = new JsonRpcProvider(url);
+        const provider = providers.getDefaultProvider(url);
         const blockNumber = await Promise.race([provider.getBlockNumber(), this.timeout()]);
         return { blockNumber: blockNumber || 0, url };
-      } catch (e) {
+      } catch {
         return { blockNumber: 0, url };
       }
     });
@@ -56,12 +66,13 @@ class RPCSelector {
 
   private timeout(): Promise<void> {
     return new Promise((_, reject) => {
-      setTimeout(reject, this.rpcRequestTimeout, 'Took too long to fetch RPC data');
+      setTimeout(reject, this.config.timeout, 'Took too long to fetch RPC data');
     });
   }
 
-  private getMostUpToDateProvider(providers: ProviderComparand[]): string {
-    const { url } = providers.reduce((acc, cur) => (acc.blockNumber > cur.blockNumber ? acc : cur));
+  private getProviderWithHighestBlockNumber(comparands: ProviderComparand[]): string {
+    const { url } = comparands.reduce((acc, cur) => (cur.blockNumber > acc.blockNumber ? cur : acc));
+    console.log(`[RPCSelector] Found highest block number on ${url}`);
     return url;
   }
 }
