@@ -480,3 +480,39 @@ Response example for successful verification:
 ```
 
 For unsuccessful it throws.
+
+# RPCSelector
+
+## Initialization
+
+```ts
+import {RPCSelector} from '@umb-network/toolbox';
+
+// you can use either comma-separated URLs or an array of URLs
+const URLS = 'http://rpc-1:8545,http://rpc-2:8545';
+// or
+const URLS = ['http://rpc-1:8545', 'http://rpc-2:8545'];
+
+const rpcSelector = new RPCSelector(URLS);
+```
+
+## RPCSelector#apply
+
+### Signature
+
+```shell
+rpcSelector.selectByTimestamp(): Promise<string>
+rpcSelector.selectByLatestBlockNumber(): Promise<string>
+```
+
+### Examples
+
+Code
+
+```ts
+const youngestBlockAgeRPC = await rpcSelector.selectByTimestamp();
+const latestBlockNumberRPC = await rpcSelector.selectByLatestBlockNumber();
+
+// use it to create a new ethers provider
+const provider = new JsonRpcProvider(youngestBlockAgeRPC);
+```

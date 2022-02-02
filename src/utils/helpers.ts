@@ -12,3 +12,8 @@ export const evenHex = (v: string): string => {
   const hex = remove0x(v).replace(/^0+/g, '');
   return `${hex.length % 2 === 0 ? '' : '0'}${hex}`;
 };
+
+export const isTimestampMoreRecentThan = (timestamp: number, limit: number): boolean => {
+  const currentDate = Math.floor(Date.now() / 1000);
+  return timestamp <= currentDate && timestamp >= currentDate - limit;
+};
