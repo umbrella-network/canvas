@@ -27,11 +27,7 @@ export class LeafValueCoder {
       }
     }
 
-    if (typeof n === 'number') {
-      return LeafValueCoder.encodeHex(new BigNumber(n, 10).times(NUMERIC_MULTIPLIER).toString(16), bits);
-    } else {
-      throw Error(`${n} is not valid number`);
-    }
+    return LeafValueCoder.encodeHex(new BigNumber(n.toString(), 10).times(NUMERIC_MULTIPLIER).toString(16), bits);
   };
 
   static encodeHex = (leafAsHex: string, bits = 256): Buffer => {
@@ -96,10 +92,8 @@ export class LeafValueCoder {
     if (typeof n === 'number') {
       return n.toString(16);
     }
-    if (typeof n === 'string') {
-      return new BigNumber(n || '0', n.startsWith('0x') ? 16 : 10).toString(16);
-    }
-    throw Error(`${n} is not valid number or hex string`);
+    return new BigNumber(n.toString() || '0', n.toString().startsWith('0x') ? 16 : 10).toString(16);
+    //throw Error(`${n} is not valid number or hex string`);
   };
 
   static isIntValue = (label: string): boolean => label.startsWith(INT_PREFIX);
@@ -108,7 +102,8 @@ export class LeafValueCoder {
     if (n >= 0) {
       return n.toString(16);
     }
-    return (typeof n === 'bigint' ? maxUint224 + n + 1n : maxUint224 + BigInt(n) + 1n).toString(16);
+
+    return (maxUint224 + BigInt(n) + 1n).toString(16);
   };
 
   static toInt = (n: bigint): bigint => {
