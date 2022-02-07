@@ -28,7 +28,7 @@ describe('LeafValueCoder', () => {
     });
   });
 
-  const bigints: (number | bigint)[] =  [minInt224, -123456789, -33, -1n, 0n, 1n, 11, 123, maxInt224];
+  const bigints: (number | bigint)[] = [minInt224, -123456789, -33, -1n, 0n, 1n, 11, 123, maxInt224];
 
   bigints.forEach((f) => {
     it(`expect to encode and decode signed integer ${f}`, () => {

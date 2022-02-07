@@ -92,8 +92,8 @@ export class LeafValueCoder {
     if (typeof n === 'number') {
       return n.toString(16);
     }
+
     return new BigNumber(n.toString() || '0', n.toString().startsWith('0x') ? 16 : 10).toString(16);
-    //throw Error(`${n} is not valid number or hex string`);
   };
 
   static isIntValue = (label: string): boolean => label.startsWith(INT_PREFIX);
