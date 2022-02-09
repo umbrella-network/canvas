@@ -15,3 +15,4 @@ export default {
     artifacts: './src/contracts/examples/artifacts'
   }
 };
+
