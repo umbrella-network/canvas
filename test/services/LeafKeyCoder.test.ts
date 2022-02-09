@@ -37,3 +37,4 @@ describe('KeyCoder()', () => {
     expect(LeafKeyCoder.decode('0x4554482d555344')).to.eql('ETH-USD');
   });
 });
+
