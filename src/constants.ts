@@ -9,3 +9,4 @@ export const FIXED_NUMBER_PREFIX = 'FIXED_';
 export const INT_PREFIX = 'INT_';
 
 export const MAX_UINT224_HEX = '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+
