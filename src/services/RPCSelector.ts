@@ -20,7 +20,7 @@ class RPCSelector {
   private readonly urls: string[];
   private readonly config: Config;
 
-  constructor(urls: string | string[], config: Config = { timeout: 15000, maxTimestampDiff: 60000 }) {
+  constructor(urls: string | string[], config: Config = { timeout: 2500, maxTimestampDiff: 60000 }) {
     this.urls = typeof urls === 'string' ? urls.split(',') : urls;
     this.config = config;
   }

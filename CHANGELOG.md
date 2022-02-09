@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [5.6.1] - 2022-02-07
 ### Changed
 - Updated RPCSelector Timestamp strategy to not take too much time to run
+- Updated RPCSelector timeout to 2.5s
 
 ## [5.6.0] - 2022-01-26 
 ### Added
