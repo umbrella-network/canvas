@@ -8,3 +8,4 @@ dist/
 **/*.js
 cache
 src/contracts/examples/artifacts/
+
