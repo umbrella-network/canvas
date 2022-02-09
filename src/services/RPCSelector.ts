@@ -56,7 +56,7 @@ class RPCSelector {
 
   private getProviderWithUpToDateTimestamp(comparands: ComparandWithTimestamp[]): string {
     const { url } = comparands.find(({ isUpToDate }) => isUpToDate) || comparands[0];
-    console.log(`[RPCSelector] Found highest block number on ${url}`);
+    console.log(`[RPCSelector] Found up to date provider on ${url}`);
     return url;
   }
 
