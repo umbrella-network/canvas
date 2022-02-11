@@ -26,5 +26,4 @@ export default interface Feeds {
 
 export type HexStringWith0x = string;
 
-export type FeedValue = number | bigint | HexStringWith0x;
-
+export type FeedValue = number | HexStringWith0x;
