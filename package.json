@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "5.7.0",
+  "version": "5.6.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
