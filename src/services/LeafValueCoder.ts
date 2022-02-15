@@ -1,5 +1,12 @@
 import BigNumber from 'bignumber.js';
-import { FIXED_NUMBER_PREFIX, NUMERIC_MULTIPLIER } from '../constants';
+import {
+  FIXED_NUMBER_PREFIX,
+  NUMERIC_MULTIPLIER,
+  SIGNED_NUMBER_PREFIX,
+  MAX_UINT224_BN,
+  MAX_INT_224_BN,
+  MIN_INT_224_BN,
+} from '../constants';
 import { utils } from 'ethers';
 import { evenHex, prepend0x } from '../utils/helpers';
 import { FeedValue } from '../types/Feed';
@@ -12,10 +19,17 @@ export class LeafValueCoder {
    * @param bits
    */
   static encode = (n: FeedValue, label: string, bits = 256): Buffer => {
-    const hex = LeafValueCoder.isFixedValue(label)
-      ? LeafValueCoder.fixedValueToHex(n)
-      : new BigNumber(n, 10).times(NUMERIC_MULTIPLIER).toString(16);
-    return LeafValueCoder.encodeHex(hex, bits);
+    if (LeafValueCoder.isFixedValue(label)) {
+      return LeafValueCoder.encodeHex(LeafValueCoder.fixedValueToHex(n), bits);
+    }
+
+    const bn = new BigNumber(n, 10).times(NUMERIC_MULTIPLIER);
+
+    if (LeafValueCoder.isSignedValue(label)) {
+      return LeafValueCoder.encodeHex(LeafValueCoder.signedValueToHex(bn), bits);
+    }
+
+    return LeafValueCoder.encodeHex(bn.toString(16), bits);
   };
 
   static encodeHex = (leafAsHex: string, bits = 256): Buffer => {
@@ -37,7 +51,17 @@ export class LeafValueCoder {
    */
   static decode = (leafAsHex: string, label: string): number | string => {
     const bn = new BigNumber(leafAsHex, 16);
-    return LeafValueCoder.isFixedValue(label) ? bn.toFixed() : bn.div(NUMERIC_MULTIPLIER).toNumber();
+
+    if (LeafValueCoder.isFixedValue(label)) {
+      return bn.toFixed();
+    }
+
+    if (LeafValueCoder.isSignedValue(label)) {
+      const signedInt = LeafValueCoder.toInt(bn);
+      return signedInt.div(NUMERIC_MULTIPLIER).toNumber();
+    }
+
+    return bn.div(NUMERIC_MULTIPLIER).toNumber();
   };
 
   /**
@@ -67,11 +91,29 @@ export class LeafValueCoder {
 
   static isFixedValue = (label: string): boolean => label.startsWith(FIXED_NUMBER_PREFIX);
 
+  static isSignedValue = (label: string): boolean => label.startsWith(SIGNED_NUMBER_PREFIX);
+
   private static fixedValueToHex = (n: FeedValue): string => {
     if (typeof n === 'number') {
       return n.toString(16);
     }
 
     return new BigNumber(n || '0', n.startsWith('0x') ? 16 : 10).toString(16);
+  };
+
+  static signedValueToHex = (n: BigNumber): string => {
+    if (n.gte(0)) {
+      return n.toString(16);
+    }
+
+    return MAX_UINT224_BN.plus(n).plus(1).toString(16);
+  };
+
+  static toInt = (n: BigNumber): BigNumber => {
+    if (MAX_INT_224_BN.gte(n)) {
+      return n;
+    }
+
+    return MIN_INT_224_BN.plus(n).minus(MAX_INT_224_BN).minus(1);
   };
 }
