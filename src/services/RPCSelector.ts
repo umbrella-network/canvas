@@ -20,7 +20,7 @@ class RPCSelector {
   private readonly urls: string[];
   private readonly config: Config;
 
-  constructor(urls: string | string[], config: Config = { timeout: 15000, maxTimestampDiff: 60000 }) {
+  constructor(urls: string | string[], config: Config = { timeout: 2500, maxTimestampDiff: 60000 }) {
     this.urls = typeof urls === 'string' ? urls.split(',') : urls;
     this.config = config;
   }
@@ -56,7 +56,7 @@ class RPCSelector {
 
   private getProviderWithUpToDateTimestamp(comparands: ComparandWithTimestamp[]): string {
     const { url } = comparands.find(({ isUpToDate }) => isUpToDate) || comparands[0];
-    console.log(`[RPCSelector] Found highest block number on ${url}`);
+    console.log(`[RPCSelector] Found up to date provider on ${url}`);
     return url;
   }
 

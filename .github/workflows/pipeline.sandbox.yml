@@ -13,6 +13,9 @@ on:
     types:
       - SDK_Test
 
+env:
+  FEEDS_URL: https://raw.githubusercontent.com/umbrella-network/pegasus-feeds/main/prod/bsc/feeds.yaml
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,7 +42,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY_SANDBOX }}
           BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_AVAX_SANDBOX }}
           REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_AVAX_SANDBOX }}
-          FEEDS_URL: ${{ secrets.FEEDS_URL }}
+          FEEDS_URL: ${{ env.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_AVAX }}
         run: npm run test
       - name: Unit tests for POLYGON
@@ -48,7 +51,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY_SANDBOX }}
           BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_POLYGON_SANDBOX }}
           REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_POLYGON_SANDBOX }}
-          FEEDS_URL: ${{ secrets.FEEDS_URL }}
+          FEEDS_URL: ${{ env.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_POLYGON }}
         run: npm run test
       - name: Unit tests for ETH
@@ -57,7 +60,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY_SANDBOX }}
           BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_ETH_SANDBOX }}
           REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_ETH_SANDBOX }}
-          FEEDS_URL: ${{ secrets.FEEDS_URL }}
+          FEEDS_URL: ${{ env.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_ETH }}
         run: npm run test
       - name: Unit tests for BSC
@@ -66,7 +69,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY_SANDBOX }}
           BLOCKCHAIN_PROVIDER_URL: ${{ secrets.BLOCKCHAIN_PROVIDER_URL_BSC_SANDBOX }}
           REGISTRY_CONTRACT_ADDRESS: ${{ secrets.REGISTRY_CONTRACT_ADDRESS_BSC_SANDBOX }}
-          FEEDS_URL: ${{ secrets.FEEDS_URL }}
+          FEEDS_URL: ${{ env.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_BSC }}
         run: npm run test
       - name: Lint
