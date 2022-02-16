@@ -73,6 +73,10 @@ export class LeafValueCoder {
       return label.slice(FIXED_NUMBER_PREFIX.length);
     }
 
+    if (LeafValueCoder.isSignedValue(label)) {
+      return label.slice(SIGNED_NUMBER_PREFIX.length);
+    }
+
     return label;
   };
 
