@@ -117,6 +117,10 @@ describe('LeafValueCoder', () => {
     it('converts the key of a fixed value', () => {
       expect(LeafValueCoder.printableKey('FIXED_TEST')).to.eql('TEST');
     });
+
+    it('converts the key of a fixed value', () => {
+      expect(LeafValueCoder.printableKey('SIGN_TEST')).to.eql('TEST');
+    });
   });
 
   describe('.printableValue()', () => {
@@ -147,6 +151,36 @@ describe('LeafValueCoder', () => {
     it('converts zero value of a non-fixed value', () => {
       expect(
         LeafValueCoder.printableValue('0x0000000000000000000000000000000000000000000000000000000000000000', 'TEST')
+      ).to.eql('0');
+    });
+
+    it('converts the value of a signed value', () => {
+      expect(
+        LeafValueCoder.printableValue('0x000000000000000000000000000000000001bc16d674ec7ff21f494c589c0000', 'SIGN_TEST')
+      ).to.eql(Number.MAX_SAFE_INTEGER.toString());
+    });
+
+    it('converts value of a signed value', () => {
+      expect(
+        LeafValueCoder.printableValue('0x00000000fffffffffffffffffffffffffffe43e9298b13800de0b6b3a7640000', 'SIGN_TEST')
+      ).to.eql(Number.MIN_SAFE_INTEGER.toString());
+    });
+
+    it('converts value of a signed value', () => {
+      expect(
+        LeafValueCoder.printableValue('0x000000000000000000000000000000000000000000000000002aa1efb94e0000', 'SIGN_TEST')
+      ).to.eql('0.012');
+    });
+
+    it('converts value of a signed value', () => {
+      expect(
+        LeafValueCoder.printableValue('0x00000000ffffffffffffffffffffffffffffffffffffffff1413de11e25c0000', 'SIGN_TEST')
+      ).to.eql('-17');
+    });
+
+    it('converts zero value of a signed value', () => {
+      expect(
+        LeafValueCoder.printableValue('0x0000000000000000000000000000000000000000000000000000000000000000', 'SIGN_TEST')
       ).to.eql('0');
     });
   });
