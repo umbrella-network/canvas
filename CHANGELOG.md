@@ -6,10 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 ### Added
-- Support for signed integers
+- Passport interface, ABI, and Structs
 
-### Changed
-- Updated RPCSelector Timestamp strategy to not take too much time to run
 ## [5.6.1] - 2022-02-07
 ### Changed
 - Updated RPCSelector Timestamp strategy to not take too much time to run
