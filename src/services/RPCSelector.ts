@@ -1,12 +1,7 @@
 import { providers } from 'ethers';
 import { isTimestampMoreRecentThan } from '../utils/helpers';
 
-interface ComparandWithTimestamp {
-  isUpToDate: boolean;
-  url: string;
-}
-
-interface ComparandWithBlockNumber {
+interface ProviderComparand {
   blockNumber: number;
   url: string;
 }
@@ -28,9 +23,15 @@ class RPCSelector {
   public async selectByTimestamp(): Promise<string> {
     if (this.urls.length === 1) return this.urls[0];
 
-    const timestamps = await Promise.all(this.getProvidersTimestamps());
+    for (const url of this.urls) {
+      if (await this.isProviderUpToDate(url)) {
+        console.log(`[RPCSelector] Found up-to-date RPC ${url}`);
+        return url;
+      }
+    }
 
-    return this.getProviderWithUpToDateTimestamp(timestamps);
+    console.log('[RPCSelector] No up-to-date Provider was found. Using default.');
+    return this.urls[0];
   }
 
   public async selectByLatestBlockNumber(): Promise<string> {
@@ -41,31 +42,17 @@ class RPCSelector {
     return this.getProviderWithHighestBlockNumber(providerComparands);
   }
 
-  private getProvidersTimestamps(): Promise<ComparandWithTimestamp>[] {
-    return this.urls.map(async (url) => {
-      try {
-        const provider = providers.getDefaultProvider(url);
-        const block = <{ timestamp: number }>await Promise.race([provider.getBlock('latest'), this.timeout()]);
-        const isUpToDate = isTimestampMoreRecentThan(block.timestamp, this.config.maxTimestampDiff / 1000);
-        return { url, isUpToDate };
-      } catch {
-        return { url, isUpToDate: false };
-      }
-    });
-  }
-
-  private getProviderWithUpToDateTimestamp(comparands: ComparandWithTimestamp[]): string {
-    const upToDateProviderUrl = comparands.find(({ isUpToDate }) => isUpToDate)?.url;
-
-    if (!upToDateProviderUrl) {
-      throw new Error('Could not find any healthy providers.');
+  private async isProviderUpToDate(url: string): Promise<boolean> {
+    try {
+      const provider = providers.getDefaultProvider(url);
+      const block = <{ timestamp: number }>await Promise.race([provider.getBlock('latest'), this.timeout()]);
+      return isTimestampMoreRecentThan(block.timestamp, this.config.maxTimestampDiff / 1000);
+    } catch {
+      return false;
     }
-    
-    console.log(`[RPCSelector] Found up to date provider on ${upToDateProviderUrl}`);
-    return upToDateProviderUrl;
   }
 
-  private getProviderComparands(): Promise<ComparandWithBlockNumber>[] {
+  private getProviderComparands(): Promise<ProviderComparand>[] {
     return this.urls.map(async (url) => {
       try {
         const provider = providers.getDefaultProvider(url);
@@ -83,13 +70,8 @@ class RPCSelector {
     });
   }
 
-  private getProviderWithHighestBlockNumber(comparands: ComparandWithBlockNumber[]): string {
-    const { blockNumber, url } = comparands.reduce((acc, cur) => (cur.blockNumber > acc.blockNumber ? cur : acc));
-
-    if (blockNumber === 0) {
-      throw new Error('Could not find any healthy providers.');
-    }
-
+  private getProviderWithHighestBlockNumber(comparands: ProviderComparand[]): string {
+    const { url } = comparands.reduce((acc, cur) => (cur.blockNumber > acc.blockNumber ? cur : acc));
     console.log(`[RPCSelector] Found highest block number on ${url}`);
     return url;
   }
