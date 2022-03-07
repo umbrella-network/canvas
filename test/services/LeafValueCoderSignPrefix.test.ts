@@ -6,8 +6,13 @@ import { NUMERIC_MULTIPLIER, SIGNED_NUMBER_PREFIX, MAX_UINT224_BN, MIN_INT_224_B
 describe('LeafValueCoder', () => {
   describe('test isSignedValue()', async () => {
     const testCases = [
+<<<<<<< HEAD
       { input: 'SIGN_TEST_LABEL', expected: true },
       { input: 'SIGNS_TEST_LABEL', expected: false },
+=======
+      { input: 'SN_TEST_LABEL', expected: true },
+      { input: 'SNS_TEST_LABEL', expected: false },
+>>>>>>> 5.7.0
       { input: 'FIXED_TEST_LABEL', expected: false },
       { input: '0x0000000000000000000000000000000000000000', expected: false },
     ];
@@ -32,6 +37,13 @@ describe('LeafValueCoder', () => {
         input: new BigNumber(Number.MIN_SAFE_INTEGER, 10).times(NUMERIC_MULTIPLIER),
         expected: 'fffffffffffffffffffffffffffe43e9298b13800de0b6b3a7640000',
       },
+<<<<<<< HEAD
+=======
+      {
+        input: new BigNumber(-0.31721878291382405, 10).times(NUMERIC_MULTIPLIER),
+        expected: 'fffffffffffffffffffffffffffffffffffffffffb9903329856face',
+      },
+>>>>>>> 5.7.0
     ];
     testCases.forEach(({ input, expected }) => {
       it(`convert number ${input} to hex => expect ${expected}`, async () => {
@@ -66,6 +78,13 @@ describe('LeafValueCoder', () => {
         input: '0x00000000fffffffffffffffffffffffffffe43e9298b13800de0b6b3a7640000',
         expected: Number.MIN_SAFE_INTEGER,
       },
+<<<<<<< HEAD
+=======
+      {
+        input: '0xfffffffffffffffffffffffffffffffffffffffffb9903329856face',
+        expected: -0.31721878291382405,
+      },
+>>>>>>> 5.7.0
     ];
     testCases.forEach(({ input, expected }) => {
       it(`decode ${input} => expect ${expected}`, async () => {
@@ -78,7 +97,11 @@ describe('LeafValueCoder', () => {
   describe('test encoder', async () => {
     const values = [
       0,
+<<<<<<< HEAD
       0.012,
+=======
+      '0.1234567890123456',
+>>>>>>> 5.7.0
       1,
       15151515,
       -17,
@@ -87,14 +110,26 @@ describe('LeafValueCoder', () => {
       Number.MIN_SAFE_INTEGER,
       -1,
       -4564563,
+<<<<<<< HEAD
       -14.1554,
       -0.2151,
+=======
+      '-14.1554',
+      -0.2151,
+      -0.31721878291382405,
+>>>>>>> 5.7.0
     ];
     values.forEach((value) => {
       it(`expect to encode and decode numbers ${value}`, async () => {
         const leaf = LeafValueCoder.encode(value, SIGNED_NUMBER_PREFIX).toString('hex');
+<<<<<<< HEAD
         const decoded = LeafValueCoder.decode(leaf, SIGNED_NUMBER_PREFIX);
         expect(decoded).to.eql(value);
+=======
+        console.log(leaf);
+        const decoded = LeafValueCoder.decode(leaf, SIGNED_NUMBER_PREFIX);
+        expect(decoded.toString()).to.eql(value.toString());
+>>>>>>> 5.7.0
       });
     });
   });

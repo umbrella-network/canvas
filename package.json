@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "5.6.1",
+  "version": "5.7.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
@@ -46,7 +46,6 @@
     "dotenv": "~8.2.0",
     "eslint": "~7.15.0",
     "ethereum-waffle": "~3.4.0",
-    "ethers": "~5.4.5",
     "hardhat": "~2.8.2",
     "mocha": "~8.2.1",
     "moxios": "~0.4.0",

@@ -119,7 +119,11 @@ describe('LeafValueCoder', () => {
     });
 
     it('converts the key of a fixed value', () => {
+<<<<<<< HEAD
       expect(LeafValueCoder.printableKey('SIGN_TEST')).to.eql('TEST');
+=======
+      expect(LeafValueCoder.printableKey('SN_TEST')).to.eql('TEST');
+>>>>>>> 5.7.0
     });
   });
 
@@ -154,6 +158,7 @@ describe('LeafValueCoder', () => {
       ).to.eql('0');
     });
 
+<<<<<<< HEAD
     it('converts the value of a signed value', () => {
       expect(
         LeafValueCoder.printableValue('0x000000000000000000000000000000000001bc16d674ec7ff21f494c589c0000', 'SIGN_TEST')
@@ -182,6 +187,24 @@ describe('LeafValueCoder', () => {
       expect(
         LeafValueCoder.printableValue('0x0000000000000000000000000000000000000000000000000000000000000000', 'SIGN_TEST')
       ).to.eql('0');
+=======
+    const testCases = [
+      { input: '0x000000000000000000000000000000000001bc16d674ec7ff21f494c589c0000', expected: Number.MAX_SAFE_INTEGER.toString() },
+      { input: '0x00000000fffffffffffffffffffffffffffe43e9298b13800de0b6b3a7640000', expected: Number.MIN_SAFE_INTEGER.toString() },
+      { input: '0x000000000000000000000000000000000000000000000000002aa1efb94e0000', expected: '0.012' },
+      { input: '0x00000000ffffffffffffffffffffffffffffffffffffffff1413de11e25c0000', expected: '-17' },
+      { input: '0x0000000000000000000000000000000000000000000000000000000000000000', expected: '0' },
+      { input: '0x00000000fffffffffffffffffffffffffffffffffffffffff9bdc68e8976cf38', expected: '-0.450986072173261' },
+      { input: '0x00000000fffffffffffffffffffffffffffffffffffffffffb9903329856face', expected: '-0.31721878291382405' },
+    ];
+
+    testCases.forEach(({ input, expected }) => {
+      it('converts the value of a signed value', async () => {
+        expect(
+          LeafValueCoder.printableValue(input, 'SN_TEST')
+        ).to.eql(expected);
+      });
+>>>>>>> 5.7.0
     });
   });
 });

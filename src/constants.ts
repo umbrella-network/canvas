@@ -8,7 +8,7 @@ export const NUMERIC_MULTIPLIER = 10 ** 18;
 
 export const FIXED_NUMBER_PREFIX = 'FIXED_';
 
-export const SIGNED_NUMBER_PREFIX = 'SIGN_';
+export const SIGNED_NUMBER_PREFIX = 'SN_';
 
 export const MAX_UINT224_HEX = '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
