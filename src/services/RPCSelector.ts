@@ -55,9 +55,14 @@ class RPCSelector {
   }
 
   private getProviderWithUpToDateTimestamp(comparands: ComparandWithTimestamp[]): string {
-    const { url } = comparands.find(({ isUpToDate }) => isUpToDate) || comparands[0];
-    console.log(`[RPCSelector] Found up to date provider on ${url}`);
-    return url;
+    const upToDateProviderUrl = comparands.find(({ isUpToDate }) => isUpToDate)?.url;
+
+    if (!upToDateProviderUrl) {
+      throw new Error('Could not find any healthy providers.');
+    }
+    
+    console.log(`[RPCSelector] Found up to date provider on ${upToDateProviderUrl}`);
+    return upToDateProviderUrl;
   }
 
   private getProviderComparands(): Promise<ComparandWithBlockNumber>[] {
@@ -79,7 +84,12 @@ class RPCSelector {
   }
 
   private getProviderWithHighestBlockNumber(comparands: ComparandWithBlockNumber[]): string {
-    const { url } = comparands.reduce((acc, cur) => (cur.blockNumber > acc.blockNumber ? cur : acc));
+    const { blockNumber, url } = comparands.reduce((acc, cur) => (cur.blockNumber > acc.blockNumber ? cur : acc));
+
+    if (blockNumber === 0) {
+      throw new Error('Could not find any healthy providers.');
+    }
+
     console.log(`[RPCSelector] Found highest block number on ${url}`);
     return url;
   }

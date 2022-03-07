@@ -36,4 +36,28 @@ describe('KeyCoder()', () => {
     expect(LeafKeyCoder.decode('4554482d555344')).to.eql('ETH-USD');
     expect(LeafKeyCoder.decode('0x4554482d555344')).to.eql('ETH-USD');
   });
+
+  const options = [
+    'ETH-26NOV21-3500',
+    'BTC-26NOV21-66000'
+  ];
+
+  const optionsSuffix = [
+    'call_price',
+    'put_price',
+    'iv',
+    'gamma',
+    'call_delta',
+    'put_delta',
+  ];
+
+  options.forEach((base) => {
+    optionsSuffix.forEach((suffix) => {
+      it(`expect to encode and decode options key label for ${base}`, () => {
+        const key = 'SN_' + base + '_' + suffix;
+        const encoded = LeafKeyCoder.encode(key).toString('hex');
+        expect(LeafKeyCoder.decode(encoded)).to.eql(key);
+      });
+    });
+  });
 });

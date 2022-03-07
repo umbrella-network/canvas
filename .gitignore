@@ -3,3 +3,8 @@ node_modules/
 dist/
 .env*
 .vscode
+.DS_STORE
+.idea
+cache
+src/contracts/examples/artifacts/
+
