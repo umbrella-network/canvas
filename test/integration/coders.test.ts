@@ -24,20 +24,12 @@ describe('LeafValueCoder', () => {
     });
   });
 
-<<<<<<< HEAD
-  const signedNumbers: number[] = [
-=======
   const signedNumbers: (number | string)[] = [
->>>>>>> 5.7.0
     Number.MIN_SAFE_INTEGER,
     -1565165161.2342 - 123456789,
     -45.1451 - 33,
     -1,
-<<<<<<< HEAD
-    -0.123685463,
-=======
     '-0.123685463',
->>>>>>> 5.7.0
     0,
     0.0015154,
     1,
@@ -45,10 +37,7 @@ describe('LeafValueCoder', () => {
     123,
     98539875,
     Number.MAX_SAFE_INTEGER,
-<<<<<<< HEAD
-=======
     -0.31721878291382405,
->>>>>>> 5.7.0
   ];
 
   signedNumbers.forEach((f) => {
