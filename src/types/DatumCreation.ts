@@ -1,4 +1,4 @@
-export interface IDatumCreation {
+export interface DatumCreation {
   receiverAddress: string;
   funderAddress?: string;
   depositAmount: string;

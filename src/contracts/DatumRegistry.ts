@@ -1,17 +1,17 @@
 import { Contract, ethers } from 'ethers';
 
-import { IDatumCreation } from '../types/IDatumCreation';
+import { DatumCreation } from '../types/DatumCreation';
 import { datumRegistryAbi } from './abi';
 import { LeafKeyCoder } from '../index';
 
 export class DatumRegistryContract {
   contract: Contract;
 
-  constructor(providerOrSigner: ethers.providers.Provider | ethers.Signer, datumRegistryAddress: string) {
-    this.contract = new ethers.Contract(datumRegistryAddress, datumRegistryAbi, providerOrSigner);
+  constructor(signerOrProvider: ethers.providers.Provider | ethers.Signer, datumRegistryAddress: string) {
+    this.contract = new ethers.Contract(datumRegistryAddress, datumRegistryAbi, signerOrProvider);
   }
 
-  async create(createParams: IDatumCreation): Promise<ethers.providers.TransactionResponse> {
+  async create(createParams: DatumCreation): Promise<ethers.providers.TransactionResponse> {
     const funderAddress = createParams.funderAddress ?? (await this.contract.signer.getAddress());
     const encodedKeys = this.encodeKeys(createParams.keys);
 
@@ -36,9 +36,7 @@ export class DatumRegistryContract {
   }
 
   async withdraw(receiverAddress: string, withdrawAmount?: string): Promise<ethers.providers.TransactionResponse> {
-    const amount = await (withdrawAmount
-      ? withdrawAmount
-      : this.getBalance(receiverAddress, await this.contract.signer.getAddress()));
+    const amount = withdrawAmount ?? (await this.getBalance(receiverAddress, await this.contract.signer.getAddress()));
 
     const tx = await this.contract.withdraw(receiverAddress, amount);
 
@@ -60,8 +58,7 @@ export class DatumRegistryContract {
   }
 
   private async getBalance(receiverAddress: string, funderAddress: string): Promise<string> {
-    return (
-      await this.contract.datums(await this.contract.resolveId(receiverAddress, funderAddress))
-    ).balance.toString();
+    const datumId = await this.contract.resolveId(receiverAddress, funderAddress);
+    return (await this.contract.datums(datumId)).balance.toString();
   }
 }
