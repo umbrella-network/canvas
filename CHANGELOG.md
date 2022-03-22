@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [5.8.0] - 2022-03-22
+### Added
+- DatumRegistry contract wrapper
+
 ## [5.7.0] - 2022-02-16
 ### Added
 - Support for signed numbers
