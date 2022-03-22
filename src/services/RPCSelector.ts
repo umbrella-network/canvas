@@ -60,7 +60,7 @@ class RPCSelector {
     if (!upToDateProviderUrl) {
       throw new Error('Could not find any healthy providers.');
     }
-    
+
     console.log(`[RPCSelector] Found up to date provider on ${upToDateProviderUrl}`);
     return upToDateProviderUrl;
   }

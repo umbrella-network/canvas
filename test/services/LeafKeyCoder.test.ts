@@ -37,19 +37,9 @@ describe('KeyCoder()', () => {
     expect(LeafKeyCoder.decode('0x4554482d555344')).to.eql('ETH-USD');
   });
 
-  const options = [
-    'ETH-26NOV21-3500',
-    'BTC-26NOV21-66000'
-  ];
+  const options = ['ETH-26NOV21-3500', 'BTC-26NOV21-66000'];
 
-  const optionsSuffix = [
-    'call_price',
-    'put_price',
-    'iv',
-    'gamma',
-    'call_delta',
-    'put_delta',
-  ];
+  const optionsSuffix = ['call_price', 'put_price', 'iv', 'gamma', 'call_delta', 'put_delta'];
 
   options.forEach((base) => {
     optionsSuffix.forEach((suffix) => {
