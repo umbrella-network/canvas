@@ -155,8 +155,14 @@ describe('LeafValueCoder', () => {
     });
 
     const testCases = [
-      { input: '0x000000000000000000000000000000000001bc16d674ec7ff21f494c589c0000', expected: Number.MAX_SAFE_INTEGER.toString() },
-      { input: '0x00000000fffffffffffffffffffffffffffe43e9298b13800de0b6b3a7640000', expected: Number.MIN_SAFE_INTEGER.toString() },
+      {
+        input: '0x000000000000000000000000000000000001bc16d674ec7ff21f494c589c0000',
+        expected: Number.MAX_SAFE_INTEGER.toString(),
+      },
+      {
+        input: '0x00000000fffffffffffffffffffffffffffe43e9298b13800de0b6b3a7640000',
+        expected: Number.MIN_SAFE_INTEGER.toString(),
+      },
       { input: '0x000000000000000000000000000000000000000000000000002aa1efb94e0000', expected: '0.012' },
       { input: '0x00000000ffffffffffffffffffffffffffffffffffffffff1413de11e25c0000', expected: '-17' },
       { input: '0x0000000000000000000000000000000000000000000000000000000000000000', expected: '0' },
@@ -166,9 +172,7 @@ describe('LeafValueCoder', () => {
 
     testCases.forEach(({ input, expected }) => {
       it('converts the value of a signed value', async () => {
-        expect(
-          LeafValueCoder.printableValue(input, 'SN_TEST')
-        ).to.eql(expected);
+        expect(LeafValueCoder.printableValue(input, 'SN_TEST')).to.eql(expected);
       });
     });
   });

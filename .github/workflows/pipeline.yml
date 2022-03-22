@@ -38,7 +38,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
+
       - name: Unit tests for AVAX
+        if: ${{ always() }}
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           API_KEY: ${{ secrets.API_KEY }}
@@ -47,7 +49,9 @@ jobs:
           FEEDS_URL: ${{ env.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_AVAX }}
         run: npm run test
+
       - name: Unit tests for POLYGON
+        if: ${{ always() }}
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           API_KEY: ${{ secrets.API_KEY }}
@@ -56,7 +60,9 @@ jobs:
           FEEDS_URL: ${{ env.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_POLYGON }}
         run: npm run test
+
       - name: Unit tests for ETH
+        if: ${{ always() }}
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           API_KEY: ${{ secrets.API_KEY }}
@@ -65,7 +71,9 @@ jobs:
           FEEDS_URL: ${{ env.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_ETH }}
         run: npm run test
+
       - name: Unit tests for BSC
+        if: ${{ always() }}
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           API_KEY: ${{ secrets.API_KEY }}
@@ -74,8 +82,10 @@ jobs:
           FEEDS_URL: ${{ env.FEEDS_URL }}
           CHAIN_ID: ${{ secrets.CHAIN_ID_BSC }}
         run: npm run test
+
       - name: Lint
         run: npm run linters
+
   notify:
     name: Discord Notification
     runs-on: ubuntu-latest
