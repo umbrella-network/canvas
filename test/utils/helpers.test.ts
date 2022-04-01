@@ -20,16 +20,16 @@ it('evenHex', () => {
 });
 
 describe('isTimestampMoreRecentThan', () => {
-  const timestamp = Math.floor(Date.now() / 1000);
-
   describe('when timestamp is not between the current date and the current date minus the limit', () => {
     it('returns false', () => {
+      const timestamp = Math.floor(Date.now() / 1000);
       expect(isTimestampMoreRecentThan(timestamp - 120, 60)).to.be.false;
     });
   });
 
   describe('when timestamp is between the current date and the current date minus the limit', () => {
     it('returns true', () => {
+      const timestamp = Math.floor(Date.now() / 1000);
       expect(isTimestampMoreRecentThan(timestamp - 50, 60)).to.be.true;
     });
   });
