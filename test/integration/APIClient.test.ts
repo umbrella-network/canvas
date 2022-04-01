@@ -126,7 +126,7 @@ describe('APIClient() with chain settings', () => {
 
   describe('#verifyProofForBlock', () => {
     it('expect to return valid result', async () => {
-      const verificationResult = await apiClient.verifyProofForNewestBlock('UMB-USD');
+      const verificationResult = await apiClient.verifyProofForNewestBlock('ADA-USD');
 
       expect(verificationResult).be.an('object');
       expect(verificationResult).to.have.property('success').that.is.a('boolean');
