@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Added
+- Added `GasEstimator` and `GasEstimation`
 
 ## [5.8.1] - 2022-04-05
 ### Changed
@@ -27,7 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Updated RPCSelector Timestamp strategy to not take too much time to run
 - Updated RPCSelector timeout to 2.5s
 
-## [5.6.0] - 2022-01-26 
+## [5.6.0] - 2022-01-26
 ### Added
 - RPCSelector for choosing the most up to date RPC
 
@@ -48,7 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - update ethers `~5.5.1`
 
 ## [5.2.2] - 2021-10-21
-### Fixed 
+### Fixed
 - `IChain` interface
 
 ## [5.2.1] - 2021-10-18
@@ -61,7 +63,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [5.1.0] - 2021-10-08
 ### Changed
-- adjust `SortedMerkleTree` to support squashed root 
+- adjust `SortedMerkleTree` to support squashed root
 
 ## [5.0.0] - 2021-09-29
 ### Added
@@ -146,7 +148,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add ENV variables to development pipeline
 
 ### Changed
-- Typo fix on CHANGELOG file 
+- Typo fix on CHANGELOG file
 
 ## [2.1.0] - 2021-06-06
 ### Added
@@ -155,7 +157,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.0.2] - 2021-06-04
 ### Changed
 - Update tests
-- add back workflow on PR requests 
+- add back workflow on PR requests
 
 ## [2.0.1] - 2021-06-01
 ### Added

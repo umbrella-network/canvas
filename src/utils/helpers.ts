@@ -17,3 +17,9 @@ export const isTimestampMoreRecentThan = (timestamp: number, limit: number): boo
   const currentDate = Math.floor(Date.now() / 1000);
   return timestamp <= currentDate && timestamp >= currentDate - limit;
 };
+
+export const formatWeiToGwei = (wei: number): number => {
+  const amountInGwei = wei / 1e9;
+  const roundedGwei = Math.round(amountInGwei * 1e4) / 1e4;
+  return roundedGwei;
+};
