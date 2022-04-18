@@ -3,6 +3,8 @@ import { LeafKeyCoder } from './services/LeafKeyCoder';
 import { APIClient } from './services/APIClient';
 import { LeafValueCoder } from './services/LeafValueCoder';
 import { RPCSelector } from './services/RPCSelector';
+import { GasEstimator } from './services/GasEstimator';
+import { GasEstimation } from './types/GasEstimation';
 import loadFeeds from './services/loadFeeds';
 import { Registry as ContractRegistry } from './contracts/Registry';
 import { ChainContract } from './contracts/Chain';
@@ -17,6 +19,8 @@ export {
   APIClient,
   LeafKeyCoder,
   RPCSelector,
+  GasEstimator,
+  GasEstimation,
   ContractRegistry,
   ChainContract,
   DatumRegistryContract,

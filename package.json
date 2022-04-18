@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "5.8.1",
+  "version": "5.9.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
@@ -27,6 +27,7 @@
     "build": "npm run clean && npm run compile && npm run copy:assets",
     "test": "npx mocha --require ts-node/register --require hardhat/register  --ui bdd 'test/**/*.test.ts' --timeout=30000",
     "test:example": "mocha --require ts-node/register --require hardhat/register --timeout 10000 --ui bdd test/contracts/ExampleContract.test.ts",
+    "test:watch": "npx mocha --require 'ts-node/register','hardhat/register' -R min --watch --watch-files 'src/**/*.ts','test/**/*.test.ts' 'test/**/*.test.ts'",
     "prepare": "npm run build"
   },
   "devDependencies": {
@@ -53,6 +54,7 @@
     "prettier": "~2.3.1",
     "sinon": "~12.0.1",
     "ts-node": "~9.1.1",
+    "ts-sinon": "~2.0.2",
     "typescript": "~4.1.3"
   },
   "dependencies": {
