@@ -2,7 +2,7 @@ import { EstimateParams, GasEstimation } from '../types/GasEstimation';
 
 export class Type1GasEstimator {
   public static estimate(params: EstimateParams): GasEstimation {
-    const baseFee = params.prices.length > 2 ? Type1GasEstimator.calculateBaseGasPrice(params) : 0;
+    const baseFee = params.prices.length > 2 ? Type1GasEstimator.calculateBaseGasPrice(params) : params.currentGasPrice;
 
     return {
       ...params.metrics,
