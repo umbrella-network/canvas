@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [5.9.1] - 2022-04-26
+### Changed
+- Updated type 1 Gas estimation to use fetched gas price instead of 0.
+
 ## [5.9.0] - 2022-04-15
 ### Added
 - Added `GasEstimator` and `GasEstimation`
