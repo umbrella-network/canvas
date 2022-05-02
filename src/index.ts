@@ -5,6 +5,7 @@ import { LeafValueCoder } from './services/LeafValueCoder';
 import { RPCSelector } from './services/RPCSelector';
 import { GasEstimator } from './services/GasEstimator';
 import { GasEstimation } from './types/GasEstimation';
+import { TxSender } from './services/TxSender';
 import loadFeeds from './services/loadFeeds';
 import { Registry as ContractRegistry } from './contracts/Registry';
 import { ChainContract } from './contracts/Chain';
@@ -21,6 +22,7 @@ export {
   RPCSelector,
   GasEstimator,
   GasEstimation,
+  TxSender,
   ContractRegistry,
   ChainContract,
   DatumRegistryContract,

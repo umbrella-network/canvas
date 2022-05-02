@@ -8,3 +8,5 @@ dist/
 cache
 src/contracts/examples/artifacts/
 
+# Coverage metadata
+.nyc_output

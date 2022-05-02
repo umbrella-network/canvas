@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "5.9.1",
+  "version": "5.10.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
@@ -25,9 +25,10 @@
     "copy:assets": "cpx 'src/**/*.{graphql,html,png,json,sol}' dist",
     "typeorm": "node --require ./node_modules/ts-node/register ./node_modules/typeorm/cli.js",
     "build": "npm run clean && npm run compile && npm run copy:assets",
-    "test": "npx mocha --require ts-node/register --require hardhat/register  --ui bdd 'test/**/*.test.ts' --timeout=30000",
-    "test:example": "mocha --require ts-node/register --require hardhat/register --timeout 10000 --ui bdd test/contracts/ExampleContract.test.ts",
-    "test:watch": "npx mocha --require 'ts-node/register','hardhat/register' -R min --watch --watch-files 'src/**/*.ts','test/**/*.test.ts' 'test/**/*.test.ts'",
+    "test": "mocha --require hardhat/register  --ui bdd 'test/**/*.test.ts' --timeout=30000",
+    "test:coverage": "nyc mocha  --require hardhat/register  --ui bdd 'test/**/*.test.ts' --timeout=30000",
+    "test:example": "mocha  --require hardhat/register --timeout 10000 --ui bdd test/contracts/ExampleContract.test.ts",
+    "test:watch": "mocha --require hardhat/register -R min --watch --watch-files 'src/**/*.ts','test/**/*.test.ts' 'test/**/*.test.ts'",
     "prepare": "npm run build"
   },
   "devDependencies": {
@@ -51,6 +52,7 @@
     "hardhat": "~2.8.2",
     "mocha": "~8.2.1",
     "moxios": "~0.4.0",
+    "nyc": "~15.1.0",
     "prettier": "~2.3.1",
     "sinon": "~12.0.1",
     "ts-node": "~9.1.1",
@@ -60,8 +62,10 @@
   "dependencies": {
     "axios": "~0.21.1",
     "bignumber.js": "~9.0.1",
-    "ethers": "~5.5.1",
     "js-yaml": "~3.14.1",
     "jsonschema": "~1.4.0"
+  },
+  "peerDependencies": {
+    "ethers": "~5.5.1"
   }
 }
