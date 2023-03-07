@@ -51,7 +51,7 @@ const apiClient = new APIClient({
 const verificationResult = await apiClient.verifyProofForNewestBlock('ETH-USD');
 
 // output: {success: true, value: 1234, dataTimestamp: 1234567} or throw
-console.log(verificationResult) 
+console.log(verificationResult)
 ```
 
 # ContractRegistry
@@ -457,7 +457,7 @@ Response example:
 ### Signature
 
 ```shell
-async verifyProofForNewestBlock < T extends string | number = string | number > 
+async verifyProofForNewestBlock < T extends string | number = string | number >
   (key: string): Promise <{ success: boolean, value: T, dataTimestamp: Date }>
 ```
 
@@ -515,4 +515,11 @@ const latestBlockNumberRPC = await rpcSelector.selectByLatestBlockNumber();
 
 // use it to create a new ethers provider
 const provider = new JsonRpcProvider(youngestBlockAgeRPC);
+```
+
+## NPM Package
+
+```
+npm login
+npm publish
 ```

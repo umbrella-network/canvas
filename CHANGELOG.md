@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [5.11.0] - 2023-03-07
+### Changed
+- require peer dependencies to have `ethers ^5.7.2`
+
 ## [5.10.0] - 2022-04-29
 ### Added
 - Added `TxSender`
