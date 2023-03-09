@@ -1,6 +1,6 @@
 {
   "name": "@umb-network/toolbox",
-  "version": "5.10.0",
+  "version": "5.11.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
@@ -66,6 +66,6 @@
     "jsonschema": "~1.4.0"
   },
   "peerDependencies": {
-    "ethers": "~5.5.1"
+    "ethers": "^5.7.2"
   }
 }
